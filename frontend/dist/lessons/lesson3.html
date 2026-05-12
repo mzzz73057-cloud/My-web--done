@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>SpeakUp! – Unit 5 Lesson 3 · Happy New Year</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&family=Baloo+2:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F0FFF4;--deep:#064E3B;--mid:#059669;--acc:#34D399;
+  --gold:#F5A623;--gold-l:#FDE68A;
+  --green:#16A34A;--green-l:#D4EDDA;
+  --blue:#1D6FA4;--blue-l:#DBEAFE;
+  --red:#C0392B;--red-l:#FADBD8;
+  --purple:#6C3FC5;--purple-l:#EDE7F6;
+  --orange:#E67E22;--orange-l:#FEF3C7;
+  --pink:#DB2777;--pink-l:#FCE7F3;
+  --card:#fff;--border:rgba(6,78,59,.13);--muted:#4B8B6F;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--deep);min-height:100vh}
+
+.topbar{background:var(--deep);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:60}
+.logo{font-family:'Baloo 2',cursive;font-size:20px;color:#fff}
+.logo em{color:var(--gold);font-style:normal}
+.logo small{font-size:11px;color:#6EE7B7;margin-left:8px;font-family:'Nunito',sans-serif;font-weight:700}
+.stats{display:flex;gap:7px}
+.stat{background:rgba(255,255,255,.14);border-radius:20px;padding:4px 11px;color:#fff;font-size:13px;font-weight:800;display:flex;align-items:center;gap:4px}
+.xpbar{background:var(--deep);padding:0 16px 10px;display:flex;align-items:center;gap:10px}
+.xplbl{color:#6EE7B7;font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;white-space:nowrap}
+.xptrack{flex:1;height:8px;background:rgba(255,255,255,.15);border-radius:4px;overflow:hidden}
+.xpfill{height:100%;width:0%;border-radius:4px;background:linear-gradient(90deg,var(--gold),#FFD700);transition:width .9s cubic-bezier(.4,0,.2,1)}
+.xpnum{color:var(--gold);font-size:12px;font-weight:800;white-space:nowrap}
+
+.main{padding:14px 15px;max-width:700px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+
+.lhdr{background:var(--card);border-radius:16px;border:1px solid var(--border);padding:14px 15px;display:flex;align-items:center;gap:13px}
+.licon{width:60px;height:60px;border-radius:14px;background:linear-gradient(135deg,#34D399,#064E3B);display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0}
+.ltitle{font-family:'Baloo 2',cursive;font-size:20px;font-weight:900;color:var(--deep)}
+.lsub{font-size:11px;color:var(--muted);font-weight:600;margin-top:2px}
+.obj-box{background:var(--green-l);border-radius:8px;padding:6px 10px;margin-top:7px;font-size:11px;font-weight:700;color:var(--deep);border-left:3px solid var(--green)}
+.pdots{display:flex;gap:5px;margin-top:7px}
+.pdot{width:20px;height:6px;border-radius:3px;background:var(--border);transition:background .3s}
+.pdot.done{background:var(--green)}.pdot.cur{background:var(--gold)}
+
+.sec{font-size:10px;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
+
+.mode-switch{display:flex;background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.msbtn{flex:1;padding:10px 6px;text-align:center;font-size:12px;font-weight:800;color:var(--muted);cursor:pointer;transition:all .2s;border:none;background:none}
+.msbtn.on{background:var(--deep);color:var(--gold)}
+
+.cattabs{display:flex;gap:6px;flex-wrap:wrap}
+.cattab{padding:5px 12px;border-radius:20px;font-size:11px;font-weight:800;border:1.5px solid var(--border);background:var(--card);cursor:pointer;color:var(--muted);transition:all .15s}
+.cattab.on{background:var(--deep);color:var(--gold);border-color:var(--deep)}
+
+.wgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(136px,1fr));gap:9px}
+.wcard{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:11px 11px 9px;cursor:pointer;transition:transform .15s,box-shadow .15s,border-color .2s;position:relative;user-select:none}
+.wcard:hover{transform:translateY(-2px);box-shadow:0 5px 18px rgba(6,78,59,.1)}
+.wcard.sel{border-color:var(--mid);border-width:2px}
+.wcard.done{border-color:var(--green)}
+.wsyls{display:flex;align-items:baseline;flex-wrap:wrap;gap:0;margin-bottom:4px}
+.sy{font-family:'Baloo 2',cursive;font-size:14px;color:var(--deep)}
+.sy.ST{font-size:20px;color:var(--mid);text-decoration:underline;text-decoration-color:var(--gold);text-decoration-thickness:2.5px;font-weight:900}
+.sydot{font-size:11px;color:#ccc;margin:0 1px;align-self:center}
+.wipa{font-size:10px;color:var(--muted);font-weight:600;margin-bottom:3px}
+.wtag{display:inline-block;padding:2px 7px;border-radius:6px;font-size:10px;font-weight:800}
+.tg-v{background:#D4EDDA;color:#1B4332}.tg-n{background:#DBEAFE;color:#1D3557}
+.tg-a{background:#FEF3C7;color:#92400E}.tg-p{background:var(--pink-l);color:#6B0F3A}
+.tg-s{background:var(--blue-l);color:var(--blue)}
+.cst{position:absolute;top:7px;right:7px;width:17px;height:17px;border-radius:50%;font-size:10px;font-weight:900;display:flex;align-items:center;justify-content:center}
+.cs-ok{background:var(--green);color:#fff}.cs-cur{background:var(--gold);color:#fff}
+
+.sent-list{display:flex;flex-direction:column;gap:10px}
+.sent-card{background:var(--card);border:1.5px solid var(--border);border-radius:14px;overflow:hidden;cursor:pointer;transition:box-shadow .15s,border-color .2s}
+.sent-card:hover{box-shadow:0 4px 16px rgba(6,78,59,.1)}
+.sent-card.sel{border-color:var(--mid);border-width:2px}
+.sent-card.done{border-color:var(--green)}
+.sent-top{padding:10px 13px;display:flex;align-items:flex-start;gap:10px}
+.sent-num{width:24px;height:24px;border-radius:50%;background:var(--deep);color:var(--gold);font-size:11px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.sent-body{flex:1}
+.sent-txt{font-family:'Baloo 2',cursive;font-size:15px;color:var(--deep);line-height:1.4;margin-bottom:3px}
+.sw{color:var(--mid);font-size:18px;text-decoration:underline;text-decoration-color:var(--gold);text-decoration-thickness:2px}
+.sent-ipa{font-size:10px;color:var(--muted);font-weight:600}
+.sent-obj{font-size:10px;font-weight:800;color:var(--purple);background:var(--purple-l);border-radius:6px;padding:2px 7px;display:inline-block;margin-top:3px}
+
+.apanel{background:var(--card);border-radius:16px;border:1px solid var(--border);overflow:hidden}
+.ahead{background:var(--deep);padding:11px 15px;display:flex;align-items:center;gap:10px}
+.ahead-t{color:#fff;font-size:14px;font-weight:800;flex:1}
+.ahead-b{background:rgba(255,255,255,.16);color:#fff;font-size:11px;font-weight:800;padding:3px 10px;border-radius:12px}
+.abody{padding:13px 15px}
+
+.atabs{display:flex;gap:6px;margin-bottom:11px;flex-wrap:wrap}
+.atab{padding:5px 11px;border-radius:20px;font-size:11px;font-weight:800;border:1.5px solid var(--border);background:var(--bg);cursor:pointer;color:var(--muted);transition:all .15s}
+.atab.on{background:var(--deep);color:var(--gold);border-color:var(--deep)}
+
+.wnav{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px}
+.narr{width:30px;height:30px;border-radius:50%;border:1.5px solid var(--border);background:var(--bg);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;transition:all .15s}
+.narr:hover{background:var(--deep);color:#fff;border-color:var(--deep)}
+.wctr{font-size:12px;font-weight:800;color:var(--muted)}
+
+.lr-big{text-align:center;padding:8px 0 2px}
+.lr-disp{font-family:'Baloo 2',cursive;font-size:36px;letter-spacing:2px;color:var(--deep);line-height:1.3}
+.lr-disp .S{font-size:46px;color:var(--mid);text-decoration:underline;text-decoration-color:var(--gold);text-decoration-thickness:3px}
+.lr-sent{text-align:center;font-family:'Baloo 2',cursive;font-size:17px;color:var(--deep);line-height:1.7;padding:8px 4px}
+.lr-sent .SW{color:var(--mid);font-size:21px;text-decoration:underline;text-decoration-color:var(--gold);text-decoration-thickness:2px}
+.lr-ipa{text-align:center;font-size:12px;color:var(--muted);font-weight:600;margin-bottom:2px}
+.lr-tag{text-align:center;font-size:11px;font-weight:800;color:var(--muted);margin-bottom:8px}
+.lr-obj{text-align:center;font-size:11px;font-weight:800;color:var(--purple);background:var(--purple-l);border-radius:8px;padding:4px 12px;margin-bottom:8px;display:inline-block}
+
+.chunks{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:8px 0 12px}
+.chunk-btn{font-family:'Baloo 2',cursive;font-size:15px;padding:5px 12px;border-radius:10px;border:2px solid var(--border);background:var(--bg);cursor:pointer;color:var(--deep);transition:all .2s;font-weight:700}
+.chunk-btn:hover{background:var(--green-l);border-color:var(--mid)}
+.chunk-btn.playing{background:var(--blue);border-color:var(--blue);color:#fff}
+
+.btnrow{display:flex;justify-content:center;gap:12px;margin:10px 0}
+.ibtn{width:58px;height:58px;border-radius:50%;border:2.5px solid var(--deep);background:var(--card);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:24px;transition:all .2s}
+.ibtn:hover{background:var(--bg);transform:scale(1.07)}
+.ibtn.rec{background:var(--red);border-color:var(--red);animation:pring 1s ease-out infinite}
+.ibtn.play{background:var(--blue);border-color:var(--blue)}
+@keyframes pring{0%{box-shadow:0 0 0 0 rgba(192,57,43,.4)}100%{box-shadow:0 0 0 16px rgba(192,57,43,0)}}
+
+.sbar-wrap{margin:8px 0 10px}
+.sbar-row{display:flex;justify-content:space-between;font-size:12px;font-weight:800;margin-bottom:5px}
+.sbar-track{height:13px;background:var(--bg);border-radius:7px;overflow:hidden;border:1px solid var(--border)}
+.sbar-fill{height:100%;border-radius:7px;width:0%;transition:width 1.1s cubic-bezier(.4,0,.2,1)}
+.sf-gr{background:var(--green)}.sf-go{background:var(--gold)}.sf-ok{background:var(--orange)}.sf-lo{background:var(--red)}
+
+.fbc{border-radius:11px;padding:9px 12px;font-size:13px;font-weight:700;margin-bottom:7px;display:flex;align-items:flex-start;gap:8px;border:1.5px solid transparent}
+.fbc-gr{background:var(--green-l);border-color:var(--green);color:#145A32}
+.fbc-wa{background:var(--orange-l);border-color:var(--gold);color:#7D5A00}
+.fbc-ti{background:var(--purple-l);border-color:#A78BFA;color:#4C1D95}
+.fbi{font-size:17px;flex-shrink:0;margin-top:1px}
+.fbzone{display:none}.fbzone.on{display:block}
+
+.tap-instr{text-align:center;font-size:13px;color:var(--muted);font-weight:700;margin-bottom:12px;line-height:1.5}
+.tap-word{display:flex;justify-content:center;align-items:baseline;gap:4px;flex-wrap:wrap;margin-bottom:10px}
+.stap{font-family:'Baloo 2',cursive;font-size:26px;color:var(--deep);cursor:pointer;padding:5px 10px;border-radius:10px;border:2px solid var(--border);background:var(--bg);transition:all .2s;user-select:none}
+.stap:hover{background:var(--green-l);border-color:var(--mid)}
+.stap.tpd{background:var(--mid);color:#fff;border-color:var(--mid);transform:scale(.93)}
+.stap.str{background:var(--gold-l);border-color:var(--gold)}
+.stap.str.tpd{background:var(--gold);color:#fff}
+.qres{text-align:center;font-size:14px;font-weight:800;min-height:22px;margin-top:6px}
+.qr-ok{color:var(--green)}.qr-no{color:var(--red)}
+
+.sq-word{text-align:center;font-family:'Baloo 2',cursive;font-size:26px;margin:6px 0 10px;color:var(--deep);line-height:1.3}
+.sq-opts{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:8px}
+.sqb{padding:8px 18px;border-radius:10px;border:2px solid var(--border);background:var(--bg);font-family:'Baloo 2',cursive;font-size:17px;font-weight:800;color:var(--deep);cursor:pointer;transition:all .2s}
+.sqb:hover{background:var(--green-l);border-color:var(--mid)}
+.sqb.ok{background:var(--green-l);border-color:var(--green);color:var(--green)}
+.sqb.no{background:var(--red-l);border-color:var(--red);color:var(--red)}
+
+/* SOUND SORT (/eɪ/ game) */
+.dg-instr{text-align:center;font-size:13px;color:var(--muted);font-weight:700;margin-bottom:8px}
+.dg-sel-lbl{text-align:center;font-size:12px;font-weight:800;color:var(--mid);min-height:18px;margin-bottom:8px}
+.dg-groups{display:flex;gap:10px;margin-bottom:10px}
+.dg-col{flex:1;border-radius:12px;border:2px solid var(--border);padding:10px;min-height:60px;cursor:pointer;transition:border-color .2s}
+.dg-col:hover{border-color:var(--mid)}
+.dg-col-lbl{text-align:center;font-family:'Baloo 2',cursive;font-size:15px;font-weight:800;margin-bottom:7px;padding:4px;border-radius:8px}
+.dg-col.yes .dg-col-lbl{background:var(--green-l);color:var(--green)}
+.dg-col.no .dg-col-lbl{background:var(--red-l);color:var(--red)}
+.dg-words{display:flex;flex-wrap:wrap;gap:5px;min-height:28px}
+.dg-bank{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin:10px 0}
+.dw{padding:5px 12px;border-radius:8px;border:2px solid var(--border);background:var(--card);font-family:'Baloo 2',cursive;font-size:14px;cursor:pointer;transition:all .2s;color:var(--deep);font-weight:700;user-select:none}
+.dw:hover{background:var(--green-l);border-color:var(--mid)}
+.dw.sel{background:var(--mid);color:#fff;border-color:var(--mid)}
+.dw.placed-yes{background:var(--green-l);border-color:var(--green);color:var(--green);cursor:default}
+.dw.placed-no{background:var(--red-l);border-color:var(--red);color:var(--red);cursor:default}
+.dw.wrong{animation:shake .3s}
+@keyframes shake{0%,100%{transform:translateX(0)}33%{transform:translateX(-5px)}66%{transform:translateX(5px)}}
+
+.rwpanel{background:var(--card);border-radius:16px;border:1px solid var(--border);overflow:hidden}
+.rwtop{background:linear-gradient(120deg,var(--deep),var(--mid));padding:11px 15px}
+.rwtop-t{color:#fff;font-size:13px;font-weight:800}
+.rwbody{padding:12px 15px}
+.scrow{display:flex;gap:6px;justify-content:center;margin-bottom:9px}
+.sc{width:38px;height:38px;border-radius:50%;border:2.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:900;color:var(--muted);background:var(--bg);transition:all .3s}
+.sc.lit{border-color:var(--gold);background:var(--gold-l);color:var(--deep)}
+.sc.perf{border-color:var(--green);background:var(--green-l);color:var(--deep)}
+.rwinfo{text-align:center;font-size:12px;font-weight:700;color:var(--muted);margin-bottom:9px}
+.rwbtns{display:flex;gap:8px}
+.rwbtn{flex:1;padding:9px 5px;border-radius:10px;border:1.5px solid var(--border);background:var(--bg);cursor:pointer;font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;color:var(--deep);transition:all .15s}
+.rwbtn:hover{background:var(--deep);color:#fff;border-color:var(--deep)}
+
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:80}
+.overlay.on{display:block}
+.rpop{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--card);border-radius:22px;border:2.5px solid var(--gold);padding:26px 30px;text-align:center;z-index:90;max-width:290px;width:90%}
+.rpop.on{display:block;animation:popin .35s cubic-bezier(.34,1.56,.64,1)}
+@keyframes popin{0%{transform:translate(-50%,-50%) scale(.5);opacity:0}100%{transform:translate(-50%,-50%) scale(1);opacity:1}}
+.rp-em{font-size:56px;display:block;margin-bottom:8px}
+.rp-ti{font-family:'Baloo 2',cursive;font-size:22px;font-weight:900;color:var(--deep)}
+.rp-su{font-size:12px;color:var(--muted);font-weight:600;margin:4px 0 10px}
+.rp-xp{display:inline-block;background:var(--gold);color:#fff;border-radius:20px;padding:4px 18px;font-weight:900;font-size:14px;margin-bottom:12px}
+.rp-close{background:var(--bg);border:1px solid var(--border);border-radius:9px;padding:7px 22px;font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;color:var(--deep);cursor:pointer}
+.rp-close:hover{background:var(--deep);color:#fff}
+.rowbtn{display:flex;justify-content:center;margin-top:8px}
+.smbtn{padding:7px 18px;border-radius:9px;border:1.5px solid var(--border);background:var(--bg);font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;color:var(--deep);cursor:pointer;transition:all .15s}
+.smbtn:hover{background:var(--deep);color:#fff;border-color:var(--deep)}
+.hidden{display:none}
+@keyframes shakebanner{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+
+/* Clickable words/sentences jump hint */
+.jump-hint{font-size:11px;color:var(--muted);font-weight:700;text-align:center;padding:6px;background:var(--green-l);border-radius:8px;border:1px dashed var(--green)}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo"><em>Speak</em>Up! 🎆<small>Unit 5 · Lesson 3</small></div>
+  <div class="stats">
+    <div class="stat">⭐<span id="g-stars">0</span></div>
+    <div class="stat">🔥<span id="g-fire">0</span></div>
+    <div class="stat">💎<span id="g-gems">0</span></div>
+  </div>
+</div>
+<div class="xpbar">
+  <span class="xplbl">XP</span>
+  <div class="xptrack"><div class="xpfill" id="xpf"></div></div>
+  <span class="xpnum" id="xpn">0 / 100</span>
+</div>
+
+<div class="main">
+
+  <div class="lhdr">
+    <div class="licon">🎆</div>
+    <div style="flex:1">
+      <div class="ltitle">Happy New Year</div>
+      <div class="lsub">Unit 5 · Lesson 3 · pp.131–134</div>
+      <div class="obj-box">
+        🎯 <strong>Objective:</strong> Talk about New Year's Eve using the
+        <em>simple past</em> (blew up, counted, hugged, wished…) &amp; practise
+        the /eɪ/ vowel sound (May, day, say, play…)
+      </div>
+      <div class="pdots" id="pdots">
+        <div class="pdot cur"></div><div class="pdot"></div><div class="pdot"></div>
+        <div class="pdot"></div><div class="pdot"></div><div class="pdot"></div>
+        <div class="pdot"></div><div class="pdot"></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="background:var(--green-l);border-radius:12px;padding:10px 14px;border:1.5px solid #6EE7B7;font-size:12px;font-weight:700;color:var(--deep);line-height:1.7">
+    🔊 <strong>Let's Pronounce (p.134):</strong>
+    <span style="color:var(--blue)"><strong>/eɪ/</strong> like "M<u>ay</u>":</span>&nbsp;
+    <span style="color:var(--mid)">face · day · say · play · wait</span> &nbsp;|&nbsp;
+    <span style="color:var(--red)">NOT /eɪ/:</span>&nbsp;
+    <span style="color:var(--muted)">find · pie · cry · kite · fight · buy</span>
+  </div>
+
+  <div class="jump-hint">👆 Click any word or sentence below → jumps straight to the 🎤 recording section!</div>
+
+  <div class="mode-switch">
+    <button class="msbtn on"  id="ms-words" onclick="switchMode('words')">🔤 Vocabulary Practice</button>
+    <button class="msbtn"     id="ms-sents" onclick="trySentMode()">💬 Sentence Practice <span id="sent-lock">🔒</span></button>
+    <button class="msbtn"     id="ms-sound" onclick="switchMode('sound')">🔤 Sort Sounds</button>
+  </div>
+  <!-- locked banner -->
+  <div id="locked-banner" style="background:#FEF3C7;border-radius:12px;padding:10px 14px;border:1.5px solid var(--gold);font-size:12px;font-weight:700;color:#7D5A00;display:flex;align-items:center;gap:8px">
+    🔒 <span>Finish <strong>Vocabulary Practice</strong> first — master all <strong id="lock-count">0</strong> words to unlock Sentence Practice!</span>
+    <span id="lock-progress" style="margin-left:auto;white-space:nowrap;font-size:11px">0 / 0</span>
+  </div>
+
+  <!-- ══ VOCABULARY MODE ══ -->
+  <div id="mode-words">
+    <div class="sec" style="margin-bottom:6px">🔤 All Theme Words — filter by category</div>
+    <div class="cattabs" style="margin-bottom:10px">
+      <div class="cattab on" onclick="filterCat('all',event)">🎆 All Words</div>
+      <div class="cattab" onclick="filterCat('party',event)">🎉 Party Things</div>
+      <div class="cattab" onclick="filterCat('verb',event)">🏃 Past Verbs</div>
+      <div class="cattab" onclick="filterCat('adj',event)">🌈 Feelings</div>
+      <div class="cattab" onclick="filterCat('sound',event)">🔤 /eɪ/ Sounds</div>
+    </div>
+    <div class="wgrid" id="wgrid"></div>
+
+    <div class="sec" style="margin:4px 0 6px">🎮 Word Activities</div>
+    <div class="apanel" id="word-panel">
+      <div class="ahead">
+        <div class="ahead-t" id="wah">Tap a word above to start</div>
+        <div class="ahead-b" id="wawl">— / —</div>
+      </div>
+      <div class="abody">
+        <div class="atabs">
+          <div class="atab on" onclick="switchWAct('listen')">👂 Listen &amp; Repeat</div>
+          <div class="atab" onclick="switchWAct('syl')">✂️ Syllable Tap</div>
+          <div class="atab" onclick="switchWAct('stress')">💥 Stress Quiz</div>
+        </div>
+        <div class="wnav">
+          <div class="narr" onclick="navW(-1)">◀</div>
+          <span class="wctr" id="wctr">— / —</span>
+          <div class="narr" onclick="navW(1)">▶</div>
+        </div>
+        <div id="wa-listen">
+          <div class="lr-big"><div class="lr-disp" id="lrd"></div></div>
+          <div class="lr-ipa" id="lri"></div>
+          <div class="lr-tag" id="lrtag"></div>
+          <div class="btnrow">
+            <button class="ibtn" id="wpb" onclick="playItem('word')">🔊</button>
+            <button class="ibtn" id="wmb" onclick="tapMic('word')">🎤</button>
+          </div>
+          <div class="fbzone" id="wfbz">
+            <div class="sbar-wrap">
+              <div class="sbar-row"><span>Score</span><span id="wspc">0%</span></div>
+              <div class="sbar-track"><div class="sbar-fill" id="wsfl"></div></div>
+            </div>
+            <div id="wfbc"></div>
+          </div>
+        </div>
+        <div id="wa-syl" class="hidden">
+          <div class="tap-instr" id="wtapinstr"></div>
+          <div class="tap-word" id="wtapword"></div>
+          <div class="qres" id="wtapres"></div>
+          <div class="rowbtn"><button class="smbtn" onclick="buildWTap()">🔄 Reset</button></div>
+        </div>
+        <div id="wa-stress" class="hidden">
+          <div class="tap-instr">Which syllable is <strong style="color:var(--gold)">STRESSED?</strong></div>
+          <div class="sq-word" id="wsqword"></div>
+          <div class="sq-opts" id="wsqopts"></div>
+          <div class="qres" id="wsqres"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SENTENCE MODE ══ -->
+  <div id="mode-sents" class="hidden">
+    <div class="sec" style="margin-bottom:6px">💬 New Year's Eve Sentences — Simple Past</div>
+    <div class="sent-list" id="sent-list"></div>
+
+    <div class="sec" style="margin:10px 0 6px">🎮 Sentence Activities</div>
+    <div class="apanel" id="sent-panel">
+      <div class="ahead">
+        <div class="ahead-t" id="sah">Tap a sentence above to start</div>
+        <div class="ahead-b" id="sawl">— / —</div>
+      </div>
+      <div class="abody">
+        <div class="atabs">
+          <div class="atab on" onclick="switchSAct('listen')">👂 Listen &amp; Repeat</div>
+          <div class="atab" onclick="switchSAct('chunk')">🔗 Chunk Practice</div>
+          <div class="atab" onclick="switchSAct('stress')">💥 Stress Quiz</div>
+        </div>
+        <div class="wnav">
+          <div class="narr" onclick="navS(-1)">◀</div>
+          <span class="wctr" id="sctr">— / —</span>
+          <div class="narr" onclick="navS(1)">▶</div>
+        </div>
+        <div id="sa-listen">
+          <div class="lr-big"><div class="lr-sent" id="slrd"></div></div>
+          <div class="lr-ipa" id="slri"></div>
+          <div class="lr-obj" id="slrobj"></div>
+          <div class="btnrow">
+            <button class="ibtn" id="spb" onclick="playItem('sent')">🔊</button>
+            <button class="ibtn" id="smb" onclick="tapMic('sent')">🎤</button>
+          </div>
+          <div class="fbzone" id="sfbz">
+            <div class="sbar-wrap">
+              <div class="sbar-row"><span>Score</span><span id="sspc">0%</span></div>
+              <div class="sbar-track"><div class="sbar-fill" id="ssfl"></div></div>
+            </div>
+            <div id="sfbc"></div>
+          </div>
+        </div>
+        <div id="sa-chunk" class="hidden">
+          <div class="tap-instr">Tap each chunk to hear it, then say the full sentence 🎤</div>
+          <div class="chunks" id="schunks"></div>
+          <div class="lr-sent" id="schunk-full" style="text-align:center;margin:6px 0 10px;font-size:14px;color:var(--muted)"></div>
+          <div class="btnrow">
+            <button class="ibtn" id="scmb" onclick="tapMic('sent')">🎤</button>
+          </div>
+          <div class="fbzone" id="scfbz">
+            <div class="sbar-wrap">
+              <div class="sbar-row"><span>Score</span><span id="scspc">0%</span></div>
+              <div class="sbar-track"><div class="sbar-fill" id="scsfl"></div></div>
+            </div>
+            <div id="scfbc"></div>
+          </div>
+        </div>
+        <div id="sa-stress" class="hidden">
+          <div class="tap-instr">Tap the word that carries the main <strong style="color:var(--gold)">STRESS</strong></div>
+          <div class="sq-opts" id="ssqopts" style="flex-wrap:wrap;gap:6px;margin:10px 0"></div>
+          <div class="qres" id="ssqres"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SOUND SORT MODE ══ -->
+  <div id="mode-sound" class="hidden">
+    <div class="sec" style="margin-bottom:6px">🔤 Sort Sounds — Let's Pronounce (p.134)</div>
+    <div style="background:var(--blue-l);border-radius:12px;padding:10px 14px;border:1.5px solid #93C5FD;font-size:12px;font-weight:700;color:var(--deep);margin-bottom:10px">
+      👆 <strong>Step 1:</strong> Tap a word to select it &nbsp;·&nbsp;
+      <strong>Step 2:</strong> Tap its sound group below &nbsp;·&nbsp;
+      The key sound is like in M<u>ay</u> — /eɪ/
+    </div>
+    <div class="dg-sel-lbl" id="dgsel">No word selected yet — tap one!</div>
+    <div class="dg-bank" id="dgbank"></div>
+    <div class="dg-groups">
+      <div class="dg-col yes" onclick="placeWord('yes')">
+        <div class="dg-col-lbl">✅ /eɪ/ like "May"</div>
+        <div class="dg-words" id="dg-yes"></div>
+      </div>
+      <div class="dg-col no" onclick="placeWord('no')">
+        <div class="dg-col-lbl">❌ Different sound</div>
+        <div class="dg-words" id="dg-no"></div>
+      </div>
+    </div>
+    <div class="qres" id="dgres"></div>
+    <div class="rowbtn" style="margin-top:10px"><button class="smbtn" onclick="buildSound()">🔄 Reset</button></div>
+  </div>
+
+  <!-- REPEAT & WIN panel -->
+  <div class="rwpanel">
+    <div class="rwtop"><div class="rwtop-t">🏆 Streak Challenge — Score 80%+ five times in a row!</div></div>
+    <div class="rwbody">
+      <div class="scrow" id="scrow">
+        <div class="sc" id="sc0">1</div>
+        <div class="sc" id="sc1">2</div>
+        <div class="sc" id="sc2">3</div>
+        <div class="sc" id="sc3">4</div>
+        <div class="sc" id="sc4">5</div>
+      </div>
+      <div class="rwinfo" id="rwinfo">🎙️ Score 80% or more 5 times to unlock the Trophy!</div>
+      <div class="rwbtns">
+        <button class="rwbtn" onclick="switchMode('words')">🔤 Vocabulary</button>
+        <button class="rwbtn" onclick="trySentMode()">💬 Sentences</button>
+        <button class="rwbtn" onclick="switchMode('sound')">🔤 Sort Sounds</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- .main -->
+
+<!-- REWARD POPUP -->
+<div class="overlay" id="overlay" onclick="closeRew()"></div>
+<div class="rpop" id="rpop">
+  <span class="rp-em" id="rpem">🎉</span>
+  <div class="rp-ti" id="rpti"></div>
+  <div class="rp-su" id="rpsu"></div>
+  <div class="rp-xp" id="rpxp"></div>
+  <button class="rp-close" onclick="closeRew()">Continue ▶</button>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════
+// DATA — LESSON 3: HAPPY NEW YEAR
+// Theme: New Year's Eve party — The Smith family
+// Grammar objective: Simple Past (irregular + regular verbs)
+// Sound: /eɪ/ vowel (p.134)
+// ═══════════════════════════════════════════════
+
+const WORDS = [
+  // PARTY THINGS — from the reading text (p.131–132)
+  {w:'balloon',    cat:'party', syls:['bal','loon'],           st:1, ipa:'/ bəˈluːn /',         tag:'noun'},
+  {w:'cracker',    cat:'party', syls:['crack','er'],           st:0, ipa:'/ ˈkræk.ər /',        tag:'noun'},
+  {w:'snack',      cat:'party', syls:['snack'],                st:0, ipa:'/ snæk /',             tag:'noun'},
+  {w:'countdown',  cat:'party', syls:['count','down'],         st:0, ipa:'/ ˈkaʊnt.daʊn /',     tag:'noun'},
+  {w:'midnight',   cat:'party', syls:['mid','night'],          st:0, ipa:'/ ˈmɪd.naɪt /',       tag:'noun'},
+  {w:'hat',        cat:'party', syls:['hat'],                  st:0, ipa:'/ hæt /',              tag:'noun'},
+  {w:'cake',       cat:'party', syls:['cake'],                 st:0, ipa:'/ keɪk /',             tag:'noun'},
+  {w:'juice',      cat:'party', syls:['juice'],                st:0, ipa:'/ dʒuːs /',            tag:'noun'},
+  {w:'wish',       cat:'party', syls:['wish'],                 st:0, ipa:'/ wɪʃ /',              tag:'noun'},
+  // PAST VERBS — from Let's complete the rule table (p.133)
+  {w:'blew up',    cat:'verb',  syls:['blew','up'],            st:0, ipa:'/ bluː ʌp /',          tag:'past verb'},
+  {w:'drank',      cat:'verb',  syls:['drank'],                st:0, ipa:'/ dræŋk /',            tag:'past verb'},
+  {w:'ate',        cat:'verb',  syls:['ate'],                  st:0, ipa:'/ eɪt /',              tag:'past verb'},
+  {w:'waited',     cat:'verb',  syls:['wait','ed'],            st:0, ipa:'/ ˈweɪ.tɪd /',        tag:'past verb'},
+  {w:'put',        cat:'verb',  syls:['put'],                  st:0, ipa:'/ pʊt /',              tag:'past verb'},
+  {w:'wished',     cat:'verb',  syls:['wished'],               st:0, ipa:'/ wɪʃt /',             tag:'past verb'},
+  {w:'made',       cat:'verb',  syls:['made'],                 st:0, ipa:'/ meɪd /',             tag:'past verb'},
+  {w:'said',       cat:'verb',  syls:['said'],                 st:0, ipa:'/ sed /',              tag:'past verb'},
+  {w:'laughed',    cat:'verb',  syls:['laughed'],              st:0, ipa:'/ lɑːft /',            tag:'past verb'},
+  {w:'counted',    cat:'verb',  syls:['count','ed'],           st:0, ipa:'/ ˈkaʊn.tɪd /',       tag:'past verb'},
+  {w:'hugged',     cat:'verb',  syls:['hugged'],               st:0, ipa:'/ hʌɡd /',             tag:'past verb'},
+  // FEELINGS / ADJECTIVES
+  {w:'excited',    cat:'adj',   syls:['ex','cit','ed'],        st:1, ipa:'/ ɪkˈsaɪ.tɪd /',      tag:'adjective'},
+  {w:'fantastic',  cat:'adj',   syls:['fan','tas','tic'],      st:1, ipa:'/ fænˈtæs.tɪk /',     tag:'adjective'},
+  {w:'colourful',  cat:'adj',   syls:['col','our','ful'],      st:0, ipa:'/ ˈkʌl.ər.fʊl /',     tag:'adjective'},
+  // /eɪ/ SOUNDS — Let's pronounce (p.134)
+  {w:'face',       cat:'sound', syls:['face'],                 st:0, ipa:'/ feɪs /',             tag:'/eɪ/ sound'},
+  {w:'day',        cat:'sound', syls:['day'],                  st:0, ipa:'/ deɪ /',              tag:'/eɪ/ sound'},
+  {w:'say',        cat:'sound', syls:['say'],                  st:0, ipa:'/ seɪ /',              tag:'/eɪ/ sound'},
+  {w:'play',       cat:'sound', syls:['play'],                 st:0, ipa:'/ pleɪ /',             tag:'/eɪ/ sound'},
+  {w:'wait',       cat:'sound', syls:['wait'],                 st:0, ipa:'/ weɪt /',             tag:'/eɪ/ sound'},
+  {w:'find',       cat:'sound', syls:['find'],                 st:0, ipa:'/ faɪnd /',            tag:'not /eɪ/'},
+  {w:'pie',        cat:'sound', syls:['pie'],                  st:0, ipa:'/ paɪ /',              tag:'not /eɪ/'},
+  {w:'kite',       cat:'sound', syls:['kite'],                 st:0, ipa:'/ kaɪt /',             tag:'not /eɪ/'},
+  {w:'buy',        cat:'sound', syls:['buy'],                  st:0, ipa:'/ baɪ /',              tag:'not /eɪ/'},
+];
+
+// ── SENTENCES ────────────────────────────────────────────
+// Theme: New Year's Eve — The Smith family (text p.132)
+// Grammar: Simple Past
+// ─────────────────────────────────────────────────────────
+const SENTS = [
+  {
+    id:0,
+    plain: 'Yesterday was New Year\'s Eve and the Smiths were very excited.',
+    chunks: ['Yesterday was','New Year\'s Eve','and the Smiths','were very ex-cit-ed.'],
+    html: 'Yesterday was <span class="SW">New Year\'s Eve</span> and the Smiths were very <span class="SW">ex</span>-cit-ed.',
+    ipa: '/ ˈjestədeɪ wɒz njuː jɪəz iːv ænd ðə smɪðz wər ˈveri ɪkˈsaɪtɪd /',
+    obj: '🕐 Simple Past — "was / were" + feeling adjective "excited"',
+    stressWord: 'excited',
+    stressOpts: ['Yesterday','Smiths','very','excited'],
+    stressAns: 3,
+    tip: '"exCITed" — stress on the middle syllable: ex·CIT·ed. The letters "ci" sound like "sai"!'
+  },
+  {
+    id:1,
+    plain: 'Mrs. Smith made small snacks with crackers and cheese.',
+    chunks: ['Mrs. Smith','made small snacks','with crack-ers','and cheese.'],
+    html: 'Mrs. Smith <span class="SW">made</span> small <span class="SW">snacks</span> with <span class="SW">crack</span>-ers and cheese.',
+    ipa: '/ ˈmɪsɪz smɪθ meɪd smɔːl snæks wɪð ˈkrækəz ænd tʃiːz /',
+    obj: '🕐 Simple Past — "made" (make → made, irregular)',
+    stressWord: 'made',
+    stressOpts: ['Smith','made','snacks','crackers'],
+    stressAns: 1,
+    tip: '"made" is the simple past of "make" — it is irregular! made = /meɪd/ — notice the /eɪ/ sound!'
+  },
+  {
+    id:2,
+    plain: 'Mr. Smith blew up a lot of colourful balloons.',
+    chunks: ['Mr. Smith','blew up','a lot of','col-our-ful bal-loons.'],
+    html: 'Mr. Smith <span class="SW">blew</span> up a lot of <span class="SW">col</span>-our-ful <span class="SW">bal</span>-loons.',
+    ipa: '/ ˈmɪstər smɪθ bluː ʌp ə lɒt əv ˈkʌlərfʊl bəˈluːnz /',
+    obj: '🕐 Simple Past — "blew up" (blow up → blew up, irregular)',
+    stressWord: 'blew up',
+    stressOpts: ['Smith','blew up','colourful','balloons'],
+    stressAns: 1,
+    tip: '"blew" is the past of "blow" — completely irregular! blow → blew. The sound is /bluː/.'
+  },
+  {
+    id:3,
+    plain: 'Paul counted down with his parents: ten, nine, eight…',
+    chunks: ['Paul count-ed down','with his par-ents:','ten, nine, eight…'],
+    html: 'Paul <span class="SW">count</span>-ed down with his par-ents: <span class="SW">ten, nine, eight</span>…',
+    ipa: '/ pɔːl ˈkaʊntɪd daʊn wɪð hɪz ˈpeərənts ten naɪn eɪt /',
+    obj: '🕐 Simple Past — "counted" (count → counted, regular -ed)',
+    stressWord: 'counted',
+    stressOpts: ['Paul','counted','parents','down'],
+    stressAns: 1,
+    tip: '"counted" = COUN·ted — regular verb! "count" → add -ed → "counted". Stress on first syllable.'
+  },
+  {
+    id:4,
+    plain: 'Paul hugged his parents and wished them a Happy New Year.',
+    chunks: ['Paul hugged','his par-ents','and wished them','a Hap-py New Year.'],
+    html: 'Paul <span class="SW">hugged</span> his par-ents and <span class="SW">wished</span> them a <span class="SW">Hap</span>-py New Year.',
+    ipa: '/ pɔːl hʌɡd hɪz ˈpeərənts ænd wɪʃt ðem ə ˈhæpi njuː jɪər /',
+    obj: '🕐 Simple Past — "hugged" + "wished" (regular -ed verbs)',
+    stressWord: 'wished',
+    stressOpts: ['hugged','parents','wished','Happy'],
+    stressAns: 2,
+    tip: '"hugged" = double the g before -ed when the verb ends in consonant·vowel·consonant! hug → hugged.'
+  },
+  {
+    id:5,
+    plain: 'It will be the best year ever, said Mr. Smith.',
+    chunks: ['It will be','the best year','ev-er,','said Mr. Smith.'],
+    html: 'It will be the <span class="SW">best</span> year <span class="SW">ev</span>-er, <span class="SW">said</span> Mr. Smith.',
+    ipa: '/ ɪt wɪl biː ðə best jɪər ˈevər sed ˈmɪstər smɪθ /',
+    obj: '🗣️ Reporting speech — "said" (say → said, irregular)',
+    stressWord: 'said',
+    stressOpts: ['best','ever','said','Smith'],
+    stressAns: 2,
+    tip: '"said" is the past of "say" — irregular! say → said. It is pronounced /sed/, NOT /seɪd/!'
+  },
+];
+
+// Sound sort data — /eɪ/ vs not /eɪ/ (from p.134)
+const SOUND_ORDER = ['face','day','say','play','wait','find','pie','kite','buy'];
+const SOUND_KEY = {face:'yes',day:'yes',say:'yes',play:'yes',wait:'yes',find:'no',pie:'no',kite:'no',buy:'no'};
+
+// ═══════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════
+let visWords=[...WORDS],wIdx=0,sIdx=0;
+let curMode='words',curWAct='listen',curSAct='listen';
+let masteredW=new Set(),masteredS=new Set();
+let streak=0,xp=0,stars=0,gems=0,fire=0;
+let tapSt={tapped:0,phase:1,done:false};
+let recTmr=null,isRec=false,dgSel=null;
+
+function init(){
+  filterCat('all',{target:document.querySelectorAll('.cattab')[0]});
+  buildSentList(); renderSAct(); buildSound();
+  updateLockUI();
+}
+
+function isVocabComplete(){ return masteredW.size >= WORDS.length; }
+
+function updateLockUI(){
+  const done=masteredW.size, total=WORDS.length;
+  const unlocked=done>=total;
+  document.getElementById('lock-progress').textContent=done+' / '+total;
+  document.getElementById('lock-count').textContent=total;
+  document.getElementById('locked-banner').style.display=unlocked?'none':'flex';
+  document.getElementById('sent-lock').textContent=unlocked?'✅':'🔒';
+  document.getElementById('ms-sents').style.opacity=unlocked?'1':'0.5';
+}
+
+function trySentMode(){
+  if(isVocabComplete()){ switchMode('sents'); }
+  else {
+    const banner=document.getElementById('locked-banner');
+    banner.style.animation='none'; banner.offsetHeight;
+    banner.style.animation='shakebanner .4s ease';
+    banner.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+}
+
+function switchMode(m){
+  curMode=m;
+  ['words','sents','sound'].forEach(x=>document.getElementById('mode-'+x).classList.toggle('hidden',x!==m));
+  ['words','sents','sound'].forEach(x=>document.getElementById('ms-'+x).classList.toggle('on',x===m));
+}
+
+// WORD GRID
+function filterCat(cat,e){
+  document.querySelectorAll('.cattab').forEach(t=>t.classList.remove('on'));
+  if(e&&e.target)e.target.classList.add('on');
+  visWords=cat==='all'?[...WORDS]:WORDS.filter(w=>w.cat===cat);
+  wIdx=0;buildGrid();renderWAct();
+}
+
+function buildGrid(){
+  const g=document.getElementById('wgrid');g.innerHTML='';
+  visWords.forEach((w,wi)=>{
+    const ri=WORDS.indexOf(w);
+    const c=document.createElement('div');
+    c.className='wcard'+(wi===wIdx?' sel':'')+(masteredW.has(ri)?' done':'');
+    // Click → select + scroll to recording panel
+    c.onclick=()=>{
+      wIdx=wi;buildGrid();renderWAct();
+      switchWAct('listen');
+      setTimeout(()=>document.getElementById('word-panel').scrollIntoView({behavior:'smooth',block:'nearest'}),80);
+    };
+    let sb=masteredW.has(ri)?'<div class="cst cs-ok">✓</div>':wi===wIdx?'<div class="cst cs-cur">!</div>':'';
+    let sr='<div class="wsyls">';
+    w.syls.forEach((s,si)=>{if(si>0)sr+='<span class="sydot">·</span>';sr+=`<span class="sy${si===w.st?' ST':''}">${s}</span>`;});
+    sr+='</div>';
+    const tc={party:'tg-p',verb:'tg-v',adj:'tg-a',sound:'tg-s'}[w.cat]||'tg-n';
+    c.innerHTML=`${sb}${sr}<div class="wipa">${w.ipa}</div><span class="wtag ${tc}">${w.tag}</span>`;
+    g.appendChild(c);
+  });
+}
+
+function renderWAct(){
+  const w=visWords[wIdx];
+  if(!w){return;}
+  document.getElementById('wah').textContent=w.w;
+  document.getElementById('wawl').textContent=(wIdx+1)+' / '+visWords.length;
+  document.getElementById('wctr').textContent=(wIdx+1)+' / '+visWords.length;
+  // listen tab
+  let disp='';
+  w.syls.forEach((s,si)=>{
+    if(si>0)disp+='<span style="color:#ccc;font-size:22px;margin:0 2px">·</span>';
+    disp+=`<span class="${si===w.st?'S':''}">${s}</span>`;
+  });
+  document.getElementById('lrd').innerHTML=disp;
+  document.getElementById('lri').textContent=w.ipa;
+  document.getElementById('lrtag').textContent=w.tag;
+  document.getElementById('wfbz').classList.remove('on');
+  // stress tab
+  document.getElementById('wsqword').textContent=w.w;
+  const opts=document.getElementById('wsqopts');opts.innerHTML='';
+  w.syls.forEach((s,si)=>{
+    const b=document.createElement('button');b.className='sqb';b.textContent=s;
+    b.onclick=()=>{
+      opts.querySelectorAll('.sqb').forEach(x=>{x.classList.remove('ok','no');});
+      b.classList.add(si===w.st?'ok':'no');
+      document.getElementById('wsqres').innerHTML=si===w.st?
+        '<span class="qr-ok">✅ Correct! Stress is on <strong>'+s+'</strong></span>':
+        '<span class="qr-no">❌ Not quite — stress is on <strong>'+w.syls[w.st]+'</strong></span>';
+      if(si===w.st){const ri=WORDS.indexOf(w);masteredW.add(ri);buildGrid();updateLockUI();addXPG(8,0);}
+    };
+    opts.appendChild(b);
+  });
+  document.getElementById('wsqres').textContent='';
+  buildWTap();
+}
+
+function navW(d){
+  wIdx=(wIdx+d+visWords.length)%visWords.length;
+  buildGrid();renderWAct();
+}
+
+function switchWAct(a){
+  curWAct=a;
+  ['listen','syl','stress'].forEach(x=>document.getElementById('wa-'+x).classList.toggle('hidden',x!==a));
+  document.querySelectorAll('#mode-words .atabs .atab').forEach((t,i)=>t.classList.toggle('on',['listen','syl','stress'][i]===a));
+}
+
+function buildWTap(){
+  const w=visWords[wIdx];if(!w)return;
+  tapSt={tapped:0,phase:1,done:false};
+  document.getElementById('wtapinstr').innerHTML=`Tap each syllable in order!<br><strong>${w.w}</strong> has <strong>${w.syls.length}</strong> syllable${w.syls.length>1?'s':''}`;
+  const row=document.getElementById('wtapword');row.innerHTML='';
+  w.syls.forEach((s,si)=>{
+    const sp=document.createElement('span');
+    sp.className='stap'+(si===w.st?' str':'');
+    sp.textContent=s;
+    sp.onclick=()=>{
+      if(tapSt.done)return;
+      if(si===tapSt.tapped){
+        sp.classList.add('tpd');tapSt.tapped++;
+        speakText(s, 1.0, true);
+        if(tapSt.tapped===w.syls.length){
+          tapSt.done=true;
+          document.getElementById('wtapres').innerHTML='<span class="qr-ok">✅ Well done! '+w.w+'</span>';
+          const ri=WORDS.indexOf(w);masteredW.add(ri);buildGrid();updateLockUI();addXPG(10,1);
+        }
+      } else {
+        sp.classList.add('tpd');setTimeout(()=>sp.classList.remove('tpd'),300);
+        document.getElementById('wtapres').innerHTML='<span class="qr-no">❌ Tap syllable '+(tapSt.tapped+1)+' first!</span>';
+      }
+    };
+    row.appendChild(sp);
+  });
+  document.getElementById('wtapres').textContent='';
+}
+
+// SENTENCE LIST
+function buildSentList(){
+  const sl=document.getElementById('sent-list');sl.innerHTML='';
+  SENTS.forEach((s,i)=>{
+    const card=document.createElement('div');
+    card.id='sc-'+i;
+    card.className='sent-card'+(i===sIdx?' sel':'')+(masteredS.has(i)?' done':'');
+    // Click → select + scroll to recording panel
+    card.onclick=()=>{
+      sIdx=i;buildSentList();renderSAct();
+      switchSAct('listen');
+      setTimeout(()=>document.getElementById('sent-panel').scrollIntoView({behavior:'smooth',block:'nearest'}),80);
+    };
+    const doneIcon=masteredS.has(i)?'<span style="color:var(--green);font-size:13px;font-weight:900">✓</span>':'';
+    card.innerHTML=`<div class="sent-top">
+      <div class="sent-num">${i+1}</div>
+      <div class="sent-body">
+        <div class="sent-txt">${s.html} ${doneIcon}</div>
+        <div class="sent-ipa">${s.ipa}</div>
+        <div class="sent-obj">${s.obj}</div>
+      </div>
+    </div>`;
+    sl.appendChild(card);
+  });
+}
+
+function renderSAct(){
+  const s=SENTS[sIdx];
+  document.getElementById('sah').textContent='Sentence '+(sIdx+1);
+  document.getElementById('sawl').textContent=(sIdx+1)+' / '+SENTS.length;
+  document.getElementById('sctr').textContent=(sIdx+1)+' / '+SENTS.length;
+  document.getElementById('slrd').innerHTML=s.html;
+  document.getElementById('slri').textContent=s.ipa;
+  document.getElementById('slrobj').textContent=s.obj;
+  document.getElementById('sfbz').classList.remove('on');
+  document.getElementById('scfbz').classList.remove('on');
+  // chunks
+  const cc=document.getElementById('schunks');cc.innerHTML='';
+  s.chunks.forEach(ch=>{
+    const b=document.createElement('button');b.className='chunk-btn';b.textContent=ch;
+    b.onclick=()=>{
+      b.classList.add('playing');
+      speakText(ch, 0.80, true);
+      // remove 'playing' highlight after estimated speech duration
+      setTimeout(()=>b.classList.remove('playing'), 1400);
+    };
+    cc.appendChild(b);
+  });
+  document.getElementById('schunk-full').innerHTML=s.html;
+  // stress quiz
+  const so=document.getElementById('ssqopts');so.innerHTML='';
+  s.stressOpts.forEach((opt,oi)=>{
+    const b=document.createElement('button');b.className='sqb';b.textContent=opt;
+    b.onclick=()=>{
+      so.querySelectorAll('.sqb').forEach(x=>x.classList.remove('ok','no'));
+      b.classList.add(oi===s.stressAns?'ok':'no');
+      document.getElementById('ssqres').innerHTML=oi===s.stressAns?
+        '<span class="qr-ok">✅ Correct! <strong>'+opt+'</strong> is stressed</span>':
+        '<span class="qr-no">❌ The stressed word is <strong>'+s.stressOpts[s.stressAns]+'</strong></span>';
+      if(oi===s.stressAns){masteredS.add(sIdx);buildSentList();addXPG(8,0);}
+    };
+    so.appendChild(b);
+  });
+  document.getElementById('ssqres').textContent='';
+}
+
+function navS(d){
+  sIdx=(sIdx+d+SENTS.length)%SENTS.length;
+  buildSentList();renderSAct();
+}
+
+function switchSAct(a){
+  curSAct=a;
+  ['listen','chunk','stress'].forEach(x=>document.getElementById('sa-'+x).classList.toggle('hidden',x!==a));
+  document.querySelectorAll('#mode-sents .atabs .atab').forEach((t,i)=>t.classList.toggle('on',['listen','chunk','stress'][i]===a));
+}
+
+// SOUND SORT
+function buildSound(){
+  dgSel=null;
+  document.getElementById('dgsel').textContent='No word selected yet — tap one!';
+  document.getElementById('dg-yes').innerHTML='';
+  document.getElementById('dg-no').innerHTML='';
+  document.getElementById('dgres').textContent='';
+  const bank=document.getElementById('dgbank');bank.innerHTML='';
+  SOUND_ORDER.forEach(w=>{
+    const d=document.createElement('div');d.className='dw';d.textContent=w;d.id='dw-'+w;
+    d.onclick=()=>{
+      document.querySelectorAll('.dw').forEach(x=>x.classList.remove('sel'));
+      if(!d.classList.contains('placed-yes')&&!d.classList.contains('placed-no')){
+        d.classList.add('sel');dgSel=w;
+        document.getElementById('dgsel').textContent='Selected: '+w+' — now tap a group!';
+        speakText(w, 0.88, true);
+      }
+    };
+    bank.appendChild(d);
+  });
+}
+
+function placeWord(grp){
+  if(!dgSel)return;
+  const correct=SOUND_KEY[dgSel];
+  const el=document.getElementById('dw-'+dgSel);
+  if(grp===correct){
+    el.classList.remove('sel');el.classList.add('placed-'+grp);
+    document.getElementById('dg-'+grp).appendChild(el);
+    document.getElementById('dgres').innerHTML='<span class="qr-ok">✅ Correct! "'+dgSel+'" has the /eɪ/ sound: '+(grp==='yes'?'YES ✅':'NO ❌')+'</span>';
+    addXPG(6,0);
+  } else {
+    el.classList.add('wrong');setTimeout(()=>el.classList.remove('wrong','sel'),400);
+    document.getElementById('dgres').innerHTML='<span class="qr-no">❌ Try again! Listen to "'+dgSel+'" — does it sound like "May"?</span>';
+    speakText(dgSel, 0.80, true);
+  }
+  dgSel=null;
+  document.getElementById('dgsel').textContent='No word selected yet — tap one!';
+}
+
+// ═══════════════════════════════════════════════
+// SPEECH SYNTHESIS — British English (en-GB)
+// ═══════════════════════════════════════════════
+
+// Cache the chosen voice after first load so we never re-scan
+let _britishVoice = null;
+
+function getBritishVoice(){
+  if(_britishVoice) return _britishVoice;
+  const voices = window.speechSynthesis.getVoices();
+  if(!voices.length) return null;
+  // Priority 1 — exact en-GB locale, prefer female (sounds clearer for learners)
+  const gbFemale = voices.find(v => v.lang === 'en-GB' && /female|woman|fiona|serena|kate|susan|martha|emily|amy/i.test(v.name));
+  if(gbFemale){ _britishVoice = gbFemale; return _britishVoice; }
+  // Priority 2 — any exact en-GB
+  const gb = voices.find(v => v.lang === 'en-GB');
+  if(gb){ _britishVoice = gb; return _britishVoice; }
+  // Priority 3 — name contains "British" or "GB"
+  const named = voices.find(v => /british|en[\s._-]?gb/i.test(v.name));
+  if(named){ _britishVoice = named; return _britishVoice; }
+  // Priority 4 — any English (fallback)
+  const anyEn = voices.find(v => /^en/i.test(v.lang));
+  if(anyEn){ _britishVoice = anyEn; return _britishVoice; }
+  return null;
+}
+
+// Pre-load voices and cache as soon as they are available
+function preloadVoices(){
+  if(!window.speechSynthesis) return;
+  const v = window.speechSynthesis.getVoices();
+  if(v.length > 0){ getBritishVoice(); }
+  else { window.speechSynthesis.onvoiceschanged = ()=>{ getBritishVoice(); }; }
+}
+preloadVoices();
+
+// isSpeaking flag — prevents feedback voice from cutting off lesson audio
+let _isSpeakingLesson = false;
+
+function speakText(txt, rate, isLesson){
+  if(!window.speechSynthesis) return;
+  // Cancel any previous speech first
+  window.speechSynthesis.cancel();
+  if(isLesson) _isSpeakingLesson = true;
+
+  const doSpeak = () => {
+    const u = new SpeechSynthesisUtterance(txt);
+    u.lang    = 'en-GB';
+    u.rate    = rate || 0.88;   // slightly slower = clearer for learners
+    u.pitch   = 1.0;
+    const voice = getBritishVoice();
+    if(voice) u.voice = voice;
+    u.onend = () => { if(isLesson) _isSpeakingLesson = false; };
+    u.onerror = () => { if(isLesson) _isSpeakingLesson = false; };
+    window.speechSynthesis.speak(u);
+  };
+
+  // Voices not ready yet? Wait for them
+  if(window.speechSynthesis.getVoices().length === 0){
+    window.speechSynthesis.onvoiceschanged = () => {
+      window.speechSynthesis.onvoiceschanged = null;
+      doSpeak();
+    };
+  } else {
+    doSpeak();
+  }
+}
+
+// playItem — always marked as "lesson" speech so feedback can wait for it
+function playItem(type){
+  if(type === 'word'){ const w = visWords[wIdx]; if(w) speakText(w.w, 0.80, true); }
+  else               { const s = SENTS[sIdx];   if(s) speakText(s.plain, 0.72, true); }
+}
+
+// ── FEEDBACK VOICE ───────────────────────────────────────
+// Short encouraging phrases — spoken AFTER lesson audio finishes
+const VOICE_FB = [
+  { min:80, phrase:'Well done! That was very clear!' },
+  { min:60, phrase:'Good try! Listen again and repeat.' },
+  { min:40, phrase:'Try again. Listen carefully first.' },
+  { min:0,  phrase:'Keep going. You can do it!' },
+];
+
+function playTone(cb){
+  try{
+    const ctx  = new (window.AudioContext || window.webkitAudioContext)();
+    const osc  = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(880,  ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(1320, ctx.currentTime + 0.15);
+    gain.gain.setValueAtTime(0.15, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + 0.4);
+    osc.onended = () => { ctx.close(); if(cb) cb(); };
+  } catch(e){ if(cb) cb(); }
+}
+
+function speakFeedback(score){
+  const vf = VOICE_FB.find(v => score >= v.min) || VOICE_FB[VOICE_FB.length - 1];
+  // Wait until any lesson speech has finished before playing feedback
+  const trySpeak = () => {
+    if(_isSpeakingLesson || window.speechSynthesis.speaking){
+      setTimeout(trySpeak, 300);
+      return;
+    }
+    playTone(() => {
+      // Extra pause after tone so it doesn't overlap with speech
+      setTimeout(() => speakText(vf.phrase, 0.88, false), 250);
+    });
+  };
+  setTimeout(trySpeak, 400); // initial delay after mic stops
+}
+
+// ── MIC BUTTON ───────────────────────────────────────────
+function tapMic(type){
+  if(isRec) return;
+  const btnId = type==='word' ? 'wmb' : curSAct==='chunk' ? 'scmb' : 'smb';
+  const btn   = document.getElementById(btnId);
+  if(!btn) return;
+  // Stop any currently playing lesson audio before recording
+  window.speechSynthesis.cancel();
+  _isSpeakingLesson = false;
+  isRec = true;
+  btn.classList.add('rec');
+  btn.textContent = '⏺';
+  recTmr = setTimeout(() => {
+    isRec = false;
+    btn.classList.remove('rec');
+    btn.textContent = '🎤';
+    // Score range 54–95 — realistic simulation
+    const score = Math.floor(Math.random() * 42) + 54;
+    showFeedback(type, score);
+  }, 2200);
+}
+
+// FEEDBACK — 80% threshold
+const MASTER_THRESHOLD=80;
+const FBL=[
+  {min:90,cls:'sf-gr',ti:'Perfect!',   msg:'You sound like a native speaker!',      xp:30,gem:2,tip:null},
+  {min:75,cls:'sf-gr',ti:'Great job!', msg:'Really well done! Keep it up.',          xp:20,gem:1,tip:null},
+  {min:60,cls:'sf-go',ti:'Good try!',  msg:'Almost! Focus on the stressed syllable.',xp:10,gem:0,
+    tip:'Say the stressed syllable LOUDER and hold it a little longer.'},
+  {min:40,cls:'sf-ok',ti:'Try again!', msg:'Listen again, then speak.',              xp:5, gem:0,
+    tip:'Use Chunk Practice first — say each part before the full sentence.'},
+  {min:0, cls:'sf-lo',ti:'Keep going!',msg:'Every attempt makes you stronger!',     xp:2, gem:0,
+    tip:'Listen 3 times before speaking.'},
+];
+
+function showFeedback(type,score){
+  const isWord=type==='word';
+  const fzId  =isWord?'wfbz':curSAct==='chunk'?'scfbz':'sfbz';
+  const fillId=isWord?'wsfl':curSAct==='chunk'?'scsfl':'ssfl';
+  const pctId =isWord?'wspc':curSAct==='chunk'?'scspc':'sspc';
+  const fbId  =isWord?'wfbc':curSAct==='chunk'?'scfbc':'sfbc';
+  document.getElementById(fzId).classList.add('on');
+  const fill=document.getElementById(fillId),pct=document.getElementById(pctId);
+  fill.style.width='0%';pct.textContent='0%';fill.className='sbar-fill';
+  const lv=FBL.find(l=>score>=l.min)||FBL[FBL.length-1];
+  fill.classList.add(lv.cls);
+  setTimeout(()=>{fill.style.width=score+'%';pct.textContent=score+'%';},80);
+  const passed=score>=MASTER_THRESHOLD;
+  let h=`<div class="fbc ${passed?'fbc-gr':'fbc-wa'}">
+    <div class="fbi">${passed?'✅':'↩️'}</div>
+    <div><strong>${lv.ti}</strong> — <b>${score}%</b>. ${lv.msg}
+    ${!passed?'<br><span style="font-size:11px;color:var(--muted)">Score 80% or more to advance.</span>':''}
+    </div></div>`;
+  if(lv.tip&&!passed)h+=`<div class="fbc fbc-ti"><div class="fbi">💡</div><div>${lv.tip}</div></div>`;
+  document.getElementById(fbId).innerHTML=h;
+  addXPG(lv.xp,lv.gem);
+  speakFeedback(score);
+  if(passed){
+    if(isWord){
+      const ri=WORDS.indexOf(visWords[wIdx]);
+      masteredW.add(ri);buildGrid();updateLockUI();
+      addStreak();
+      const allDone=masteredW.size>=WORDS.length;
+      if(!allDone){
+        setTimeout(()=>{
+          wIdx=(wIdx+1)%visWords.length;buildGrid();renderWAct();
+          document.getElementById('word-panel').scrollIntoView({behavior:'smooth',block:'nearest'});
+        },2400);
+      } else {
+        setTimeout(()=>{showRew('🎉','Vocabulary Complete!','All words mastered! Sentence Practice is now unlocked! 💬','+100 XP');addXPG(100,5);},600);
+      }
+    } else {
+      masteredS.add(sIdx);buildSentList();addStreak();
+      setTimeout(()=>{
+        sIdx=(sIdx+1)%SENTS.length;buildSentList();renderSAct();
+        document.getElementById('sent-panel').scrollIntoView({behavior:'smooth',block:'nearest'});
+      },2400);
+    }
+  }
+}
+
+// XP / STREAK / REWARDS
+function addXPG(xpA,gmA){
+  xp=Math.min(xp+xpA,100);gems+=gmA;if(xpA>=15)stars++;
+  document.getElementById('xpf').style.width=xp+'%';
+  document.getElementById('xpn').textContent=xp+' / 100';
+  document.getElementById('g-stars').textContent=stars;
+  document.getElementById('g-gems').textContent=gems;
+  if(xp>=100){setTimeout(()=>showRew('🎉','Level Up!','Keep going!','+LEVEL'),700);xp=0;}
+}
+function addStreak(){
+  if(streak>=5)streak=0;
+  document.getElementById('sc'+streak).classList.add('lit');streak++;fire++;
+  document.getElementById('g-fire').textContent=fire;
+  const left=5-streak;const info=document.getElementById('rwinfo');
+  if(streak>=5){
+    document.getElementById('sc4').classList.add('perf');
+    info.textContent='🏆 Trophy unlocked!';
+    setTimeout(()=>showRew('🏆','Trophy Unlocked!','You scored 80%+ five times in a row!','+50 XP'),400);
+    addXPG(50,3);streak=0;
+    setTimeout(()=>{for(let i=0;i<5;i++)document.getElementById('sc'+i).className='sc';info.textContent='🎙️ Score 80% or more 5 times to unlock the Trophy!';},3500);
+  } else info.textContent=`🎙️ ${left} more success${left!==1?'es':''} to unlock the Trophy!`;
+}
+function showRew(em,ti,su,xpt){document.getElementById('rpem').textContent=em;document.getElementById('rpti').textContent=ti;document.getElementById('rpsu').textContent=su;document.getElementById('rpxp').textContent=xpt;document.getElementById('rpop').classList.add('on');document.getElementById('overlay').classList.add('on');}
+function closeRew(){document.getElementById('rpop').classList.remove('on');document.getElementById('overlay').classList.remove('on');}
+
+init();
+</script>
+</body>
+</html>

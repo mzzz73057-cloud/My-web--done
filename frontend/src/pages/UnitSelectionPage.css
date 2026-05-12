@@ -1,0 +1,50 @@
+/* ═══════════════════════════════════════
+   Unit Selection Page (Page 5)
+   ═══════════════════════════════════════ */
+
+/* Sprite wrapper placed below the "Choose a Unit" title
+   in the background image (title is ~22% from top) */
+.unit-sprite-wrapper {
+  position: absolute;
+  top: 28%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(88vw, 950px);
+  height: min(49.5vw, 534px); /* explicit height = width × 9/16 */
+  z-index: 10;
+}
+
+/* The sprite image */
+.unit-sprite-img {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  display: block;
+  /* Hide flat white background from JPG button sprite */
+  mix-blend-mode: multiply;
+}
+
+/* ── Shared transparent click zone base ── */
+.unit-zone {
+  position: absolute;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  border-radius: 16px;
+  transition: background 0.18s ease;
+}
+
+.unit-zone:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* ── Row 1 (top half) ── */
+.unit-zone-1 { top: 2%;  left: 1%;   width: 31.5%; height: 46%; }
+.unit-zone-2 { top: 2%;  left: 34%;  width: 31.5%; height: 46%; }
+.unit-zone-3 { top: 2%;  left: 67%;  width: 32%;   height: 46%; }
+
+/* ── Row 2 (bottom half) ── */
+.unit-zone-4 { top: 52%; left: 1%;   width: 31.5%; height: 46%; }
+.unit-zone-5 { top: 52%; left: 34%;  width: 31.5%; height: 46%; }
+.unit-zone-6 { top: 52%; left: 67%;  width: 32%;   height: 46%; }

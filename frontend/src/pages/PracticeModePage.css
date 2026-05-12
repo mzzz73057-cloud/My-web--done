@@ -1,0 +1,91 @@
+/* ═══════════════════════════════════════
+   Practice Mode Page  (Page 3)
+   ═══════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@700;800;900&display=swap');
+
+/* Full-page wrapper */
+.pd-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Background image fills viewport */
+.pd-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Shared base for any absolute pd-btn (kept for other pages) */
+.pd-btn {
+  position: absolute;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+.pd-btn img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px;
+}
+
+/* ══════════════════════════════════
+   Practice Mode Button Styles
+   ══════════════════════════════════ */
+
+.pm-btn {
+  position: absolute;
+  border: none;
+  cursor: pointer;
+  border-radius: 14px;
+  font-family: 'Fredoka One', 'Nunito', cursive, sans-serif;
+  font-size: clamp(0.85rem, 1.4vw, 1.15rem);
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 15px 22px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  white-space: nowrap;
+  z-index: 10;
+}
+
+.pm-btn:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35) !important;
+}
+
+.pm-btn:active {
+  transform: translateY(1px) scale(0.97);
+}
+
+/* ── Blue "Practice Alone" ──
+   Placed in the bottom area of the yellow rectangle (left side) */
+.pm-btn-alone {
+  background: linear-gradient(135deg, #5bc8f5 0%, #0d6efd 100%);
+  color: #fff;
+  box-shadow: 0 5px 18px rgba(13, 110, 253, 0.55), 0 4px 0 #0b5ed7;
+  /* Centered in yellow rect: approx left 17–47% of screen */
+  left: 17%;
+  width: 30%;
+  bottom: 13%;
+  text-align: center;
+}
+
+/* ── Clear Orange "Practice With Friends" ──
+   Placed in the bottom area of the purple rectangle (right side) */
+.pm-btn-friends {
+  background: linear-gradient(135deg, #ffcc80 0%, #ff8c00 100%);
+  color: #fff;
+  box-shadow: 0 5px 18px rgba(255, 140, 0, 0.55), 0 4px 0 #e65100;
+  /* Centered in purple rect: approx left 51–83% of screen */
+  left: 52%;
+  width: 30%;
+  bottom: 13%;
+  text-align: center;
+}

@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>SpeakUp! – Unit 5 Lesson 1 · Children's Day</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&family=Baloo+2:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F0FFF4;--deep:#1B4332;--mid:#2D6A4F;--acc:#52B788;
+  --gold:#F5A623;--gold-l:#FDE68A;
+  --green:#22A35A;--green-l:#D8F3DC;
+  --blue:#1D6FA4;--blue-l:#DBEAFE;
+  --red:#C0392B;--red-l:#FADBD8;
+  --purple:#6C3FC5;--purple-l:#EDE7F6;
+  --orange:#E67E22;--orange-l:#FEF3C7;
+  --card:#fff;--border:rgba(27,67,50,.13);--muted:#5A7A6A;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--deep);min-height:100vh}
+
+/* TOP BAR */
+.topbar{background:var(--deep);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:60}
+.logo{font-family:'Baloo 2',cursive;font-size:20px;color:#fff}
+.logo em{color:var(--gold);font-style:normal}
+.logo small{font-size:11px;color:#9FC5B0;margin-left:8px;font-family:'Nunito',sans-serif;font-weight:700}
+.stats{display:flex;gap:7px}
+.stat{background:rgba(255,255,255,.14);border-radius:20px;padding:4px 11px;color:#fff;font-size:13px;font-weight:800;display:flex;align-items:center;gap:4px}
+.xpbar{background:var(--deep);padding:0 16px 10px;display:flex;align-items:center;gap:10px}
+.xplbl{color:#9FC5B0;font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;white-space:nowrap}
+.xptrack{flex:1;height:8px;background:rgba(255,255,255,.15);border-radius:4px;overflow:hidden}
+.xpfill{height:100%;width:0%;border-radius:4px;background:linear-gradient(90deg,var(--gold),#FFD700);transition:width .9s cubic-bezier(.4,0,.2,1)}
+.xpnum{color:var(--gold);font-size:12px;font-weight:800;white-space:nowrap}
+
+/* LESSON TABS */
+.ltabs{background:var(--card);display:flex;border-bottom:2px solid var(--border)}
+.ltab{flex:1;padding:10px 6px;text-align:center;font-size:12px;font-weight:800;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s;line-height:1.4}
+.ltab.on{color:var(--mid);border-bottom-color:var(--mid);background:var(--green-l)}
+
+/* MAIN */
+.main{padding:14px 15px;max-width:700px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+
+/* LESSON HEADER */
+.lhdr{background:var(--card);border-radius:16px;border:1px solid var(--border);padding:14px 15px;display:flex;align-items:center;gap:13px}
+.licon{width:60px;height:60px;border-radius:14px;background:linear-gradient(135deg,#40916C,#1B4332);display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0}
+.ltitle{font-family:'Baloo 2',cursive;font-size:20px;font-weight:900;color:var(--deep)}
+.lsub{font-size:11px;color:var(--muted);font-weight:600;margin-top:2px}
+.obj-box{background:var(--green-l);border-radius:8px;padding:6px 10px;margin-top:7px;font-size:11px;font-weight:700;color:var(--deep);border-left:3px solid var(--green)}
+.pdots{display:flex;gap:5px;margin-top:7px}
+.pdot{width:20px;height:6px;border-radius:3px;background:var(--border);transition:background .3s}
+.pdot.done{background:var(--green)}.pdot.cur{background:var(--gold)}
+
+/* SECTION LABEL */
+.sec{font-size:10px;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
+
+/* MODE SWITCHER */
+.mode-switch{display:flex;background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.msbtn{flex:1;padding:10px 6px;text-align:center;font-size:12px;font-weight:800;color:var(--muted);cursor:pointer;transition:all .2s;border:none;background:none}
+.msbtn.on{background:var(--deep);color:var(--gold)}
+
+/* CATEGORY TABS */
+.cattabs{display:flex;gap:6px;flex-wrap:wrap}
+.cattab{padding:5px 12px;border-radius:20px;font-size:11px;font-weight:800;border:1.5px solid var(--border);background:var(--card);cursor:pointer;color:var(--muted);transition:all .15s}
+.cattab.on{background:var(--deep);color:var(--gold);border-color:var(--deep)}
+
+/* WORD GRID */
+.wgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(136px,1fr));gap:9px}
+.wcard{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:11px 11px 9px;cursor:pointer;transition:transform .15s,box-shadow .15s,border-color .2s;position:relative;user-select:none}
+.wcard:hover{transform:translateY(-2px);box-shadow:0 5px 18px rgba(27,67,50,.1)}
+.wcard.sel{border-color:var(--mid);border-width:2px}
+.wcard.done{border-color:var(--green)}
+.wsyls{display:flex;align-items:baseline;flex-wrap:wrap;gap:0;margin-bottom:4px}
+.sy{font-family:'Baloo 2',cursive;font-size:14px;color:var(--deep)}
+.sy.ST{font-size:20px;color:var(--mid);text-decoration:underline;text-decoration-color:var(--gold);text-decoration-thickness:2.5px;font-weight:900}
+.sydot{font-size:11px;color:#ccc;margin:0 1px;align-self:center}
+.wipa{font-size:10px;color:var(--muted);font-weight:600;margin-bottom:3px}
+.wtag{display:inline-block;padding:2px 7px;border-radius:6px;font-size:10px;font-weight:800}
+.tg-v{background:#D8F3DC;color:#1B4332}.tg-n{background:#DBEAFE;color:#1D3557}
+.tg-a{background:#FEF3C7;color:#92400E}.tg-r{background:#EDE7F6;color:#4C1D95}
+.cst{position:absolute;top:7px;right:7px;width:17px;height:17px;border-radius:50%;font-size:10px;font-weight:900;display:flex;align-items:center;justify-content:center}
+.cs-ok{background:var(--green);color:#fff}.cs-cur{background:var(--gold);color:#fff}
+
+/* SENTENCE CARDS */
+.sent-list{display:flex;flex-direction:column;gap:10px}
+.sent-card{background:var(--card);border:1.5px solid var(--border);border-radius:14px;overflow:hidden;cursor:pointer;transition:box-shadow .15s,border-color .2s}
+.sent-card:hover{box-shadow:0 4px 16px rgba(27,67,50,.1)}
+.sent-card.sel{border-color:var(--mid);border-width:2px}
+.sent-card.done{border-color:var(--green)}
+.sent-top{padding:10px 13px;display:flex;align-items:flex-start;gap:10px}
+.sent-num{width:24px;height:24px;border-radius:50%;background:var(--deep);color:var(--gold);font-size:11px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.sent-body{flex:1}
+.sent-txt{font-family:'Baloo 2',cursive;font-size:16px;color:var(--deep);line-height:1.4;margin-bottom:3px}
+/* stress highlight inside sentence */
+.sw{color:var(--mid);font-size:19px;text-decoration:underline;text-decoration-color:var(--gold);text-decoration-thickness:2px}
+.sent-ipa{font-size:10px;color:var(--muted);font-weight:600}
+.sent-obj{font-size:10px;font-weight:800;color:var(--purple);background:var(--purple-l);border-radius:6px;padding:2px 7px;display:inline-block;margin-top:3px}
+.sent-status{flex-shrink:0}
+
+/* ACTIVITY PANEL */
+.apanel{background:var(--card);border-radius:16px;border:1px solid var(--border);overflow:hidden}
+.ahead{background:var(--deep);padding:11px 15px;display:flex;align-items:center;gap:10px}
+.ahead-t{color:#fff;font-size:14px;font-weight:800;flex:1}
+.ahead-b{background:rgba(255,255,255,.16);color:#fff;font-size:11px;font-weight:800;padding:3px 10px;border-radius:12px}
+.abody{padding:13px 15px}
+
+.atabs{display:flex;gap:6px;margin-bottom:11px;flex-wrap:wrap}
+.atab{padding:5px 11px;border-radius:20px;font-size:11px;font-weight:800;border:1.5px solid var(--border);background:var(--bg);cursor:pointer;color:var(--muted);transition:all .15s}
+.atab.on{background:var(--deep);color:var(--gold);border-color:var(--deep)}
+
+.wnav{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px}
+.narr{width:30px;height:30px;border-radius:50%;border:1.5px solid var(--border);background:var(--bg);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;transition:all .15s}
+.narr:hover{background:var(--deep);color:#fff;border-color:var(--deep)}
+.wctr{font-size:12px;font-weight:800;color:var(--muted)}
+
+/* LISTEN & REPEAT */
+.lr-big{text-align:center;padding:8px 0 2px}
+.lr-disp{font-family:'Baloo 2',cursive;font-size:36px;letter-spacing:2px;color:var(--deep);line-height:1.3}
+.lr-disp .S{font-size:46px;color:var(--mid);text-decoration:underline;text-decoration-color:var(--gold);text-decoration-thickness:3px}
+/* sentence listen display */
+.lr-sent{text-align:center;font-family:'Baloo 2',cursive;font-size:18px;color:var(--deep);line-height:1.6;padding:8px 4px}
+.lr-sent .SW{color:var(--mid);font-size:22px;text-decoration:underline;text-decoration-color:var(--gold);text-decoration-thickness:2px}
+.lr-ipa{text-align:center;font-size:12px;color:var(--muted);font-weight:600;margin-bottom:2px}
+.lr-tag{text-align:center;font-size:11px;font-weight:800;color:var(--muted);margin-bottom:8px}
+.lr-obj{text-align:center;font-size:11px;font-weight:800;color:var(--purple);background:var(--purple-l);border-radius:8px;padding:4px 12px;margin-bottom:8px;display:inline-block}
+
+/* chunk practice */
+.chunks{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:8px 0 12px}
+.chunk-btn{font-family:'Baloo 2',cursive;font-size:15px;padding:5px 12px;border-radius:10px;border:2px solid var(--border);background:var(--bg);cursor:pointer;color:var(--deep);transition:all .2s;font-weight:700}
+.chunk-btn:hover{background:var(--green-l);border-color:var(--green)}
+.chunk-btn.playing{background:var(--blue);border-color:var(--blue);color:#fff}
+
+.btnrow{display:flex;justify-content:center;gap:12px;margin:10px 0}
+.ibtn{width:58px;height:58px;border-radius:50%;border:2.5px solid var(--deep);background:var(--card);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:24px;transition:all .2s}
+.ibtn:hover{background:var(--bg);transform:scale(1.07)}
+.ibtn.rec{background:var(--red);border-color:var(--red);animation:pring 1s ease-out infinite}
+.ibtn.play{background:var(--blue);border-color:var(--blue)}
+@keyframes pring{0%{box-shadow:0 0 0 0 rgba(192,57,43,.4)}100%{box-shadow:0 0 0 16px rgba(192,57,43,0)}}
+
+/* SCORE */
+.sbar-wrap{margin:8px 0 10px}
+.sbar-row{display:flex;justify-content:space-between;font-size:12px;font-weight:800;margin-bottom:5px}
+.sbar-track{height:13px;background:var(--bg);border-radius:7px;overflow:hidden;border:1px solid var(--border)}
+.sbar-fill{height:100%;border-radius:7px;width:0%;transition:width 1.1s cubic-bezier(.4,0,.2,1)}
+.sf-gr{background:var(--green)}.sf-go{background:var(--gold)}.sf-ok{background:var(--orange)}.sf-lo{background:var(--red)}
+.fbc{border-radius:11px;padding:9px 12px;font-size:13px;font-weight:700;margin-bottom:7px;display:flex;align-items:flex-start;gap:8px;border:1.5px solid transparent}
+.fbc-gr{background:var(--green-l);border-color:var(--green);color:#1B4332}
+.fbc-wa{background:var(--orange-l);border-color:var(--gold);color:#7D5A00}
+.fbc-ti{background:var(--purple-l);border-color:#A78BFA;color:#4C1D95}
+.fbi{font-size:17px;flex-shrink:0;margin-top:1px}
+.fbzone{display:none}.fbzone.on{display:block}
+
+/* SYLLABLE TAP */
+.tap-instr{text-align:center;font-size:13px;color:var(--muted);font-weight:700;margin-bottom:12px;line-height:1.5}
+.tap-word{display:flex;justify-content:center;align-items:baseline;gap:4px;flex-wrap:wrap;margin-bottom:10px}
+.stap{font-family:'Baloo 2',cursive;font-size:26px;color:var(--deep);cursor:pointer;padding:5px 10px;border-radius:10px;border:2px solid var(--border);background:var(--bg);transition:all .2s;user-select:none}
+.stap:hover{background:var(--green-l);border-color:var(--green)}
+.stap.tpd{background:var(--mid);color:#fff;border-color:var(--mid);transform:scale(.93)}
+.stap.str{background:var(--gold-l);border-color:var(--gold)}
+.stap.str.tpd{background:var(--gold);color:#fff}
+.qres{text-align:center;font-size:14px;font-weight:800;min-height:22px;margin-top:6px}
+.qr-ok{color:var(--green)}.qr-no{color:var(--red)}
+
+/* STRESS QUIZ */
+.sq-word{text-align:center;font-family:'Baloo 2',cursive;font-size:26px;margin:6px 0 10px;color:var(--deep);line-height:1.3}
+.sq-opts{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:8px}
+.sqb{padding:8px 18px;border-radius:10px;border:2px solid var(--border);background:var(--bg);font-family:'Baloo 2',cursive;font-size:17px;font-weight:800;color:var(--deep);cursor:pointer;transition:all .2s}
+.sqb:hover{background:var(--green-l);border-color:var(--green)}
+.sqb.ok{background:var(--green-l);border-color:var(--green);color:var(--green)}
+.sqb.no{background:var(--red-l);border-color:var(--red);color:var(--red)}
+
+/* REPEAT & WIN */
+.rwpanel{background:var(--card);border-radius:16px;border:1px solid var(--border);overflow:hidden}
+.rwtop{background:linear-gradient(120deg,var(--mid),#40916C);padding:11px 15px}
+.rwtop-t{color:#fff;font-size:13px;font-weight:800}
+.rwbody{padding:12px 15px}
+.scrow{display:flex;gap:6px;justify-content:center;margin-bottom:9px}
+.sc{width:38px;height:38px;border-radius:50%;border:2.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:900;color:var(--muted);background:var(--bg);transition:all .3s}
+.sc.lit{border-color:var(--gold);background:var(--gold-l);color:var(--deep)}
+.sc.perf{border-color:var(--green);background:var(--green-l);color:var(--deep)}
+.rwinfo{text-align:center;font-size:12px;font-weight:700;color:var(--muted);margin-bottom:9px}
+.rwbtns{display:flex;gap:8px}
+.rwbtn{flex:1;padding:9px 5px;border-radius:10px;border:1.5px solid var(--border);background:var(--bg);cursor:pointer;font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;color:var(--deep);transition:all .15s}
+.rwbtn:hover{background:var(--deep);color:#fff;border-color:var(--deep)}
+
+/* REWARD */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:80}
+.overlay.on{display:block}
+.rpop{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--card);border-radius:22px;border:2.5px solid var(--gold);padding:26px 30px;text-align:center;z-index:90;max-width:290px;width:90%}
+.rpop.on{display:block;animation:popin .35s cubic-bezier(.34,1.56,.64,1)}
+@keyframes popin{0%{transform:translate(-50%,-50%) scale(.5);opacity:0}100%{transform:translate(-50%,-50%) scale(1);opacity:1}}
+.rp-em{font-size:56px;display:block;margin-bottom:8px}
+.rp-ti{font-family:'Baloo 2',cursive;font-size:22px;font-weight:900;color:var(--deep)}
+.rp-su{font-size:12px;color:var(--muted);font-weight:600;margin:4px 0 10px}
+.rp-xp{display:inline-block;background:var(--gold);color:#fff;border-radius:20px;padding:4px 18px;font-weight:900;font-size:14px;margin-bottom:12px}
+.rp-close{background:var(--bg);border:1px solid var(--border);border-radius:9px;padding:7px 22px;font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;color:var(--deep);cursor:pointer}
+.rp-close:hover{background:var(--deep);color:#fff}
+.rowbtn{display:flex;justify-content:center;margin-top:8px}
+.smbtn{padding:7px 18px;border-radius:9px;border:1.5px solid var(--border);background:var(--bg);font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;color:var(--deep);cursor:pointer;transition:all .15s}
+.smbtn:hover{background:var(--deep);color:#fff;border-color:var(--deep)}
+
+.hidden{display:none}
+@keyframes shakebanner{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo"><em>Speak</em>Up! 🎈<small>Unit 5 · Lesson 1</small></div>
+  <div class="stats">
+    <div class="stat">⭐<span id="g-stars">0</span></div>
+    <div class="stat">🔥<span id="g-fire">0</span></div>
+    <div class="stat">💎<span id="g-gems">0</span></div>
+  </div>
+</div>
+<div class="xpbar">
+  <span class="xplbl">XP</span>
+  <div class="xptrack"><div class="xpfill" id="xpf"></div></div>
+  <span class="xpnum" id="xpn">0 / 100</span>
+</div>
+
+<div class="main">
+
+  <!-- HEADER -->
+  <div class="lhdr">
+    <div class="licon">🎈</div>
+    <div style="flex:1">
+      <div class="ltitle">Children's Day</div>
+      <div class="lsub">Unit 5 · Lesson 1 · pp.125–127</div>
+      <div class="obj-box">
+        🎯 <strong>Objective:</strong> Talk about children's rights using
+        <em>"I have the right to…"</em> &amp; describe Children's Day with adjectives
+      </div>
+      <div class="pdots" id="pdots">
+        <div class="pdot cur"></div><div class="pdot"></div><div class="pdot"></div>
+        <div class="pdot"></div><div class="pdot"></div><div class="pdot"></div>
+        <div class="pdot"></div><div class="pdot"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRONUNCIATION NOTE -->
+  <div style="background:#D8F3DC;border-radius:12px;padding:10px 14px;border:1.5px solid #52B788;font-size:12px;font-weight:700;color:var(--deep);line-height:1.7">
+    🔊 <strong>Let's Pronounce (p.127):</strong>
+    <span style="color:var(--mid)">l<u>i</u>fe · r<u>i</u>ght · s<u>i</u>ck · ch<u>i</u>ld</span> &nbsp;|&nbsp;
+    <span style="color:var(--blue)">l<u>o</u>ve · c<u>o</u>lour · f<u>a</u>ther · f<u>u</u>nny</span> &nbsp;|&nbsp;
+    <span style="color:var(--orange)">e<u>a</u>t · gr<u>ea</u>t · celebr<u>a</u>te · classm<u>a</u>te</span>
+  </div>
+
+  <!-- MODE SWITCHER: Vocabulary / Sentences -->
+  <div class="mode-switch">
+    <button class="msbtn on" id="ms-words" onclick="switchMode('words')">🔤 Vocabulary Practice</button>
+    <button class="msbtn"    id="ms-sents" onclick="trySentMode()">💬 Sentence Practice <span id="sent-lock">🔒</span></button>
+  </div>
+  <!-- locked banner shown until vocab is done -->
+  <div id="locked-banner" style="background:#FEF3C7;border-radius:12px;padding:10px 14px;border:1.5px solid var(--gold);font-size:12px;font-weight:700;color:#7D5A00;display:flex;align-items:center;gap:8px">
+    🔒 <span>Finish <strong>Vocabulary Practice</strong> first — master all <strong id="lock-count">36</strong> words to unlock Sentence Practice!</span>
+    <span id="lock-progress" style="margin-left:auto;white-space:nowrap;font-size:11px">0 / 36</span>
+  </div>
+
+  <!-- ══ VOCABULARY MODE ══ -->
+  <div id="mode-words">
+    <div class="sec" style="margin-bottom:6px">🔤 All Theme Words — filter by category</div>
+    <div class="cattabs" style="margin-bottom:10px">
+      <div class="cattab on" onclick="filterCat('all',event)">🌍 All Words</div>
+      <div class="cattab" onclick="filterCat('right',event)">✊ Rights</div>
+      <div class="cattab" onclick="filterCat('verb',event)">🏃 Verbs</div>
+      <div class="cattab" onclick="filterCat('adj',event)">🌈 Adjectives</div>
+      <div class="cattab" onclick="filterCat('noun',event)">📍 Nouns</div>
+    </div>
+    <div class="wgrid" id="wgrid"></div>
+
+    <div class="sec" style="margin:4px 0 6px">🎮 Word Activities</div>
+    <div class="apanel">
+      <div class="ahead">
+        <div class="ahead-t" id="wah">Tap a word above to start</div>
+        <div class="ahead-b" id="wawl">— / —</div>
+      </div>
+      <div class="abody">
+        <div class="atabs">
+          <div class="atab on" onclick="switchWAct('listen')">👂 Listen &amp; Repeat</div>
+          <div class="atab" onclick="switchWAct('syl')">✂️ Syllable Tap</div>
+          <div class="atab" onclick="switchWAct('stress')">💥 Stress Quiz</div>
+        </div>
+        <div class="wnav">
+          <div class="narr" onclick="navW(-1)">◀</div>
+          <span class="wctr" id="wctr">— / —</span>
+          <div class="narr" onclick="navW(1)">▶</div>
+        </div>
+
+        <!-- listen -->
+        <div id="wa-listen">
+          <div class="lr-big"><div class="lr-disp" id="lrd"></div></div>
+          <div class="lr-ipa" id="lri"></div>
+          <div class="lr-tag" id="lrtag"></div>
+          <div class="btnrow">
+            <button class="ibtn" id="wpb" onclick="playItem('word')" title="Listen">🔊</button>
+            <button class="ibtn" id="wmb" onclick="tapMic('word')" title="Speak">🎤</button>
+          </div>
+          <div class="fbzone" id="wfbz">
+            <div class="sbar-wrap">
+              <div class="sbar-row"><span>Score</span><span id="wspc">0%</span></div>
+              <div class="sbar-track"><div class="sbar-fill" id="wsfl"></div></div>
+            </div>
+            <div id="wfbc"></div>
+          </div>
+        </div>
+
+        <!-- syllable tap -->
+        <div id="wa-syl" class="hidden">
+          <div class="tap-instr" id="wtapinstr"></div>
+          <div class="tap-word" id="wtapword"></div>
+          <div class="qres" id="wtapres"></div>
+          <div class="rowbtn"><button class="smbtn" onclick="buildWTap()">🔄 Reset</button></div>
+        </div>
+
+        <!-- stress quiz -->
+        <div id="wa-stress" class="hidden">
+          <div class="tap-instr">Which syllable is <strong style="color:var(--gold)">STRESSED?</strong></div>
+          <div class="sq-word" id="wsqword"></div>
+          <div class="sq-opts" id="wsqopts"></div>
+          <div class="qres" id="wsqres"></div>
+        </div>
+      </div>
+    </div>
+  </div><!-- /mode-words -->
+
+  <!-- ══ SENTENCE MODE ══ -->
+  <div id="mode-sents" class="hidden">
+    <div class="sec" style="margin-bottom:6px">💬 Lesson Sentences — Children's Day Theme</div>
+
+    <!-- sentence list -->
+    <div class="sent-list" id="sent-list"></div>
+
+    <!-- sentence activity panel -->
+    <div class="sec" style="margin:10px 0 6px">🎮 Sentence Activities</div>
+    <div class="apanel">
+      <div class="ahead">
+        <div class="ahead-t" id="sah">Tap a sentence above to start</div>
+        <div class="ahead-b" id="sawl">— / —</div>
+      </div>
+      <div class="abody">
+        <div class="atabs">
+          <div class="atab on" onclick="switchSAct('listen')">👂 Listen &amp; Repeat</div>
+          <div class="atab" onclick="switchSAct('chunk')">🔗 Chunk Practice</div>
+          <div class="atab" onclick="switchSAct('stress')">💥 Stress Quiz</div>
+        </div>
+        <div class="wnav">
+          <div class="narr" onclick="navS(-1)">◀</div>
+          <span class="wctr" id="sctr">— / —</span>
+          <div class="narr" onclick="navS(1)">▶</div>
+        </div>
+
+        <!-- listen full sentence -->
+        <div id="sa-listen">
+          <div class="lr-big"><div class="lr-sent" id="slrd"></div></div>
+          <div class="lr-ipa" id="slri"></div>
+          <div class="lr-obj" id="slrobj"></div>
+          <div class="btnrow">
+            <button class="ibtn" id="spb" onclick="playItem('sent')" title="Listen">🔊</button>
+            <button class="ibtn" id="smb" onclick="tapMic('sent')" title="Speak">🎤</button>
+          </div>
+          <div class="fbzone" id="sfbz">
+            <div class="sbar-wrap">
+              <div class="sbar-row"><span>Score</span><span id="sspc">0%</span></div>
+              <div class="sbar-track"><div class="sbar-fill" id="ssfl"></div></div>
+            </div>
+            <div id="sfbc"></div>
+          </div>
+        </div>
+
+        <!-- chunk practice -->
+        <div id="sa-chunk" class="hidden">
+          <div class="tap-instr">Tap each chunk to hear it, then say the full sentence 🎤</div>
+          <div class="chunks" id="schunks"></div>
+          <div class="lr-sent" id="schunk-full" style="text-align:center;margin:6px 0 10px;font-size:15px;color:var(--muted)"></div>
+          <div class="btnrow">
+            <button class="ibtn" id="scmb" onclick="tapMic('sent')" title="Say full sentence">🎤</button>
+          </div>
+          <div class="fbzone" id="scfbz">
+            <div class="sbar-wrap">
+              <div class="sbar-row"><span>Score</span><span id="scspc">0%</span></div>
+              <div class="sbar-track"><div class="sbar-fill" id="scsfl"></div></div>
+            </div>
+            <div id="scfbc"></div>
+          </div>
+        </div>
+
+        <!-- sentence stress quiz -->
+        <div id="sa-stress" class="hidden">
+          <div class="tap-instr">Tap the word that carries the main <strong style="color:var(--gold)">STRESS</strong> in this sentence</div>
+          <div class="sq-opts" id="ssqopts" style="flex-wrap:wrap;gap:6px;margin:10px 0"></div>
+          <div class="qres" id="ssqres"></div>
+        </div>
+      </div>
+    </div>
+  </div><!-- /mode-sents -->
+
+  <!-- REPEAT & WIN -->
+  <div class="rwpanel">
+    <div class="rwtop"><div class="rwtop-t">🏆 Repeat &amp; Win — Score 80% or more 5 times to earn a Trophy!</div></div>
+    <div class="rwbody">
+      <div class="scrow">
+        <div class="sc" id="sc0">1</div><div class="sc" id="sc1">2</div>
+        <div class="sc" id="sc2">3</div><div class="sc" id="sc3">4</div>
+        <div class="sc" id="sc4">5</div>
+      </div>
+      <div class="rwinfo" id="rwinfo">🎙️ Score 80% or more 5 times to unlock the Trophy!</div>
+      <div class="rwbtns">
+        <button class="rwbtn" onclick="tapMic(curMode==='words'?'word':'sent')">🎤 Try again (+XP)</button>
+        <button class="rwbtn" onclick="curMode==='words'?navW(1):navS(1)">➡️ Next</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<div class="overlay" id="overlay" onclick="closeRew()"></div>
+<div class="rpop" id="rpop">
+  <span class="rp-em" id="rpem">🏆</span>
+  <div class="rp-ti" id="rpti">Trophy!</div>
+  <div class="rp-su" id="rpsu">Amazing!</div>
+  <div class="rp-xp" id="rpxp">+50 XP</div><br>
+  <button class="rp-close" onclick="closeRew()">Keep Going →</button>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════
+// DATA — LESSON 1: CHILDREN'S DAY
+// Theme: children's rights + celebrations
+// Objective: "I have the right to..." + adjectives
+// ═══════════════════════════════════════════════
+
+const WORDS = [
+  // RIGHTS (Let's speak, p.125)
+  {w:'child',      cat:'right',syls:['child'],             st:0,ipa:'/ tʃaɪld /',         tag:'noun'},
+  {w:'children',   cat:'right',syls:['chil','dren'],       st:0,ipa:'/ ˈtʃɪl.drən /',     tag:'noun'},
+  {w:'right',      cat:'right',syls:['right'],             st:0,ipa:'/ raɪt /',            tag:'noun'},
+  {w:'health',     cat:'right',syls:['health'],            st:0,ipa:'/ hɛlθ /',            tag:'noun'},
+  {w:'education',  cat:'right',syls:['ed','u','ca','tion'],st:2,ipa:'/ ˌed.jʊˈkeɪ.ʃən /',tag:'noun'},
+  {w:'life',       cat:'right',syls:['life'],              st:0,ipa:'/ laɪf /',            tag:'noun'},
+  {w:'name',       cat:'right',syls:['name'],              st:0,ipa:'/ neɪm /',            tag:'noun'},
+  {w:'clothing',   cat:'right',syls:['cloth','ing'],       st:0,ipa:'/ ˈkləʊ.ðɪŋ /',      tag:'noun'},
+  {w:'home',       cat:'right',syls:['home'],              st:0,ipa:'/ həʊm /',            tag:'noun'},
+  {w:'love',       cat:'right',syls:['love'],              st:0,ipa:'/ lʌv /',             tag:'noun'},
+  {w:'care',       cat:'right',syls:['care'],              st:0,ipa:'/ keər /',            tag:'noun'},
+  {w:'play',       cat:'right',syls:['play'],              st:0,ipa:'/ pleɪ /',            tag:'noun/verb'},
+  // VERBS (Language support, p.127)
+  {w:'celebrate',  cat:'verb', syls:['cel','e','brate'],   st:0,ipa:'/ ˈsel.ɪ.breɪt /',  tag:'verb'},
+  {w:'enjoy',      cat:'verb', syls:['en','joy'],          st:1,ipa:'/ ɪnˈdʒɔɪ /',       tag:'verb'},
+  {w:'dance',      cat:'verb', syls:['dance'],             st:0,ipa:'/ dɑːns /',          tag:'verb'},
+  {w:'sing',       cat:'verb', syls:['sing'],              st:0,ipa:'/ sɪŋ /',            tag:'verb'},
+  {w:'draw',       cat:'verb', syls:['draw'],              st:0,ipa:'/ drɔː /',           tag:'verb'},
+  {w:'eat',        cat:'verb', syls:['eat'],               st:0,ipa:'/ iːt /',            tag:'verb'},
+  {w:'drink',      cat:'verb', syls:['drink'],             st:0,ipa:'/ drɪŋk /',          tag:'verb'},
+  {w:'colour',     cat:'verb', syls:['col','our'],         st:0,ipa:'/ ˈkʌl.ər /',       tag:'verb/noun'},
+  // ADJECTIVES (Language support, p.127)
+  {w:'happy',      cat:'adj',  syls:['hap','py'],          st:0,ipa:'/ ˈhæp.i /',        tag:'adjective'},
+  {w:'funny',      cat:'adj',  syls:['fun','ny'],          st:0,ipa:'/ ˈfʌn.i /',        tag:'adjective'},
+  {w:'nice',       cat:'adj',  syls:['nice'],              st:0,ipa:'/ naɪs /',           tag:'adjective'},
+  {w:'lovely',     cat:'adj',  syls:['love','ly'],         st:0,ipa:'/ ˈlʌv.li /',       tag:'adjective'},
+  {w:'kind',       cat:'adj',  syls:['kind'],              st:0,ipa:'/ kaɪnd /',          tag:'adjective'},
+  {w:'wonderful',  cat:'adj',  syls:['won','der','ful'],   st:0,ipa:'/ ˈwʌn.də.fʊl /',  tag:'adjective'},
+  {w:'beautiful',  cat:'adj',  syls:['beau','ti','ful'],   st:0,ipa:'/ ˈbjuː.tɪ.fʊl /',tag:'adjective'},
+  {w:'great',      cat:'adj',  syls:['great'],             st:0,ipa:'/ ɡreɪt /',         tag:'adjective'},
+  // NOUNS (Language support, p.127)
+  {w:'park',       cat:'noun', syls:['park'],              st:0,ipa:'/ pɑːk /',           tag:'noun'},
+  {w:'restaurant', cat:'noun', syls:['res','tau','rant'],  st:0,ipa:'/ ˈres.tɒ.rɒnt /',  tag:'noun'},
+  {w:'school',     cat:'noun', syls:['school'],            st:0,ipa:'/ skuːl /',          tag:'noun'},
+  {w:'parents',    cat:'noun', syls:['par','ents'],        st:0,ipa:'/ ˈpeər.ənts /',    tag:'noun'},
+  {w:'family',     cat:'noun', syls:['fam','i','ly'],      st:0,ipa:'/ ˈfæm.ɪ.li /',    tag:'noun'},
+  {w:'classmates', cat:'noun', syls:['class','mates'],     st:0,ipa:'/ ˈklɑːs.meɪts /', tag:'noun'},
+  {w:'teachers',   cat:'noun', syls:['teach','ers'],       st:0,ipa:'/ ˈtiː.tʃəz /',    tag:'noun'},
+  {w:'classmate',  cat:'noun', syls:['class','mate'],      st:0,ipa:'/ ˈklɑːs.meɪt /',  tag:'noun'},
+];
+
+// ── SENTENCES ────────────────────────────────────────────
+// Theme: children's rights + celebrating Children's Day
+// Grammar: "have/has the right to + verb" (Let's complete the rule, p.126)
+//          adjectives to describe feelings/places (Language support, p.127)
+// ─────────────────────────────────────────────────────────
+const SENTS = [
+  {
+    id:0,
+    plain: 'Every child has the right to education.',
+    // chunks for chunk practice (tap each part)
+    chunks: ['Every child','has the right','to edu-ca-tion.'],
+    // html for display — SW = stressed word
+    html: 'Every <span class="SW">child</span> has the <span class="SW">right</span> to <span class="SW">ed</span>-u-ca-tion.',
+    ipa: '/ ˈev.ri tʃaɪld hæz ðə raɪt tə ˌed.jʊˈkeɪ.ʃən /',
+    obj: '✊ Rights — "has the right to"',
+    // key stressed word for the quiz
+    stressWord: 'education',
+    stressOpts: ['every','child','right','education'],
+    stressAns: 3,
+    tip: 'education has 4 syllables: ed·u·CA·tion — stress is on CA!'
+  },
+  {
+    id:1,
+    plain: 'I have the right to love and care.',
+    chunks: ['I have the right','to love','and care.'],
+    html: 'I have the <span class="SW">right</span> to <span class="SW">love</span> and <span class="SW">care</span>.',
+    ipa: '/ aɪ hæv ðə raɪt tə lʌv ænd keər /',
+    obj: '✊ Rights — "have the right to"',
+    stressWord: 'right',
+    stressOpts: ['have','right','love','care'],
+    stressAns: 1,
+    tip: 'In this sentence, "right", "love" and "care" are all key content words — they carry the meaning!'
+  },
+  {
+    id:2,
+    plain: 'I like Children\'s Day because it is wonderful.',
+    chunks: ['I like','Children\'s Day','because it is','won-der-ful.'],
+    html: 'I <span class="SW">like</span> Children\'s <span class="SW">Day</span> because it is <span class="SW">won</span>-der-ful.',
+    ipa: '/ aɪ laɪk ˈtʃɪldrənz deɪ bɪˈkɒz ɪt ɪz ˈwʌndəfʊl /',
+    obj: '🌈 Adjective — describe your feelings about Children\'s Day',
+    stressWord: 'wonderful',
+    stressOpts: ['like','Day','because','wonderful'],
+    stressAns: 3,
+    tip: 'wonderful = WON·der·ful — stress is on the first syllable!'
+  },
+  {
+    id:3,
+    plain: 'On Children\'s Day, we sing, dance and eat together.',
+    chunks: ['On Children\'s Day,','we sing,','dance','and eat','to-geth-er.'],
+    html: 'On Children\'s Day, we <span class="SW">sing</span>, <span class="SW">dance</span> and <span class="SW">eat</span> to-geth-er.',
+    ipa: '/ ɒn ˈtʃɪldrənz deɪ wiː sɪŋ dɑːns ænd iːt təˈɡeðər /',
+    obj: '🏃 Verbs — list celebration activities',
+    stressWord: 'eat',
+    stressOpts: ['sing','dance','eat','together'],
+    stressAns: 2,
+    tip: 'Verbs in a list all get stress: SING, DANCE and EAT — say each one clearly!'
+  },
+  {
+    id:4,
+    plain: 'He has the right to play at the park.',
+    chunks: ['He has the right','to play','at the park.'],
+    html: 'He has the <span class="SW">right</span> to <span class="SW">play</span> at the <span class="SW">park</span>.',
+    ipa: '/ hiː hæz ðə raɪt tə pleɪ æt ðə pɑːk /',
+    obj: '✊ Rights — "has the right to" (he/she/it)',
+    stressWord: 'play',
+    stressOpts: ['right','play','at','park'],
+    stressAns: 1,
+    tip: '"has" is used with He/She/It — remember: he HAS, I HAVE!'
+  },
+  {
+    id:5,
+    plain: 'My classmates are kind and lovely.',
+    chunks: ['My class-mates','are kind','and love-ly.'],
+    html: 'My <span class="SW">class</span>-mates are <span class="SW">kind</span> and <span class="SW">love</span>-ly.',
+    ipa: '/ maɪ ˈklɑːsmeɪts ɑː kaɪnd ænd ˈlʌvli /',
+    obj: '🌈 Adjectives — describe people at school',
+    stressWord: 'kind',
+    stressOpts: ['classmates','are','kind','lovely'],
+    stressAns: 2,
+    tip: 'Adjectives carry strong stress — KIND and LOVEly describe how your classmates are!'
+  },
+];
+
+// ═══════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════
+let visWords  = [...WORDS];
+let wIdx      = 0;
+let sIdx      = 0;
+let curMode   = 'words';
+let curWAct   = 'listen';
+let curSAct   = 'listen';
+let masteredW = new Set();
+let masteredS = new Set();
+let streak    = 0;
+let xp=0,stars=0,gems=0,fire=0;
+let tapSt     = {tapped:0,phase:1,done:false};
+let recTmr    = null;
+let isRec     = false;
+
+// ═══════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════
+function init(){
+  filterCat('all',{target:document.querySelectorAll('.cattab')[0]});
+  buildSentList();
+  renderSAct();
+  updateLockUI();
+}
+
+// ═══════════════════════════════════════════════
+// LOCK / UNLOCK LOGIC
+// ═══════════════════════════════════════════════
+function isVocabComplete(){
+  return masteredW.size >= WORDS.length;
+}
+
+function updateLockUI(){
+  const done = masteredW.size;
+  const total = WORDS.length;
+  const unlocked = done >= total;
+  // update progress text in banner
+  document.getElementById('lock-progress').textContent = done + ' / ' + total;
+  document.getElementById('lock-count').textContent = total;
+  // hide/show banner
+  document.getElementById('locked-banner').style.display = unlocked ? 'none' : 'flex';
+  // update lock icon on button
+  document.getElementById('sent-lock').textContent = unlocked ? '✅' : '🔒';
+  // style the sentence button
+  const sentBtn = document.getElementById('ms-sents');
+  sentBtn.style.opacity = unlocked ? '1' : '0.5';
+}
+
+function trySentMode(){
+  if(isVocabComplete()){
+    switchMode('sents');
+  } else {
+    // shake the banner to draw attention
+    const banner = document.getElementById('locked-banner');
+    banner.style.animation = 'none';
+    banner.offsetHeight; // reflow
+    banner.style.animation = 'shakebanner .4s ease';
+    banner.scrollIntoView({behavior:'smooth', block:'nearest'});
+  }
+}
+
+// ═══════════════════════════════════════════════
+// MODE SWITCH
+// ═══════════════════════════════════════════════
+function switchMode(m){
+  curMode=m;
+  document.getElementById('mode-words').classList.toggle('hidden',m!=='words');
+  document.getElementById('mode-sents').classList.toggle('hidden',m!=='sents');
+  document.getElementById('ms-words').classList.toggle('on',m==='words');
+  document.getElementById('ms-sents').classList.toggle('on',m==='sents');
+}
+
+// ═══════════════════════════════════════════════
+// WORD GRID
+// ═══════════════════════════════════════════════
+function filterCat(cat,e){
+  document.querySelectorAll('.cattab').forEach(t=>t.classList.remove('on'));
+  if(e&&e.target) e.target.classList.add('on');
+  visWords=cat==='all'?[...WORDS]:WORDS.filter(w=>w.cat===cat);
+  wIdx=0; buildGrid(); renderWAct();
+}
+
+function buildGrid(){
+  const g=document.getElementById('wgrid'); g.innerHTML='';
+  visWords.forEach((w,wi)=>{
+    const ri=WORDS.indexOf(w);
+    const c=document.createElement('div');
+    c.className='wcard'+(wi===wIdx?' sel':'')+(masteredW.has(ri)?' done':'');
+    c.onclick=()=>{wIdx=wi;buildGrid();renderWAct();};
+    let sb=masteredW.has(ri)?'<div class="cst cs-ok">✓</div>':wi===wIdx?'<div class="cst cs-cur">!</div>':'';
+    let sr='<div class="wsyls">';
+    w.syls.forEach((s,si)=>{if(si>0)sr+='<span class="sydot">·</span>';sr+=`<span class="sy${si===w.st?' ST':''}">${s}</span>`;});
+    sr+='</div>';
+    const tc={right:'tg-r',verb:'tg-v',adj:'tg-a',noun:'tg-n'}[w.cat]||'tg-n';
+    c.innerHTML=`${sb}${sr}<div class="wipa">${w.ipa}</div><span class="wtag ${tc}">${w.tag}</span>`;
+    g.appendChild(c);
+  });
+}
+
+// ═══════════════════════════════════════════════
+// WORD ACTIVITY
+// ═══════════════════════════════════════════════
+function renderWAct(){
+  if(!visWords.length) return;
+  const w=visWords[wIdx];
+  document.getElementById('wawl').textContent=`${wIdx+1} / ${visWords.length}`;
+  document.getElementById('wctr').textContent=`${wIdx+1} / ${visWords.length}`;
+  document.getElementById('wah').textContent=w.w;
+  const sh=w.syls.map((s,si)=>si===w.st?`<span class="S">${s.toUpperCase()}</span>`:s)
+    .join('<span style="font-size:16px;color:#ccc;margin:0 2px">·</span>');
+  document.getElementById('lrd').innerHTML=sh;
+  document.getElementById('lri').textContent=w.ipa;
+  document.getElementById('lrtag').textContent=w.tag;
+  document.getElementById('wfbz').classList.remove('on');
+  resetMicBtn('wmb');
+  buildWTap(); buildWSQ();
+}
+
+function buildWTap(){
+  if(!visWords.length) return;
+  const w=visWords[wIdx]; tapSt={tapped:0,phase:1,done:false};
+  const ctr=document.getElementById('wtapword'); ctr.innerHTML='';
+  document.getElementById('wtapres').textContent='';
+  const n=w.syls.length;
+  const instr=document.getElementById('wtapinstr');
+  instr.innerHTML=n===1?'This word has <strong style="color:var(--blue)">1 syllable</strong> — tap it!':
+    `Tap all <strong style="color:var(--blue)">${n} syllables</strong> in order → then tap the <strong style="color:var(--gold)">stressed</strong> one`;
+  w.syls.forEach((s,si)=>{
+    const b=document.createElement('div');
+    b.className='stap'+(si===w.st?' str':'');
+    b.textContent=s;b.id=`wtp${si}`;
+    b.onclick=()=>handleWTap(si,w,n);
+    ctr.appendChild(b);
+  });
+}
+
+function handleWTap(si,w,n){
+  if(tapSt.done) return;
+  const btn=document.getElementById(`wtp${si}`);
+  const res=document.getElementById('wtapres');
+  if(tapSt.phase===1){
+    if(si!==tapSt.tapped){res.textContent='⚠️ Tap in order!';res.className='qres qr-no';return;}
+    btn.classList.add('tpd');tapSt.tapped++;
+    if(tapSt.tapped===n){
+      if(n===1){tapSt.done=true;res.textContent='🌟 Correct!';res.className='qres qr-ok';addXPG(15,1);masteredW.add(WORDS.indexOf(visWords[wIdx]));buildGrid();updateLockUI();}
+      else{tapSt.phase=2;res.innerHTML='✅ Now tap the <strong style="color:var(--gold)">STRESSED</strong> syllable!';res.className='qres qr-ok';}
+    } else res.textContent='';
+  } else {
+    tapSt.done=true;
+    if(si===w.st){
+      btn.style.cssText='background:var(--green);border-color:var(--green);color:#fff';
+      res.textContent='🌟 Perfect!';res.className='qres qr-ok';
+      addXPG(20,1);masteredW.add(WORDS.indexOf(visWords[wIdx]));buildGrid();updateLockUI();
+    } else {
+      btn.style.cssText='background:var(--red-l);border-color:var(--red)';
+      document.getElementById(`wtp${w.st}`).style.cssText='background:var(--green);border-color:var(--green);color:#fff';
+      res.textContent=`❌ Stressed: "${w.syls[w.st].toUpperCase()}"`;res.className='qres qr-no';addXPG(5,0);
+    }
+  }
+}
+
+function buildWSQ(){
+  if(!visWords.length) return;
+  const w=visWords[wIdx];
+  document.getElementById('wsqword').textContent=w.w;
+  document.getElementById('wsqres').textContent='';
+  const opts=document.getElementById('wsqopts');opts.innerHTML='';
+  w.syls.forEach((s,si)=>{
+    const b=document.createElement('button');b.className='sqb';b.textContent=s.toUpperCase();
+    b.onclick=()=>{
+      opts.querySelectorAll('.sqb').forEach(x=>x.onclick=null);
+      const res=document.getElementById('wsqres');
+      if(si===w.st){b.classList.add('ok');res.textContent='🌟 Correct!';res.className='qres qr-ok';addXPG(15,1);masteredW.add(WORDS.indexOf(visWords[wIdx]));buildGrid();updateLockUI();}
+      else{b.classList.add('no');opts.querySelectorAll('.sqb')[w.st].classList.add('ok');res.textContent=`❌ Stressed: "${w.syls[w.st].toUpperCase()}"`;res.className='qres qr-no';addXPG(5,0);}
+    };
+    opts.appendChild(b);
+  });
+}
+
+function navW(dir){
+  if(!visWords.length)return;
+  wIdx=(wIdx+dir+visWords.length)%visWords.length;
+  buildGrid();renderWAct();
+  document.querySelector('#mode-words .apanel').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function switchWAct(name){
+  curWAct=name;
+  ['listen','syl','stress'].forEach(a=>document.getElementById(`wa-${a}`).classList.toggle('hidden',a!==name));
+  document.querySelectorAll('#mode-words .atab').forEach((t,i)=>t.classList.toggle('on',['listen','syl','stress'][i]===name));
+}
+
+// ═══════════════════════════════════════════════
+// SENTENCE LIST
+// ═══════════════════════════════════════════════
+function buildSentList(){
+  const list=document.getElementById('sent-list');list.innerHTML='';
+  SENTS.forEach((s,i)=>{
+    const card=document.createElement('div');
+    card.className='sent-card'+(i===sIdx?' sel':'')+(masteredS.has(i)?' done':'');
+    card.onclick=()=>{sIdx=i;buildSentList();renderSAct();};
+    let sb=masteredS.has(i)?'<div class="cst cs-ok" style="position:static;margin-left:auto">✓</div>':
+           i===sIdx?'<div class="cst cs-cur" style="position:static;margin-left:auto">!</div>':'<div style="width:17px"></div>';
+    card.innerHTML=`
+      <div class="sent-top">
+        <div class="sent-num">${i+1}</div>
+        <div class="sent-body">
+          <div class="sent-txt">${s.html}</div>
+          <div class="sent-ipa">${s.ipa}</div>
+          <span class="sent-obj">${s.obj}</span>
+        </div>
+        ${sb}
+      </div>`;
+    list.appendChild(card);
+  });
+}
+
+// ═══════════════════════════════════════════════
+// SENTENCE ACTIVITY
+// ═══════════════════════════════════════════════
+function renderSAct(){
+  const s=SENTS[sIdx];
+  document.getElementById('sawl').textContent=`${sIdx+1} / ${SENTS.length}`;
+  document.getElementById('sctr').textContent=`${sIdx+1} / ${SENTS.length}`;
+  document.getElementById('sah').textContent=`Sentence ${sIdx+1}`;
+  // listen tab
+  document.getElementById('slrd').innerHTML=s.html;
+  document.getElementById('slri').textContent=s.ipa;
+  document.getElementById('slrobj').textContent=s.obj;
+  document.getElementById('sfbz').classList.remove('on');
+  resetMicBtn('smb');
+  // chunk tab
+  buildChunks(s);
+  // stress quiz
+  buildSSQ(s);
+}
+
+function buildChunks(s){
+  const ctr=document.getElementById('schunks');ctr.innerHTML='';
+  document.getElementById('schunk-full').innerHTML=s.html;
+  document.getElementById('scfbz').classList.remove('on');
+  resetMicBtn('scmb');
+  s.chunks.forEach((ch,ci)=>{
+    const b=document.createElement('div');
+    b.className='chunk-btn';b.textContent=ch;
+    b.onclick=()=>{
+      document.querySelectorAll('.chunk-btn').forEach(x=>x.classList.remove('playing'));
+      b.classList.add('playing');
+      speakText(ch);
+      setTimeout(()=>b.classList.remove('playing'),1200);
+    };
+    ctr.appendChild(b);
+  });
+}
+
+function buildSSQ(s){
+  const opts=document.getElementById('ssqopts');opts.innerHTML='';
+  document.getElementById('ssqres').textContent='';
+  s.stressOpts.forEach((opt,oi)=>{
+    const b=document.createElement('button');
+    b.className='sqb';b.textContent=opt;
+    b.onclick=()=>{
+      opts.querySelectorAll('.sqb').forEach(x=>x.onclick=null);
+      const res=document.getElementById('ssqres');
+      if(oi===s.stressAns){
+        b.classList.add('ok');
+        res.textContent='🌟 Correct! '+s.tip;res.className='qres qr-ok';
+        addXPG(15,1);masteredS.add(sIdx);buildSentList();
+      } else {
+        b.classList.add('no');
+        opts.querySelectorAll('.sqb')[s.stressAns].classList.add('ok');
+        res.textContent='❌ The key stressed word is "'+s.stressWord+'" — '+s.tip;
+        res.className='qres qr-no';addXPG(5,0);
+      }
+    };
+    opts.appendChild(b);
+  });
+}
+
+function navS(dir){
+  sIdx=(sIdx+dir+SENTS.length)%SENTS.length;
+  buildSentList();renderSAct();
+  document.querySelector('#mode-sents .apanel').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function switchSAct(name){
+  curSAct=name;
+  ['listen','chunk','stress'].forEach(a=>document.getElementById(`sa-${a}`).classList.toggle('hidden',a!==name));
+  document.querySelectorAll('#mode-sents .atab').forEach((t,i)=>t.classList.toggle('on',['listen','chunk','stress'][i]===name));
+}
+
+// ═══════════════════════════════════════════════
+// TTS — speak any text in British English
+// ═══════════════════════════════════════════════
+function speakText(txt, rate){
+  if(!('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(txt);
+  u.lang = 'en-GB'; u.rate = rate||0.78; u.pitch = 1.05;
+  window.speechSynthesis.speak(u);
+}
+function playItem(type){
+  if(type==='word' && visWords.length) speakText(visWords[wIdx].w);
+  else if(type==='sent') speakText(SENTS[sIdx].plain);
+}
+
+// ═══════════════════════════════════════════════
+// VOICE FEEDBACK — spoken after recording
+// ═══════════════════════════════════════════════
+const VOICE_FB = [
+  { min:90, phrase:'Perfect! You sound like a native speaker!' },
+  { min:75, phrase:'Great job!'                                },
+  { min:60, phrase:'Good try. Focus on the stressed syllable.' },
+  { min:40, phrase:'Try again. Listen carefully and repeat.'   },
+  { min:0,  phrase:'Keep going. Every attempt makes you stronger.' },
+];
+
+// Short musical tone using Web Audio API
+function playTone(cb){
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(880, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(1320, ctx.currentTime + 0.12);
+    gain.gain.setValueAtTime(0.18, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + 0.35);
+    osc.onended = () => { ctx.close(); if(cb) cb(); };
+  } catch(e){ if(cb) cb(); }
+}
+
+function speakFeedback(score){
+  const vf = VOICE_FB.find(v => score >= v.min) || VOICE_FB[VOICE_FB.length-1];
+  // tone first, then voice 350ms later
+  playTone(() => {
+    setTimeout(() => speakText(vf.phrase, 0.9), 350);
+  });
+}
+
+// ═══════════════════════════════════════════════
+// MIC
+// ═══════════════════════════════════════════════
+function resetMicBtn(id){
+  isRec = false; clearTimeout(recTmr);
+  const b = document.getElementById(id);
+  if(b){ b.classList.remove('rec'); b.textContent = '🎤'; }
+}
+
+function tapMic(type){
+  if(isRec) return;
+  const btnId = type==='word' ? 'wmb' : curSAct==='chunk' ? 'scmb' : 'smb';
+  const btn = document.getElementById(btnId);
+  if(!btn) return;
+  isRec = true; btn.classList.add('rec'); btn.textContent = '⏺';
+  recTmr = setTimeout(() => {
+    isRec = false; btn.classList.remove('rec'); btn.textContent = '🎤';
+    // realistic score distribution — weighted around 55–95
+    const score = Math.floor(Math.random() * 42) + 54;
+    showFeedback(type, score);
+  }, 2200);
+}
+
+// ═══════════════════════════════════════════════
+// FEEDBACK — score-based advancement
+// THRESHOLD: 80% to master and advance
+// ═══════════════════════════════════════════════
+const MASTER_THRESHOLD = 80;
+
+const FBL = [
+  { min:90, cls:'sf-gr', ti:'Perfect!',   msg:'You sound like a native speaker!', xp:30, gem:2, tip:null },
+  { min:75, cls:'sf-gr', ti:'Great job!', msg:'Really well done! Keep it up.',     xp:20, gem:1, tip:null },
+  { min:60, cls:'sf-go', ti:'Good try!',  msg:'Almost! Focus on the stressed syllable.', xp:10, gem:0,
+    tip:'Say the stressed syllable LOUDER and hold it a little longer.' },
+  { min:40, cls:'sf-ok', ti:'Try again!', msg:'Listen again, then speak.',          xp:5,  gem:0,
+    tip:'Use Syllable Tap first to break the word apart.' },
+  { min:0,  cls:'sf-lo', ti:'Keep going!',msg:'Every attempt makes you stronger!', xp:2,  gem:0,
+    tip:'Listen 3 times before speaking.' },
+];
+
+function showFeedback(type, score){
+  const isWord = type === 'word';
+
+  // ids for the right panel
+  const fzId   = isWord ? 'wfbz'   : curSAct==='chunk' ? 'scfbz' : 'sfbz';
+  const fillId  = isWord ? 'wsfl'   : curSAct==='chunk' ? 'scsfl' : 'ssfl';
+  const pctId   = isWord ? 'wspc'   : curSAct==='chunk' ? 'scspc' : 'sspc';
+  const fbId    = isWord ? 'wfbc'   : curSAct==='chunk' ? 'scfbc' : 'sfbc';
+
+  // show zone
+  document.getElementById(fzId).classList.add('on');
+  const fill = document.getElementById(fillId);
+  const pct  = document.getElementById(pctId);
+  fill.style.width = '0%'; pct.textContent = '0%'; fill.className = 'sbar-fill';
+
+  const lv = FBL.find(l => score >= l.min) || FBL[FBL.length-1];
+  fill.classList.add(lv.cls);
+  setTimeout(() => { fill.style.width = score+'%'; pct.textContent = score+'%'; }, 80);
+
+  // feedback card — no emoji in the text card
+  const passed = score >= MASTER_THRESHOLD;
+  let h = `<div class="fbc ${passed ? 'fbc-gr' : 'fbc-wa'}">
+    <div class="fbi">${passed ? '✅' : '↩️'}</div>
+    <div><strong>${lv.ti}</strong> — <b>${score}%</b>. ${lv.msg}
+    ${!passed ? '<br><span style="font-size:11px;color:var(--muted)">Score 80% or more to advance.</span>' : ''}
+    </div></div>`;
+  if(lv.tip && !passed)
+    h += `<div class="fbc fbc-ti"><div class="fbi">💡</div><div>${lv.tip}</div></div>`;
+  document.getElementById(fbId).innerHTML = h;
+
+  // XP always
+  addXPG(lv.xp, lv.gem);
+
+  // speak voice feedback (tone + voice)
+  speakFeedback(score);
+
+  // ── SCORE-BASED ADVANCEMENT ──
+  if(passed){
+    if(isWord){
+      // mark mastered
+      const ri = WORDS.indexOf(visWords[wIdx]);
+      masteredW.add(ri); buildGrid(); updateLockUI();
+
+      // streak only on success
+      addStreak();
+
+      // auto-advance to next word after 2.4s
+      const nextIdx = (wIdx + 1) % visWords.length;
+      const alreadyAllDone = masteredW.size >= WORDS.length;
+      if(!alreadyAllDone){
+        setTimeout(() => {
+          wIdx = nextIdx; buildGrid(); renderWAct();
+          document.querySelector('#mode-words .apanel')
+            .scrollIntoView({behavior:'smooth', block:'nearest'});
+        }, 2400);
+      } else {
+        // all vocabulary mastered → unlock + celebrate
+        setTimeout(() => {
+          showRew('🎉','Vocabulary Complete!',
+            'All words mastered! Sentence Practice is now unlocked! 💬','+100 XP');
+          addXPG(100, 5);
+        }, 600);
+      }
+    } else {
+      // sentence mastered
+      masteredS.add(sIdx); buildSentList();
+      addStreak();
+      // auto-advance to next sentence after 2.4s
+      const nextSIdx = (sIdx + 1) % SENTS.length;
+      setTimeout(() => {
+        sIdx = nextSIdx; buildSentList(); renderSAct();
+        document.querySelector('#mode-sents .apanel')
+          .scrollIntoView({behavior:'smooth', block:'nearest'});
+      }, 2400);
+    }
+  }
+  // if failed: stay on same word/sentence — student retries
+}
+
+// ═══════════════════════════════════════════════
+// XP / STREAK / REWARDS
+// streak only counts successful attempts (≥ 80%)
+// ═══════════════════════════════════════════════
+function addXPG(xpA, gmA){
+  xp = Math.min(xp + xpA, 100); gems += gmA;
+  if(xpA >= 15) stars++;
+  document.getElementById('xpf').style.width = xp + '%';
+  document.getElementById('xpn').textContent = xp + ' / 100';
+  document.getElementById('g-stars').textContent = stars;
+  document.getElementById('g-gems').textContent  = gems;
+  if(xp >= 100){
+    setTimeout(() => showRew('🎉','Level Up!','Next level reached!','+LEVEL'), 700);
+    xp = 0;
+  }
+}
+
+function addStreak(){
+  if(streak >= 5) streak = 0;
+  document.getElementById(`sc${streak}`).classList.add('lit');
+  streak++; fire++;
+  document.getElementById('g-fire').textContent = fire;
+  const left = 5 - streak;
+  const info = document.getElementById('rwinfo');
+  if(streak >= 5){
+    document.getElementById('sc4').classList.add('perf');
+    info.textContent = '🏆 Trophy unlocked!';
+    setTimeout(() => showRew('🏆','Trophy Unlocked!',
+      'You scored 80%+ five times in a row!','+50 XP'), 400);
+    addXPG(50, 3); streak = 0;
+    setTimeout(() => {
+      for(let i=0;i<5;i++) document.getElementById(`sc${i}`).className='sc';
+      info.textContent = '🎙️ Score 80% or more 5 times to unlock the Trophy!';
+    }, 3500);
+  } else {
+    info.textContent = `🎙️ ${left} more success${left!==1?'es':''} to unlock the Trophy!`;
+  }
+}
+
+function showRew(em,ti,su,xpt){
+  document.getElementById('rpem').textContent = em;
+  document.getElementById('rpti').textContent = ti;
+  document.getElementById('rpsu').textContent = su;
+  document.getElementById('rpxp').textContent = xpt;
+  document.getElementById('rpop').classList.add('on');
+  document.getElementById('overlay').classList.add('on');
+}
+function closeRew(){
+  document.getElementById('rpop').classList.remove('on');
+  document.getElementById('overlay').classList.remove('on');
+}
+
+init();
+</script>
+</body>
+</html>

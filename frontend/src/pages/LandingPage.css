@@ -1,0 +1,64 @@
+/* P1 — Landing Page CSS */
+/* Shared styles (.pd-container, .pd-bg) live in src/styles/index.css */
+
+
+.landing-slogan {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  text-align: center;
+  font-family: 'Baloo 2', system-ui, sans-serif;
+  font-size: 3.5rem;
+  font-weight: 900;
+  color: #FFE066; /* yellow */
+  -webkit-text-stroke: 3px black; /* embossed/outlined in black */
+  text-shadow: 4px 4px 0px black, 8px 8px 12px rgba(0,0,0,0.6);
+  z-index: 20;
+  line-height: 1.2;
+}
+
+.landing-buttons-wrapper {
+  position: absolute;
+  bottom: 20%; /* Raised slightly compared to old 8% */
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 20px; /* Small gap between them */
+  z-index: 20;
+}
+
+.btn-p1-login, .btn-p1-signup {
+  padding: 12px 35px; /* Smaller than before (was 18px 45px) */
+  font-size: 1.2rem; /* Smaller than before (was 1.5rem) */
+  font-weight: 900;
+  border-radius: 50px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 6px 0 rgba(0,0,0,0.15), 0 12px 20px rgba(0,0,0,0.2);
+  border: 4px solid #fff;
+  cursor: pointer;
+}
+
+.btn-p1-login {
+  background: linear-gradient(135deg, #48DBFB 0%, #0984e3 100%); /* Blue */
+  color: white;
+}
+
+.btn-p1-signup {
+  background: linear-gradient(135deg, #1dd1a1 0%, #10ac84 100%); /* Green */
+  color: white;
+}
+
+.btn-p1-login:hover, .btn-p1-signup:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 10px 0 rgba(0,0,0,0.15), 0 16px 25px rgba(0,0,0,0.3);
+}
+
+.btn-p1-login:active, .btn-p1-signup:active {
+  transform: translateY(3px);
+  box-shadow: 0 3px 0 rgba(0,0,0,0.15), 0 6px 12px rgba(0,0,0,0.2);
+}

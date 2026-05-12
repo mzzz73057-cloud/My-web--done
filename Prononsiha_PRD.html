@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prononsiha PRD</title>
+<style>
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  h1, h2, h3 {
+    color: #2c3e50;
+  }
+  h1 {
+    border-bottom: 2px solid #eee;
+    padding-bottom: 0.5rem;
+  }
+  h2 {
+    margin-top: 2rem;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.3rem;
+  }
+  code {
+    background-color: #f8f9fa;
+    padding: 0.2rem 0.4rem;
+    border-radius: 3px;
+    font-family: monospace;
+    font-size: 0.9em;
+  }
+  pre {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: 5px;
+    overflow-x: auto;
+  }
+  pre code {
+    background-color: transparent;
+    padding: 0;
+  }
+  ul {
+    padding-left: 1.5rem;
+  }
+</style>
+</head>
+<body>
+
+<h1>Prononsiha: Gamified English Fluency Platform</h1>
+
+<h2>1. Product Requirements Document (PRD)</h2>
+
+<h3>Project Overview</h3>
+<p>Prononsiha is a comprehensive, gamified web platform designed to help non-native English speakers—particularly young learners—improve their English pronunciation and fluency. The platform blends structured educational modules (units and lessons) with interactive mechanics like voice recognition, vocabulary sorting, and reward systems (stars, diamonds, fires) to maximize engagement and learning retention.</p>
+
+<h3>Target Users</h3>
+<ul>
+  <li><strong>Primary Users (Students):</strong> Young learners who need an engaging, interactive environment to practice English speaking and pronunciation without the pressure of a traditional classroom setting.</li>
+  <li><strong>Secondary Users (Teachers/Administrators):</strong> Educators who monitor progress, assign specific modules, and rely on the platform as a supplemental teaching tool.</li>
+</ul>
+
+<h3>User Personas</h3>
+<ul>
+  <li><strong>Leo the Learner (Age 8):</strong> Gets bored easily with traditional textbooks. Loves playing web games. Needs immediate, encouraging feedback to build confidence in speaking English.</li>
+  <li><strong>Ms. Sarah (Teacher):</strong> Needs a reliable platform to send her students to for pronunciation homework. She values a clear curriculum structure (Units -> Lessons) and accessible progress indicators.</li>
+</ul>
+
+<h3>Core Features</h3>
+<ul>
+  <li><strong>Structured Curriculum:</strong> Courses are divided into Grades, Units, and Lessons.</li>
+  <li><strong>Interactive Voice Assessment:</strong> Uses speech-to-text with a configured confidence threshold (e.g., 70%) to evaluate student pronunciation accuracy.</li>
+  <li><strong>Gamified "Game Space":</strong> Each lesson features a dedicated interactive game (e.g., "Total Darkness" spotlight reveal mechanic, phonics sorting) to test knowledge.</li>
+  <li><strong>Reward System:</strong> Visual feedback mechanisms including stars for completion, fires for streaks, and diamonds for perfect scores.</li>
+  <li><strong>Practice Mode:</strong> A low-pressure area for students to practice vocabulary freely outside of graded lessons.</li>
+  <li><strong>Role-based Access:</strong> Differentiated experiences and access limits for students vs. teachers.</li>
+</ul>
+
+<h3>User Stories</h3>
+<ul>
+  <li><em>As a student</em>, I want to click a floating "Game" button in my lesson so I can immediately apply the vocabulary I just learned in a fun way.</li>
+  <li><em>As a student</em>, I want the system to understand my voice even if my pronunciation isn't 100% perfect, so I don't get frustrated.</li>
+  <li><em>As a teacher</em>, I want a secure login system so that student data and progress remain private.</li>
+</ul>
+
+<h3>Functional Requirements</h3>
+<ul>
+  <li>The system must capture microphone input and process it using the Web Speech API.</li>
+  <li>The system must route users through a hierarchical path: Grade -> Unit -> Lesson -> Game.</li>
+  <li>The platform must support role-based route protection (e.g., specific pages restricted to teachers).</li>
+  <li>Games must be embedded seamlessly using iframes communicating with the parent React application.</li>
+</ul>
+
+<h3>Non-Functional Requirements</h3>
+<ul>
+  <li><strong>Accessibility:</strong> High-contrast UI elements, clear fonts (e.g., Fredoka One), and large, touch-friendly buttons.</li>
+  <li><strong>Performance:</strong> Fast loading times for audio assets and game files; animations should run at 60fps.</li>
+  <li><strong>Cross-Browser Compatibility:</strong> The Web Speech API implementation must fallback gracefully on unsupported browsers.</li>
+</ul>
+
+<hr>
+
+<h2>2. System Architecture</h2>
+
+<h3>Client-Server Model</h3>
+<p>Prononsiha operates on a modern single-page application (SPA) architecture. The React frontend handles all UI rendering, routing, and browser APIs (microphone), while the Node.js backend serves as a RESTful API for authentication, user data retrieval, and progress tracking.</p>
+
+<h3>Frontend Architecture</h3>
+<ul>
+  <li>Built as a React SPA using Vite/Create React App.</li>
+  <li>Uses <code>react-router-dom</code> for client-side routing.</li>
+  <li>Employs a component-based structure (e.g., <code>GameButton</code>, <code>ProtectedRoute</code>).</li>
+  <li>Static game files (HTML/CSS/JS) are served from the <code>public/games</code> folder and rendered via <code>&lt;iframe&gt;</code> tags to isolate legacy or complex game logic from the React lifecycle.</li>
+</ul>
+
+<h3>Backend Architecture</h3>
+<ul>
+  <li>Node.js environment utilizing the Express.js framework.</li>
+  <li>Stateless architecture utilizing JWT (JSON Web Tokens) for secure communication.</li>
+  <li>Modular route handlers for <code>/auth</code>, <code>/users</code>, and <code>/progress</code>.</li>
+</ul>
+
+<h3>Database Structure</h3>
+<ul>
+  <li>NoSQL database (MongoDB) allowing flexible schema design for varying lesson structures.</li>
+</ul>
+
+<h3>API Design (Example Endpoints)</h3>
+<ul>
+  <li><code>POST /api/auth/login</code>: Accepts credentials, returns JWT and user role.</li>
+  <li><code>GET /api/progress/:userId</code>: Retrieves the current stars and diamonds for a user.</li>
+  <li><code>POST /api/progress/update</code>: Submits new scores from a completed game module.</li>
+</ul>
+
+<hr>
+
+<h2>3. Frontend</h2>
+
+<h3>Technologies</h3>
+<ul>
+  <li><strong>Core:</strong> HTML5, CSS3, JavaScript (ES6+)</li>
+  <li><strong>Framework:</strong> React.js</li>
+  <li><strong>Styling:</strong> Custom CSS with variables (glassmorphism effects, CSS modules).</li>
+</ul>
+
+<h3>Pages and Components</h3>
+<ul>
+  <li><strong>Pages:</strong> <code>LandingPage</code>, <code>LoginPage</code>, <code>AboutUsPage</code>, <code>UnitSelectionPage</code>, <code>LessonSelectionPage</code>, <code>Unit5Lesson4</code>, <code>Unit5Lesson4Game</code>, etc.</li>
+  <li><strong>Components:</strong> <code>GameButton</code> (floating animated button), <code>ProtectedRoute</code> (HOC for role-validation).</li>
+</ul>
+
+<h3>UI/UX Structure</h3>
+<ul>
+  <li><strong>Aesthetic:</strong> "Classroom" theme, bright engaging colors (brand-blue, brand-orange), glassmorphism cards.</li>
+  <li><strong>Navigation:</strong> Back arrows on all sub-pages ensuring users never get stuck in a dead-end route.</li>
+</ul>
+
+<hr>
+
+<h2>4. Backend</h2>
+
+<h3>Technology Choice</h3>
+<ul>
+  <li><strong>Node.js</strong> with <strong>Express.js</strong>: Chosen for its fast event-driven architecture, making it suitable for high-concurrency API calls from multiple students.</li>
+</ul>
+
+<h3>Authentication System</h3>
+<ul>
+  <li>Token-based authentication (JWT). Tokens are stored in HTTP-only cookies or local storage, and attached to the <code>Authorization</code> header for protected routes.</li>
+  <li>Passwords hashed using <code>bcrypt</code> before storage.</li>
+</ul>
+
+<hr>
+
+<h2>5. Database</h2>
+
+<h3>Type of Database</h3>
+<ul>
+  <li><strong>MongoDB</strong> (NoSQL). Document-oriented structure perfectly matches the nested JSON structure of Units and Lessons.</li>
+</ul>
+
+<h3>Collections</h3>
+<ol>
+  <li><strong>Users:</strong> Stores credentials, roles, and profile info.</li>
+  <li><strong>Progress:</strong> Maps <code>userId</code> to an array of completed lessons, scores, and timestamps.</li>
+</ol>
+
+<hr>
+
+<h2>6. Server & Deployment</h2>
+
+<h3>Hosting Options</h3>
+<ul>
+  <li><strong>Frontend:</strong> Vercel, Netlify, or GitHub Pages.</li>
+  <li><strong>Backend:</strong> Render, Heroku, or AWS EC2.</li>
+  <li><strong>Database:</strong> MongoDB Atlas (Cloud-hosted).</li>
+</ul>
+
+<hr>
+
+<h2>7. Step-by-Step Development Roadmap</h2>
+
+<h3>Phase 1: Foundation</h3>
+<ul>
+  <li>Set up the React application and Express server.</li>
+  <li>Create basic static UI components (Landing Page, Login UI).</li>
+  <li>Define the MongoDB schema and connect the database.</li>
+</ul>
+
+<h3>Phase 2: Core Mechanics</h3>
+<ul>
+  <li>Implement User Authentication (Login/Logout/Roles).</li>
+  <li>Build the hierarchical navigation UI (Grade -> Unit -> Lesson).</li>
+  <li>Integrate the Web Speech API for pronunciation detection.</li>
+</ul>
+
+<h3>Phase 3: Gamification & Content</h3>
+<ul>
+  <li>Create the standalone HTML5 game modules.</li>
+  <li>Embed games into React pages using iframes.</li>
+  <li>Implement scoring logic (Stars, Diamonds) and save it to the database.</li>
+</ul>
+
+<h3>Phase 4: Polish</h3>
+<ul>
+  <li>Refine UI/UX with glassmorphism and animations.</li>
+  <li>Ensure microphone threshold configurations are optimized.</li>
+</ul>
+
+<hr>
+
+<h2>8. Best Practices</h2>
+
+<h3>Security</h3>
+<ul>
+  <li>Never store plain-text passwords (use bcrypt).</li>
+  <li>Validate all incoming user data on the backend to prevent NoSQL injection.</li>
+  <li>Use HTTPS to encrypt audio data sent during speech recognition.</li>
+</ul>
+
+<h3>Performance</h3>
+<ul>
+  <li>Lazy-load React components to reduce initial bundle size.</li>
+  <li>Compress heavy static assets (e.g., classroom background images, game audio files).</li>
+</ul>
+
+</body>
+</html>

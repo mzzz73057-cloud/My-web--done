@@ -1,0 +1,60 @@
+/* ═══════════════════════════════════════
+   Lesson Selection Page (Page 6)
+   ═══════════════════════════════════════ */
+
+/* The lesson sprite wrapper — centred on screen.
+   bottons-page6.jpg has 5 stacked pill buttons on the LEFT ~57% of the image.
+   We display the image scaled so that left portion fills the container;
+   overflow:hidden clips out the blank right half. */
+.lesson-sprite-wrapper {
+  position: absolute;
+  top: 12%;
+  left: 50%;
+  transform: translateX(-50%);
+  /* Container = 57% of image width (only the button area) */
+  width: min(58vw, 640px);
+  /* Height = container_width × (image_height / image_width)
+     bottons-page6.jpg ≈ 1456×816, so ratio = 816/1456 = 0.56
+     But we scale image to 175% wide, so height = 175% × 0.56 × container_width
+     In practice, set explicit height so zones have a reference */
+  height: min(50vw, 560px);
+  overflow: hidden;
+  z-index: 10;
+}
+
+/* Scale image so button area fills the container width.
+   Buttons occupy ≈57% of image width → display at 175% of container */
+.lesson-sprite-img {
+  width: 175%;
+  height: auto;
+  max-width: none;
+  display: block;
+  /* Hide flat white background from JPG button sprite */
+  mix-blend-mode: multiply;
+}
+
+/* ── Shared transparent click zone base ── */
+.lesson-zone {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  border-radius: 50px;
+  transition: background 0.18s ease;
+}
+
+.lesson-zone:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+/* ── 5 vertical zones — each occupies roughly 1/5 of the sprite height.
+   The 5 buttons span from ~4% to ~96% of the image height,
+   with small gaps (~3%) between them. ── */
+.lesson-zone-1 { top: 4%;  height: 17%; }
+.lesson-zone-2 { top: 23%; height: 17%; }
+.lesson-zone-3 { top: 42%; height: 17%; }
+.lesson-zone-4 { top: 61%; height: 17%; }
+.lesson-zone-5 { top: 79%; height: 17%; }

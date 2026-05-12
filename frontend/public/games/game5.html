@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Speak Up! — Happy Teacher's Day</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<script>tailwind.config={theme:{extend:{fontFamily:{display:['Fredoka','sans-serif'],body:['Nunito','sans-serif']}}}}
+</script>
+<style>
+:root{--bg:#0D1B2A;--panel:#1B2838;--wood:#060E20;--wood-light:#2A4580;--accent:#FFD700;--coral:#FF8C42;--teal:#4ECDC4;--mint:#7ED6A8;--peach:#FFE4B5;--gold:#FFD700;--rose:#E040FB;--sky:#81D4FA;--success:#7ED6A8;--warm-white:#FFFBF0;--text-light:#E8E4F0;--dark-overlay:#000000}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text-light);overflow:hidden;height:100vh}
+::-webkit-scrollbar{width:8px}::-webkit-scrollbar-track{background:rgba(0,0,0,0.3)}::-webkit-scrollbar-thumb{background:var(--wood-light);border-radius:4px}
+#lesson-img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+#spotlight-canvas{position:absolute;inset:0;z-index:2;pointer-events:none}
+.spotlight-flash{position:absolute;z-index:3;pointer-events:none;border-radius:50%;background:radial-gradient(circle,rgba(255,215,0,0.4) 0%,rgba(255,215,0,0.12) 40%,transparent 70%);animation:flash-pulse 0.8s ease-out forwards}
+@keyframes flash-pulse{0%{transform:scale(0.3);opacity:1}50%{transform:scale(1.2);opacity:0.6}100%{transform:scale(1.5);opacity:0}}
+.timer-ring{transition:stroke-dashoffset 1s linear, stroke 0.5s ease}.timer-glow{filter:drop-shadow(0 0 10px var(--gold))}.timer-urgent{filter:drop-shadow(0 0 18px var(--coral))}
+@keyframes pulse-timer{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}.timer-pulse{animation:pulse-timer 0.8s ease-in-out infinite}
+@keyframes pulse-border{0%,100%{box-shadow:0 0 0 0 rgba(255,107,107,0.4)}50%{box-shadow:0 0 0 14px rgba(255,107,107,0)}}.urgent-vignette{animation:pulse-border 1.2s ease-in-out infinite}
+#progress-fill{transition:width 0.6s cubic-bezier(0.22,1,0.36,1)}
+.shelf-bg{background:repeating-linear-gradient(90deg,transparent 0px,rgba(42,69,128,0.03) 1px,transparent 2px,transparent 24px),linear-gradient(180deg,#080E22 0%,#0C1530 50%,#080E22 100%)}
+.shelf-plank{height:10px;background:linear-gradient(180deg,#1E3A6E 0%,#2A4580 35%,#233D72 70%,#152A50 100%);border-radius:2px;box-shadow:0 3px 8px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,215,0,0.08);margin:6px 12px}
+.cutout-card{background:var(--warm-white);border-radius:6px 10px 8px 12px;box-shadow:2px 3px 10px rgba(0,0,0,0.4),inset 0 0 0 2px rgba(255,255,255,0.5);cursor:pointer;transition:all 0.3s cubic-bezier(0.22,1,0.36,1);position:relative;overflow:hidden}
+.cutout-card .card-img-bg{position:absolute;inset:0;background-image:url('/backgrounds/teachersday.jpg');background-size:350% 350%;opacity:0.3;transition:opacity 0.4s}
+.cutout-card:hover:not(.completed):not(.selected){transform:translateY(-4px) scale(1.04);box-shadow:2px 6px 18px rgba(0,0,0,0.5),inset 0 0 0 2px rgba(255,255,255,0.5)}
+.cutout-card:hover .card-img-bg{opacity:0.5}
+.cutout-card.selected{transform:translateY(-6px) scale(1.06);box-shadow:0 0 0 3px var(--accent),2px 6px 24px rgba(255,215,0,0.25)}
+.cutout-card.completed{opacity:0.45;pointer-events:none;transform:scale(0.95)}
+.cutout-card .card-icon{position:relative;z-index:2;display:flex;align-items:center;justify-content:center;font-size:1.5rem;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.15));transition:transform 0.3s}
+.cutout-card:hover .card-icon{transform:scale(1.15)}
+.cutout-card .card-hint-text{position:relative;z-index:2;font-family:'Fredoka',sans-serif;font-size:0.6rem;font-weight:600;color:#2A1540;text-align:center;opacity:0;max-height:0;overflow:hidden;transition:all 0.4s ease}
+.cutout-card.show-hint .card-hint-text{opacity:1;max-height:36px;margin-top:1px}
+.cutout-card .status-badge{position:absolute;top:3px;right:3px;z-index:3;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.5rem;font-weight:700;opacity:0;transform:scale(0);transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1)}
+.cutout-card .status-badge.visible{opacity:1;transform:scale(1)}
+.sentence-card{background:var(--warm-white);border-radius:8px 12px 10px 14px;box-shadow:2px 3px 10px rgba(0,0,0,0.4),inset 0 0 0 2px rgba(255,255,255,0.5);cursor:pointer;transition:all 0.3s cubic-bezier(0.22,1,0.36,1);position:relative;overflow:hidden}
+.sentence-card .s-img-bg{position:absolute;inset:0;background-image:url('/backgrounds/teachersday.jpg');background-size:400% 400%;opacity:0.15}
+.sentence-card:hover:not(.completed):not(.selected){transform:translateY(-3px);box-shadow:2px 6px 18px rgba(0,0,0,0.5),inset 0 0 0 2px rgba(255,255,255,0.5)}
+.sentence-card.selected{transform:translateY(-4px) scale(1.02);box-shadow:0 0 0 3px var(--accent),2px 6px 24px rgba(255,215,0,0.25)}
+.sentence-card.completed{opacity:0.4;pointer-events:none;transform:scale(0.97)}
+.sentence-card .s-hint{position:relative;z-index:2;font-family:'Fredoka',sans-serif;font-size:0.55rem;font-weight:600;color:#2A1540;text-align:center;line-height:1.3;opacity:0;max-height:0;overflow:hidden;transition:all 0.4s ease}
+.sentence-card.show-hint .s-hint{opacity:1;max-height:50px}
+#speak-panel{position:fixed;bottom:0;left:55%;right:0;background:linear-gradient(180deg,rgba(10,18,48,0.97),rgba(4,8,26,0.99));border-top:2px solid var(--wood-light);transform:translateY(100%);transition:transform 0.4s cubic-bezier(0.22,1,0.36,1);z-index:50;backdrop-filter:blur(10px)}
+#speak-panel.open{transform:translateY(0)}
+.mic-btn{width:76px;height:76px;border-radius:50%;border:3px solid var(--accent);background:radial-gradient(circle at 40% 35%,rgba(255,215,0,0.12),transparent 70%);color:var(--accent);font-size:1.6rem;cursor:pointer;transition:all 0.3s;position:relative;outline:none}
+.mic-btn:hover{background:radial-gradient(circle at 40% 35%,rgba(255,215,0,0.28),transparent 70%);transform:scale(1.08)}
+.mic-btn:focus-visible{box-shadow:0 0 0 3px rgba(255,215,0,0.5)}
+.mic-btn.listening{border-color:var(--coral);color:var(--coral);background:radial-gradient(circle at 40% 35%,rgba(255,140,66,0.18),transparent 70%)}
+.mic-btn.listening::after{content:'';position:absolute;inset:-8px;border-radius:50%;border:2px solid var(--coral);opacity:0;animation:mic-ripple 1.5s ease-out infinite}
+@keyframes mic-ripple{0%{transform:scale(0.8);opacity:0.6}100%{transform:scale(1.3);opacity:0}}
+.wave-bar{width:4px;border-radius:2px;background:var(--accent);transition:height 0.15s ease;height:8px}
+.wave-bar.active{animation:wave-anim 0.5s ease-in-out infinite}
+@keyframes wave-anim{0%,100%{height:6px;opacity:0.3}50%{height:30px;opacity:1}}
+#mic-banner{position:fixed;top:0;left:0;right:0;z-index:60;background:linear-gradient(90deg,rgba(255,140,66,0.12),rgba(255,215,0,0.08),rgba(255,140,66,0.12));border-bottom:1px solid rgba(255,140,66,0.2);padding:10px 20px;text-align:center;font-family:'Fredoka',sans-serif;font-size:0.85rem;font-weight:600;color:var(--coral);transform:translateY(-100%);transition:transform 0.4s cubic-bezier(0.22,1,0.36,1)}
+#mic-banner.show{transform:translateY(0)}
+#start-screen{position:fixed;inset:0;z-index:100;background:radial-gradient(ellipse at center,rgba(10,18,48,0.92),rgba(4,8,26,0.98));backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;transition:opacity 0.6s, visibility 0.6s}
+#start-screen.hidden{opacity:0;visibility:hidden;pointer-events:none}
+.start-title{font-family:'Fredoka',sans-serif;font-size:3rem;font-weight:700;background:linear-gradient(135deg,var(--gold),var(--coral),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.2}
+.start-btn{font-family:'Fredoka',sans-serif;font-size:1.4rem;font-weight:600;padding:14px 48px;border-radius:50px;border:none;background:linear-gradient(135deg,var(--accent),var(--coral));color:#1a0a00;cursor:pointer;box-shadow:0 4px 24px rgba(255,215,0,0.35);transition:all 0.3s}
+.start-btn:hover{transform:translateY(-2px) scale(1.04);box-shadow:0 6px 32px rgba(255,215,0,0.45)}
+.start-btn:disabled{opacity:0.5;cursor:not-allowed;transform:none}
+.start-btn.warn-enabled{background:linear-gradient(135deg,var(--coral),var(--rose));box-shadow:0 4px 24px rgba(255,140,66,0.3)}
+#completion-overlay{position:fixed;inset:0;z-index:90;display:flex;align-items:center;justify-content:center;flex-direction:column;opacity:0;visibility:hidden;pointer-events:none;transition:all 1s ease}
+#completion-overlay.show{opacity:1;visibility:visible;pointer-events:auto}
+.congrats-text{font-family:'Fredoka',sans-serif;font-size:2.8rem;font-weight:700;background:linear-gradient(135deg,var(--gold),var(--accent),var(--coral));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-align:center;animation:congrats-pop 0.8s cubic-bezier(0.34,1.56,0.64,1) forwards}
+@keyframes congrats-pop{0%{transform:scale(0);opacity:0}100%{transform:scale(1);opacity:1}}
+#confetti-canvas{position:fixed;inset:0;z-index:95;pointer-events:none}
+.section-label{font-family:'Fredoka',sans-serif;font-size:1rem;font-weight:600;color:var(--accent);letter-spacing:0.08em;text-transform:uppercase;padding:4px 14px;background:rgba(255,215,0,0.06);border-left:3px solid var(--accent);border-radius:0 6px 6px 0}
+.feedback-msg{font-family:'Fredoka',sans-serif;font-weight:600;font-size:0.95rem;transition:all 0.3s}
+.feedback-success{color:var(--success)}.feedback-hint{color:var(--peach)}.feedback-ai{color:var(--teal)}.feedback-fail{color:var(--coral)}.feedback-listening{color:var(--coral)}.feedback-close{color:var(--peach)}
+.mic-indicator{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:20px;font-size:0.75rem;font-weight:700}
+.mic-ok{background:rgba(126,214,168,0.12);color:var(--success);border:1px solid rgba(126,214,168,0.2)}
+.mic-warn{background:rgba(255,228,181,0.12);color:var(--peach);border:1px solid rgba(255,228,181,0.2)}
+.mic-error{background:rgba(255,140,66,0.12);color:var(--coral);border:1px solid rgba(255,140,66,0.2)}
+@keyframes listening-dot{0%,100%{opacity:0.3}50%{opacity:1}}
+.listening-dot{width:8px;height:8px;border-radius:50%;background:var(--coral);display:inline-block;animation:listening-dot 0.8s ease-in-out infinite}
+@keyframes twinkle{0%,100%{opacity:0.15}50%{opacity:0.7}}
+.bg-star{position:fixed;border-radius:50%;background:#FFF8DC;pointer-events:none;z-index:0;animation:twinkle ease-in-out infinite}
+@media(max-width:900px){#game-container{flex-direction:column!important}#left-panel{width:100%!important;height:32vh!important}#right-panel{width:100%!important;height:68vh!important}#speak-panel{left:0!important}.start-title{font-size:2rem}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0.01ms!important;transition-duration:0.01ms!important}}
+</style>
+</head>
+<body>
+
+<div id="bg-stars" class="fixed inset-0 pointer-events-none" style="z-index:0"></div>
+
+<div id="mic-banner"><i class="fa-solid fa-microphone-slash mr-2"></i><span id="mic-banner-text">Microphone access is required.</span><button id="mic-banner-btn" class="ml-3 px-3 py-1 rounded-full text-xs font-bold" style="background:var(--accent);color:#1a0a00;border:none;cursor:pointer;font-weight:700" onclick="requestMicPermission()">Allow Mic</button></div>
+
+<div id="start-screen"><div class="text-center px-6">
+    <div class="mb-3"><i class="fa-solid fa-graduation-cap text-5xl" style="color:var(--accent)"></i></div>
+    <h1 class="start-title mb-3">Speak Up!</h1>
+    <p class="text-lg mb-1" style="color:var(--peach);font-family:'Fredoka',sans-serif;font-weight:500">Happy End of Year Party! — Unit 5, Lesson 5</p>
+    <p class="text-sm mb-2 max-w-md mx-auto" style="color:var(--text-light);opacity:0.65;line-height:1.6">Click a picture, press the microphone, and say the word or sentence clearly. The image lights up only at 65%+ confidence!</p>
+    <p class="text-xs mb-6 max-w-sm mx-auto" style="color:var(--text-light);opacity:0.45;line-height:1.5"><i class="fa-solid fa-lightbulb mr-1" style="color:var(--accent)"></i> Tip: Speak clearly and at a normal speed for the best score.</p>
+    <div id="mic-check-area" class="mb-6"><div id="mic-status" class="mic-indicator mic-warn mx-auto"><i class="fa-solid fa-spinner fa-spin"></i> Checking microphone...</div><button id="test-mic-btn" class="mt-3 px-4 py-2 rounded-full text-sm font-bold hidden" style="background:rgba(255,215,0,0.12);color:var(--accent);border:1px solid rgba(255,215,0,0.25);cursor:pointer" onclick="testMic()"><i class="fa-solid fa-microphone mr-1"></i> Test Microphone</button></div>
+    <button class="start-btn" id="start-btn" aria-label="Start Game"><i class="fa-solid fa-play mr-2"></i> Let's Go!</button>
+    <p id="start-subtitle" class="text-xs mt-3" style="color:var(--text-light);opacity:0.4"><i class="fa-solid fa-clock mr-1"></i> 20 min &nbsp;|&nbsp;<i class="fa-solid fa-microphone mr-1"></i> Mic required &nbsp;|&nbsp;<i class="fa-brands fa-chrome mr-1"></i> Chrome/Edge</p>
+</div></div>
+
+<canvas id="confetti-canvas"></canvas>
+<div id="completion-overlay"><div class="text-center px-6"><div class="congrats-text mb-4" id="congrats-heading">Amazing Job!</div><p class="text-lg mb-2" style="color:var(--text-light);font-family:'Fredoka',sans-serif">You completed all the words and sentences!</p><p class="text-sm mb-6" style="color:var(--peach);font-family:'Fredoka',sans-serif" id="final-time"></p><button class="start-btn text-base" onclick="location.reload()" style="padding:10px 32px;font-size:1rem"><i class="fa-solid fa-rotate-right mr-2"></i> Play Again</button></div></div>
+
+<div id="game-container" class="flex h-screen" style="opacity:0;transition:opacity 0.6s;position:relative;z-index:1">
+    <div id="left-panel" class="relative overflow-hidden" style="width:55%;min-width:300px">
+        <div id="lesson-visual" style="position:relative;width:100%;height:100%">
+            <img id="lesson-img" src="/backgrounds/teachersday.jpg" alt="Happy Teacher's Day illustration" onerror="this.style.display='none';document.getElementById('th-fallback').style.display='flex'">
+            <div id="th-fallback" class="absolute inset-0 items-center justify-center" style="background:radial-gradient(ellipse at 50% 50%,#0D1B2A 0%,#060E20 50%,#0D1B2A 100%);display:none">
+                <div class="text-center"><i class="fa-solid fa-chalkboard-user text-6xl mb-4" style="color:var(--accent);opacity:0.2"></i><p style="color:var(--accent);opacity:0.2;font-family:'Fredoka',sans-serif;font-size:1.2rem">Happy Teacher's Day</p></div>
+            </div>
+            <canvas id="spotlight-canvas"></canvas>
+        </div>
+        <div class="absolute top-0 left-0 right-0 h-2" style="background:rgba(0,0,0,0.5);z-index:5"><div id="progress-fill" class="h-full" style="width:0%;background:linear-gradient(90deg,var(--accent),var(--success));border-radius:0 2px 2px 0"></div></div>
+        <div class="absolute top-5 left-4 px-3 py-1 rounded-full text-xs font-bold" style="background:rgba(0,0,0,0.6);color:var(--accent);font-family:'Fredoka',sans-serif;backdrop-filter:blur(4px);z-index:5"><i class="fa-solid fa-check-double mr-1"></i><span id="progress-text">0 / 29</span></div>
+        <div class="absolute top-5 right-4 text-right" style="z-index:5"><p class="text-xs font-bold px-3 py-1 rounded-full" style="background:rgba(0,0,0,0.6);color:var(--text-light);font-family:'Fredoka',sans-serif;backdrop-filter:blur(4px)">Unit 5 &bull; Lesson 5</p></div>
+        <div id="timer-container" class="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center" style="z-index:5"><div class="relative" id="timer-wrapper"><svg width="110" height="110" viewBox="0 0 120 120" class="timer-glow"><circle cx="60" cy="60" r="52" fill="rgba(0,0,0,0.5)" stroke="rgba(255,255,255,0.06)" stroke-width="5"/><circle id="timer-ring" cx="60" cy="60" r="52" fill="none" stroke="var(--accent)" stroke-width="5" stroke-dasharray="326.73" stroke-dashoffset="0" stroke-linecap="round" transform="rotate(-90 60 60)" class="timer-ring"/></svg><div class="absolute inset-0 flex flex-col items-center justify-center"><span id="timer-display" class="text-2xl font-bold" style="color:var(--accent);font-family:'Fredoka',sans-serif">20:00</span><span class="text-xs" style="color:var(--text-light);opacity:0.45">remaining</span></div></div></div>
+        <div class="absolute bottom-0 left-0 right-0 h-32" style="background:linear-gradient(0deg,rgba(13,27,42,0.85),transparent);z-index:4"></div>
+        <div class="absolute top-0 left-0 right-0 h-16" style="background:linear-gradient(180deg,rgba(13,27,42,0.5),transparent);z-index:4"></div>
+    </div>
+    <div id="right-panel" class="shelf-bg relative flex flex-col" style="width:45%;border-left:2px solid rgba(42,69,128,0.25)">
+        <div class="px-5 pt-4 pb-2 flex items-center justify-between" style="border-bottom:1px solid rgba(42,69,128,0.15)"><h2 class="text-lg font-bold" style="color:var(--accent);font-family:'Fredoka',sans-serif"><i class="fa-solid fa-grip mr-2 opacity-60"></i>Picture Shelf</h2><div class="flex items-center gap-3 text-xs" style="color:var(--text-light);opacity:0.45"><span><i class="fa-solid fa-image mr-1"></i>Click a picture</span><span><i class="fa-solid fa-microphone mr-1"></i>Then speak</span></div></div>
+        <div id="shelf-content" class="flex-1 overflow-y-auto px-4 pt-3 pb-32">
+            <div class="section-label mb-3">Words</div>
+            <div id="words-grid" class="grid grid-cols-4 gap-2.5 mb-2"></div>
+            <div class="shelf-plank"></div>
+            <div class="section-label mb-3 mt-3">Sentences</div>
+            <div id="sentences-grid" class="grid grid-cols-1 gap-3 mb-4"></div>
+            <div class="shelf-plank mb-6"></div>
+        </div>
+        <div id="shelf-particles" class="absolute inset-0 pointer-events-none overflow-hidden"></div>
+    </div>
+</div>
+
+<div id="speak-panel"><div class="px-6 py-4 flex items-center gap-5">
+    <div id="sp-preview" class="flex items-center gap-3 flex-shrink-0" style="min-width:170px"><div id="sp-icon-wrap" class="w-14 h-14 rounded-xl flex items-center justify-center text-2xl" style="background:rgba(255,215,0,0.1)"><i id="sp-icon" class="fa-solid fa-violin" style="color:var(--accent)"></i></div><div><p class="text-xs" style="color:var(--text-light);opacity:0.5">Say this:</p><p id="sp-text" class="font-bold text-sm" style="color:var(--text-light);font-family:'Fredoka',sans-serif">school</p></div></div>
+    <div id="sp-waveform" class="flex items-center gap-1 h-10 flex-shrink-0"><div class="wave-bar" style="animation-delay:0s"></div><div class="wave-bar" style="animation-delay:0.08s"></div><div class="wave-bar" style="animation-delay:0.16s"></div><div class="wave-bar" style="animation-delay:0.24s"></div><div class="wave-bar" style="animation-delay:0.12s"></div><div class="wave-bar" style="animation-delay:0.2s"></div><div class="wave-bar" style="animation-delay:0.04s"></div></div>
+    <button id="mic-btn" class="mic-btn flex-shrink-0" aria-label="Press to speak"><i class="fa-solid fa-microphone"></i></button>
+    <div id="sp-feedback" class="flex-1 text-center"><p class="feedback-msg feedback-hint">Press the microphone to speak</p></div>
+    <button id="skip-btn" class="flex-shrink-0 px-3 py-2 rounded-lg text-xs font-bold transition-all hover:bg-white/10" style="color:var(--text-light);opacity:0.4;border:1px solid rgba(255,255,255,0.08)" aria-label="Skip">Next <i class="fa-solid fa-forward ml-1"></i></button>
+</div></div>
+
+<script>
+const wordsData=[
+    {id:'w1',text:'violin',icon:'fa-music',color:'#E040FB',bgPos:'15% 30%',spotX:12,spotY:55,spotR:16},
+    {id:'w2',text:'balloon',icon:'fa-circle',color:'#FF6B8B',bgPos:'12% 18%',spotX:15,spotY:15,spotR:16},
+    {id:'w3',text:'cake',icon:'fa-cake-candles',color:'#FFD1DC',bgPos:'50% 42%',spotX:50,spotY:85,spotR:16},
+    {id:'w4',text:'lemon',icon:'fa-lemon',color:'#FFA726',bgPos:'50% 38%',spotX:50,spotY:82,spotR:10},
+    {id:'w5',text:'card',icon:'fa-envelope-open-text',color:'#FF1493',bgPos:'42% 48%',spotX:80,spotY:88,spotR:12},
+    {id:'w6',text:'message',icon:'fa-comment',color:'#C77DBA',bgPos:'40% 15%',spotX:18,spotY:88,spotR:12},
+    {id:'w7',text:'classroom',icon:'fa-school',color:'#7C8CFF',bgPos:'85% 20%',spotX:50,spotY:30,spotR:35},
+    {id:'w8',text:'flowers',icon:'fa-seedling',color:'#7ED6A8',bgPos:'30% 10%',spotX:82,spotY:42,spotR:16},
+    {id:'w9',text:'baked',icon:'fa-fire',color:'#FF8C42',bgPos:'52% 44%',spotX:50,spotY:85,spotR:16},
+    {id:'w10',text:'wrote',icon:'fa-pen-fancy',color:'#C77DBA',bgPos:'44% 48%',spotX:18,spotY:88,spotR:15},
+    {id:'w11',text:'played',icon:'fa-person-running',color:'#4ECDC4',bgPos:'15% 25%',spotX:12,spotY:55,spotR:16},
+    {id:'w12',text:'bought',icon:'fa-bag-shopping',color:'#A0506E',bgPos:'60% 38%',spotX:88,spotY:65,spotR:15},
+    {id:'w13',text:'prepared',icon:'fa-utensils',color:'#E8A0BF',bgPos:'50% 40%',spotX:50,spotY:85,spotR:16},
+    {id:'w14',text:'decorated',icon:'fa-wand-magic-sparkles',color:'#FFB6C1',bgPos:'25% 8%',spotX:50,spotY:8,spotR:20},
+    {id:'w15',text:'danced',icon:'fa-music',color:'#4ECDC4',bgPos:'40% 32%',spotX:30,spotY:60,spotR:15},
+    {id:'w16',text:'happy',icon:'fa-face-smile',color:'#FFD700',bgPos:'15% 42%',spotX:50,spotY:55,spotR:15},
+    {id:'w17',text:'surprised',icon:'fa-face-surprise',color:'#FF8C42',bgPos:'14% 38%',spotX:50,spotY:55,spotR:15},
+    {id:'w18',text:'touched',icon:'fa-hand-holding-heart',color:'#E040FB',bgPos:'12% 50%',spotX:50,spotY:55,spotR:15},
+    {id:'w19',text:'talked',icon:'fa-comments',color:'#81D4FA',bgPos:'35% 55%',spotX:88,spotY:65,spotR:15},
+    {id:'w20',text:'hugged',icon:'fa-people-arrows',color:'#E91E63',bgPos:'38% 48%',spotX:85,spotY:50,spotR:15},
+    {id:'w21',text:'waited',icon:'fa-hourglass',color:'#C9B458',bgPos:'70% 60%',spotX:20,spotY:65,spotR:15},
+    {id:'w22',text:'counted',icon:'fa-list-ol',color:'#C9B458',bgPos:'72% 28%',spotX:50,spotY:30,spotR:20},
+    {id:'w23',text:'wanted',icon:'fa-hand-holding-heart',color:'#FF1493',bgPos:'68% 65%',spotX:50,spotY:55,spotR:15}
+];
+const sentencesData=[
+    {id:'s1',text:'Tom will play the violin at the party.',icon:'fa-music',color:'#E040FB',keys:['tom','play','violin','party'],bgPos:'18% 30%',spotX:12,spotY:55,spotR:20},
+    {id:'s2',text:'Sarah put balloons in the classroom.',icon:'fa-circle',color:'#FF6B8B',keys:['sarah','put','balloons','classroom'],bgPos:'14% 20%',spotX:15,spotY:15,spotR:20},
+    {id:'s3',text:'Olivia baked a lemon cake for the teacher.',icon:'fa-cake-candles',color:'#FFD1DC',keys:['olivia','baked','lemon','cake','teacher'],bgPos:'52% 44%',spotX:50,spotY:85,spotR:20},
+    {id:'s4',text:'They drew a card and wrote a message.',icon:'fa-pen-fancy',color:'#C77DBA',keys:['drew','card','wrote','message'],bgPos:'44% 50%',spotX:80,spotY:88,spotR:16},
+    {id:'s5',text:'Did you buy fruit? Yes, I bought it.',icon:'fa-bag-shopping',color:'#A0506E',keys:['buy','fruit','bought'],bgPos:'62% 38%',spotX:88,spotY:65,spotR:19},
+    {id:'s6',text:'The children played together in the playground every Sunday.',icon:'fa-person-running',color:'#4ECDC4',keys:['children','played','playground','every','sunday'],bgPos:'85% 55%',spotX:12,spotY:55,spotR:20}
+];
+
+const TOTAL_ITEMS=wordsData.length+sentencesData.length;const TOTAL_TIME=20*60;const TIMER_CIRCUMFERENCE=2*Math.PI*52;const CONFIDENCE_THRESHOLD=0.65;
+const state={started:false,completed:false,timeRemaining:TOTAL_TIME,timerInterval:null,selectedItem:null,isListening:false,completedCount:0,micReady:false,micPermission:false,items:{}};
+[...wordsData,...sentencesData].forEach(item=>{state.items[item.id]={attempts:0,phase:'speak',done:false};});
+
+let spotCanvas,spotCtx;const completedSpotlights=[];let animSpot=null;
+function initSpotlight(){spotCanvas=$('spotlight-canvas');spotCtx=spotCanvas.getContext('2d');resizeSpotCanvas();fillDarkness();window.addEventListener('resize',()=>{resizeSpotCanvas();redrawDarkness();});}
+function resizeSpotCanvas(){const r=spotCanvas.parentElement.getBoundingClientRect();spotCanvas.width=r.width;spotCanvas.height=r.height;}
+function fillDarkness(){spotCtx.fillStyle='#000000';spotCtx.fillRect(0,0,spotCanvas.width,spotCanvas.height);}
+function drawSpotGrad(cx,cy,radius){const cw=spotCanvas.width,ch=spotCanvas.height,px=(cx/100)*cw,py=(cy/100)*ch,maxD=Math.max(cw,ch),pr=Math.max(1,(radius/100)*maxD);const g=spotCtx.createRadialGradient(px,py,0,px,py,pr);g.addColorStop(0,'rgba(0,0,0,1)');g.addColorStop(0.45,'rgba(0,0,0,0.95)');g.addColorStop(0.7,'rgba(0,0,0,0.5)');g.addColorStop(0.9,'rgba(0,0,0,0.15)');g.addColorStop(1,'rgba(0,0,0,0)');spotCtx.fillStyle=g;spotCtx.beginPath();spotCtx.arc(px,py,pr,0,Math.PI*2);spotCtx.fill();}
+function redrawDarkness(){spotCtx.clearRect(0,0,spotCanvas.width,spotCanvas.height);fillDarkness();spotCtx.globalCompositeOperation='destination-out';completedSpotlights.forEach(s=>drawSpotGrad(s.x,s.y,s.r));if(animSpot)drawSpotGrad(animSpot.x,animSpot.y,animSpot.currentR);spotCtx.globalCompositeOperation='source-over';}
+function animateSpotlight(x,y,targetR){const start=performance.now(),dur=800;animSpot={x,y,currentR:0};function frame(now){const t=Math.min(1,(now-start)/dur),c1=1.3,c3=c1+1,eased=1+c3*Math.pow(t-1,3)+c1*Math.pow(t-1,2);animSpot.currentR=targetR*Math.max(0,eased);redrawDarkness();if(t<1)requestAnimationFrame(frame);else{completedSpotlights.push({x,y,r:targetR});animSpot=null;}}requestAnimationFrame(frame);}
+function spawnGoldenFlash(cx,cy){const vis=$('lesson-visual'),rect=vis.getBoundingClientRect(),px=(cx/100)*rect.width,py=(cy/100)*rect.height,sz=130;const f=document.createElement('div');f.className='spotlight-flash';f.style.left=(px-sz/2)+'px';f.style.top=(py-sz/2)+'px';f.style.width=sz+'px';f.style.height=sz+'px';vis.appendChild(f);f.addEventListener('animationend',()=>f.remove());}
+function revealFullImage(){const start=performance.now(),dur=1500;function frame(now){const t=Math.min(1,(now-start)/dur),eased=1-Math.pow(1-t,3);spotCtx.clearRect(0,0,spotCanvas.width,spotCanvas.height);spotCtx.fillStyle=`rgba(13,27,42,${0.89*(1-eased)})`;spotCtx.fillRect(0,0,spotCanvas.width,spotCanvas.height);if(t<1)requestAnimationFrame(frame);else{spotCtx.clearRect(0,0,spotCanvas.width,spotCanvas.height);}}requestAnimationFrame(frame);}
+
+let recognition=null;const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+function setupRecognition(){if(!SR){setMicStatus('error','Not supported.');enableStartBtn(true,'Speech recognition not available — click mode');return false;}if(location.protocol!=='https:'&&location.hostname!=='localhost'&&location.hostname!=='127.0.0.1'){setMicStatus('error','Needs HTTPS');enableStartBtn(true,'Needs HTTPS — click mode');return false;}try{recognition=new SR();recognition.lang='en-GB';recognition.continuous=false;recognition.interimResults=false;recognition.maxAlternatives=3;recognition.onstart=()=>{console.log('[MIC] Started');state.isListening=true;micBtn.classList.add('listening');micBtn.innerHTML='<i class="fa-solid fa-stop"></i>';setWaveformActive(true);setFeedback('<span class="listening-dot"></span> Listening... speak now!','listening');};recognition.onresult=(e)=>{const r=e.results[0];let b='',bc=0;for(let i=0;i<r.length;i++){if(r[i].confidence>bc){bc=r[i].confidence;b=r[i].transcript;}}console.log('[MIC] Heard:',b,'Conf:',bc);handleMicStop();processSpeechResult(b,bc);};recognition.onerror=(e)=>{console.warn('[MIC] Error:',e.error);handleMicStop();switch(e.error){case 'not-allowed':setFeedback('Mic denied. Allow in browser.','fail');state.micPermission=false;setMicStatus('error','Denied');showMicBanner('Permission denied. Allow mic and reload.');break;case 'no-speech':setFeedback('No sound. Speak louder!','fail');break;case 'audio-capture':setFeedback('No mic found.','fail');setMicStatus('error','No mic');break;case 'network':setFeedback('Network error.','fail');break;case 'aborted':break;default:setFeedback('Mic error: '+e.error,'fail');}};recognition.onend=()=>{console.log('[MIC] Ended');handleMicStop();};setMicStatus('ok','Microphone ready');state.micReady=true;enableStartBtn(false,'');$('test-mic-btn').classList.remove('hidden');return true;}catch(e){console.error('[MIC] Setup error:',e);setMicStatus('error','Init failed');enableStartBtn(true,'Mic init failed — click mode');return false;}}
+function handleMicStop(){state.isListening=false;micBtn.classList.remove('listening');micBtn.innerHTML='<i class="fa-solid fa-microphone"></i>';setWaveformActive(false);}
+function requestMicPermission(){if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){showMicBanner('Not supported.');return;}navigator.mediaDevices.getUserMedia({audio:true}).then(s=>{s.getTracks().forEach(t=>t.stop());state.micPermission=true;$('mic-banner').classList.remove('show');if(setupRecognition()){enableStartBtn(false,'');$('test-mic-btn').classList.remove('hidden');}}).catch(err=>{state.micPermission=false;showMicBanner(err.name==='NotAllowedError'?'Permission denied.':err.name==='NotFoundError'?'No mic found.':err.message);setMicStatus('error','Denied');});}
+function testMic(){if(!recognition){setFeedback('Not available.','fail');return;}if(state.isListening){try{recognition.stop();}catch(e){}handleMicStop();setFeedback('Stopped.','hint');return;}setFeedback('<span class="listening-dot"></span> Testing... say a word!','listening');const oR=recognition.onresult,oE=recognition.onerror,oD=recognition.onend;recognition.onresult=(e)=>{const t=e.results[0][0].transcript,c=Math.round(e.results[0][0].confidence*100);setFeedback(`Heard: "<strong>${t}</strong>" (${c}%) — Works!`,'success');recognition.onresult=oR;recognition.onerror=oE;recognition.onend=oD;};recognition.onerror=(e)=>{setFeedback('Failed: '+e.error,'fail');recognition.onresult=oR;recognition.onerror=oE;recognition.onend=oD;};recognition.onend=()=>{handleMicStop();recognition.onresult=oR;recognition.onerror=oE;recognition.onend=oD;};try{recognition.start();}catch(e){setFeedback('Could not start.','fail');recognition.onresult=oR;recognition.onerror=oE;recognition.onend=oD;}}
+function enableStartBtn(w,t){startBtn.disabled=false;if(w){startBtn.classList.add('warn-enabled');startBtn.innerHTML='<i class="fa-solid fa-play mr-2"></i> Let\'s Go! <span style="font-size:0.7rem;opacity:0.8">(no mic)</span>';$('start-subtitle').innerHTML=`<i class="fa-solid fa-triangle-exclamation mr-1" style="color:var(--coral)"></i> ${t}`;$('start-subtitle').style.opacity='0.7';}else{startBtn.classList.remove('warn-enabled');startBtn.innerHTML='<i class="fa-solid fa-play mr-2"></i> Let\'s Go!';}}
+function showMicBanner(msg){$('mic-banner-text').textContent=msg;$('mic-banner').classList.add('show');}
+function setMicStatus(type,text){const el=$('mic-status');el.className='mic-indicator mx-auto mic-'+type;const i={ok:'fa-circle-check',warn:'fa-circle-exclamation',error:'fa-circle-xmark'};el.innerHTML=`<i class="fa-solid ${i[type]}"></i> ${text}`;}
+
+const $=id=>document.getElementById(id);
+const timerRing=$('timer-ring'),timerDisplay=$('timer-display'),timerWrapper=$('timer-wrapper'),progressFill=$('progress-fill'),progressText=$('progress-text'),wordsGrid=$('words-grid'),sentencesGrid=$('sentences-grid'),speakPanel=$('speak-panel'),micBtn=$('mic-btn'),spIcon=$('sp-icon'),spText=$('sp-text'),spFeedback=$('sp-feedback'),skipBtn=$('skip-btn'),startBtn=$('start-btn'),startScreen=$('start-screen'),completionOverlay=$('completion-overlay'),confettiCanvas=$('confetti-canvas');
+
+function renderWords(){wordsGrid.innerHTML='';const rots=[-2,1.5,-1,2,-1.5,0.5,-0.5,1,-2.5,2,-1,0,1.5,-2,0.5,-1.5,1,-0.5,2,-1,0,-2,1.5,-1.5,0.5,-0.5,1,-2,2,-1,0,1.5,-1,0.5];wordsData.forEach((w,i)=>{const r=rots[i%rots.length],card=document.createElement('div');card.className='cutout-card';card.id=`card-${w.id}`;card.style.transform=`rotate(${r}deg)`;card.setAttribute('role','button');card.setAttribute('aria-label',`Say: ${w.text}`);card.setAttribute('tabindex','0');card.innerHTML=`<div class="card-img-bg" style="background-position:${w.bgPos}"></div><div class="card-icon py-3 px-1" style="color:${w.color};position:relative"><i class="fa-solid ${w.icon}"></i></div><div class="card-hint-text px-1 pb-2">${w.text}</div><div class="status-badge" style="background:var(--success);color:#fff"><i class="fa-solid fa-check"></i></div>`;card.addEventListener('click',()=>selectItem(w,'word'));card.addEventListener('keydown',e=>{if(e.key==='Enter')selectItem(w,'word');});wordsGrid.appendChild(card);});}
+function renderSentences(){sentencesGrid.innerHTML='';const rots=[-0.8,0.6,-0.5,0.8,0.4,-0.4];sentencesData.forEach((s,i)=>{const r=rots[i%rots.length],card=document.createElement('div');card.className='sentence-card';card.id=`card-${s.id}`;card.style.transform=`rotate(${r}deg)`;card.setAttribute('role','button');card.setAttribute('aria-label','Say the sentence');card.setAttribute('tabindex','0');card.innerHTML=`<div class="s-img-bg" style="background-position:${s.bgPos}"></div><div class="relative z-10 p-3 flex items-start gap-3"><div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style="background:${s.color}15;color:${s.color};font-size:1.1rem"><i class="fa-solid ${s.icon}"></i></div><div class="flex-1 min-w-0"><div class="s-hint text-xs leading-relaxed">${s.text}</div><div class="flex items-center gap-1 mt-1"><i class="fa-solid fa-quote-left text-xs" style="color:${s.color};opacity:0.25"></i><div class="h-px flex-1" style="background:${s.color};opacity:0.15"></div><i class="fa-solid fa-quote-right text-xs" style="color:${s.color};opacity:0.25"></i></div></div></div><div class="status-badge" style="background:var(--success);color:#fff;top:6px;right:6px;width:22px;height:22px;font-size:0.6rem"><i class="fa-solid fa-check"></i></div>`;card.addEventListener('click',()=>selectItem(s,'sentence'));card.addEventListener('keydown',e=>{if(e.key==='Enter')selectItem(s,'sentence');});sentencesGrid.appendChild(card);});}
+
+function selectItem(item,type){if(!state.started||state.completed)return;if(state.items[item.id].done)return;document.querySelectorAll('.cutout-card.selected,.sentence-card.selected').forEach(c=>c.classList.remove('selected'));const card=$(`card-${item.id}`);card.classList.add('selected');state.selectedItem={...item,type};spIcon.className=`fa-solid ${item.icon}`;spIcon.style.color=item.color;spText.textContent=item.text;$('sp-icon-wrap').style.background=`${item.color}12`;const ist=state.items[item.id];if(!state.micReady)setFeedback('No mic — click checkmark to complete.','hint');else if(ist.phase==='speak')setFeedback('Press the microphone and say it!','hint');else if(ist.phase==='hint')setFeedback('Word shown below. Say it!','hint');else if(ist.phase==='ai'){setFeedback('Listen, then repeat!','ai');setTimeout(()=>aiSpeak(item.text),600);}speakPanel.classList.add('open');card.scrollIntoView({behavior:'smooth',block:'nearest'});}
+function checkMatch(spoken,expected,type,keys){const s=spoken.toLowerCase().replace(/[^a-z\s']/g,'').trim();const e=expected.toLowerCase().replace(/[^a-z\s']/g,'').trim();if(type==='word'){if(expected.includes(' '))return e.split(' ').every(p=>s.includes(p));const w=e.replace(/s$/,'').replace(/ed$/,'').replace(/d$/,'');return s.includes(e)||s.includes(w)||e.includes(s.split(' ').pop())||(s.split(' ').some(sw=>sw.length>2&&w.includes(sw)));}else{if(!keys||!keys.length)return s.includes(e);return(keys.filter(k=>s.includes(k.toLowerCase())).length/keys.length)>=0.5;}}
+function processSpeechResult(transcript,confidence){if(!state.selectedItem)return;const item=state.selectedItem,ist=state.items[item.id];const matched=checkMatch(transcript,item.text,item.type,item.keys||null);const confPct=Math.round(confidence*100);ist.attempts++;if(matched&&confidence>=CONFIDENCE_THRESHOLD){markCompleted(item.id);setFeedback(`Excellent! (${confPct}% confidence)`,'success');setTimeout(()=>advanceToNext(),800);}else if(matched&&confidence<CONFIDENCE_THRESHOLD){const sn=transcript.length>22?transcript.substring(0,22)+'...':transcript;setFeedback(`Heard "${sn}" — Close! But confidence only ${confPct}%. Speak more clearly!`,'close');if(ist.phase==='speak'&&ist.attempts>=1){ist.phase='hint';$(`card-${item.id}`).classList.add('show-hint');showBadge(item.id,'?','var(--peach)');}else if(ist.phase==='hint'&&ist.attempts>=3){ist.phase='ai';showBadge(item.id,'\uD83C\uDFA4','var(--teal)');setFeedback(`Heard "${sn}" — Listen and repeat with confidence!`,'ai');setTimeout(()=>aiSpeak(item.text),500);}else if(ist.phase==='ai'){setFeedback(`Heard "${sn}" (${confPct}%) — Listen again and speak louder!`,'ai');setTimeout(()=>aiSpeak(item.text),500);}}else{const sn=transcript.length>22?transcript.substring(0,22)+'...':transcript;if(ist.phase==='speak'&&ist.attempts>=1){ist.phase='hint';$(`card-${item.id}`).classList.add('show-hint');showBadge(item.id,'?','var(--gold)');setFeedback(`Heard "${sn}" — Word shown below. Try again!`,'hint');}else if(ist.phase==='hint'&&ist.attempts>=3){ist.phase='ai';showBadge(item.id,'\uD83C\uDFA4','var(--teal)');setFeedback(`Heard "${sn}" — Listen and repeat!`,'ai');setTimeout(()=>aiSpeak(item.text),500);}else if(ist.phase==='ai'){setFeedback(`Heard "${sn}" — Listen again:`,'ai');setTimeout(()=>aiSpeak(item.text),500);}else setFeedback(`Heard "${sn}" — Try again!`,'fail');}}
+function markCompleted(id){state.items[id].done=true;state.completedCount++;const card=$(`card-${id}`);card.classList.remove('selected','show-hint');card.classList.add('completed');const badge=card.querySelector('.status-badge');badge.classList.add('visible');badge.innerHTML='<i class="fa-solid fa-check"></i>';badge.style.background='var(--success)';updateProgress();const all=[...wordsData,...sentencesData],itemData=all.find(i=>i.id===id);if(itemData&&itemData.spotX!==undefined){animateSpotlight(itemData.spotX,itemData.spotY,itemData.spotR);spawnGoldenFlash(itemData.spotX,itemData.spotY);}if(state.completedCount>=TOTAL_ITEMS)setTimeout(()=>completeGame(),1000);}
+function showBadge(id,content,bgColor){const card=$(`card-${id}`),badge=card.querySelector('.status-badge');badge.classList.add('visible');badge.style.background=bgColor;badge.style.fontSize=content.length>1?'0.45rem':'0.55rem';badge.textContent=content;}
+function aiSpeak(text){if(!('speechSynthesis' in window)){setFeedback('Not supported.','fail');return;}window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='en-GB';u.rate=0.7;u.pitch=1.05;u.volume=1;const voices=window.speechSynthesis.getVoices();const v=voices.find(v=>v.lang.startsWith('en-GB')&&v.name.includes('Female'))||voices.find(v=>v.lang.startsWith('en-GB'))||voices.find(v=>v.lang.startsWith('en'));if(v)u.voice=v;setWaveformActive(true);setFeedback('<i class="fa-solid fa-volume-high mr-1"></i> Playing audio...','ai');u.onend=()=>{setWaveformActive(false);if(state.selectedItem&&state.items[state.selectedItem.id].phase==='ai')setFeedback('Now press the mic and repeat with confidence!','hint');};u.onerror=()=>setWaveformActive(false);window.speechSynthesis.speak(u);}
+if('speechSynthesis' in window){window.speechSynthesis.getVoices();window.speechSynthesis.onvoiceschanged=()=>window.speechSynthesis.getVoices();}
+
+function startListening(){if(!recognition){setFeedback('Not available.','fail');return;}if(!state.selectedItem){setFeedback('Select a picture first!','hint');return;}if(state.isListening){try{recognition.stop();}catch(e){}handleMicStop();setFeedback('Stopped.','hint');return;}try{recognition.stop();}catch(e){}setTimeout(()=>{try{recognition.start();}catch(e){console.error('[MIC] err:',e);handleMicStop();if(e.message&&e.message.includes('already started')){try{recognition.stop();}catch(e2){}setTimeout(()=>{try{recognition.start();}catch(e3){setFeedback('Mic error. Refresh.','fail');}},300);}else setFeedback('Could not start. Try again.','fail');}},100);}
+function setFeedback(msg,type){const m={success:'feedback-success',hint:'feedback-hint',ai:'feedback-ai',fail:'feedback-fail',listening:'feedback-listening',close:'feedback-close'};spFeedback.innerHTML=`<p class="feedback-msg ${m[type]||''}">${msg}</p>`;}
+function setWaveformActive(a){document.querySelectorAll('.wave-bar').forEach(b=>b.classList.toggle('active',a));}
+function updateProgress(){const p=(state.completedCount/TOTAL_ITEMS)*100;progressFill.style.width=p+'%';progressText.textContent=`${state.completedCount} / ${TOTAL_ITEMS}`;}
+function advanceToNext(){const all=[...wordsData,...sentencesData],next=all.find(i=>!state.items[i.id].done);if(next)selectItem(next,wordsData.includes(next)?'word':'sentence');else speakPanel.classList.remove('open');}
+function startTimer(){state.timerInterval=setInterval(()=>{state.timeRemaining--;updateTimerDisplay();if(state.timeRemaining<=0){clearInterval(state.timerInterval);if(!state.completed)timeUp();}},1000);}
+function updateTimerDisplay(){const m=Math.floor(state.timeRemaining/60),s=state.timeRemaining%60;timerDisplay.textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;timerRing.style.strokeDashoffset=TIMER_CIRCUMFERENCE*(1-(state.timeRemaining/TOTAL_TIME));const pct=state.timeRemaining/TOTAL_TIME;if(pct>0.5){timerRing.style.stroke='var(--accent)';timerDisplay.style.color='var(--accent)';timerWrapper.className='relative timer-glow';}else if(pct>0.25){timerRing.style.stroke='var(--peach)';timerDisplay.style.color='var(--peach)';timerWrapper.className='relative timer-glow';}else if(pct>0.08){timerRing.style.stroke='var(--coral)';timerDisplay.style.color='var(--coral)';timerWrapper.className='relative timer-pulse timer-urgent';}else{timerRing.style.stroke='#ff3333';timerDisplay.style.color='#ff3333';timerWrapper.className='relative timer-pulse timer-urgent urgent-vignette';}}
+function timeUp(){try{recognition.stop();}catch(e){}handleMicStop();speakPanel.classList.remove('open');$('congrats-heading').textContent="Time's Up!";$('final-time').textContent=`Completed ${state.completedCount}/${TOTAL_ITEMS}. Keep practicing!`;completionOverlay.style.background='radial-gradient(ellipse at center,rgba(10,18,48,0.92),rgba(4,8,26,0.98))';completionOverlay.classList.add('show');}
+function completeGame(){state.completed=true;clearInterval(state.timerInterval);try{recognition.stop();}catch(e){}handleMicStop();speakPanel.classList.remove('open');revealFullImage();const el=TOTAL_TIME-state.timeRemaining;$('congrats-heading').textContent='Amazing Job!';$('final-time').textContent=`Completed in ${Math.floor(el/60)}m ${el%60}s — Well Done!`;completionOverlay.style.background='radial-gradient(ellipse at center,rgba(13,27,74,0.88),rgba(4,8,26,0.95))';setTimeout(()=>{completionOverlay.classList.add('show');launchConfetti();},1600);}
+function launchConfetti(){const c=confettiCanvas,ctx=c.getContext('2d');c.width=window.innerWidth;c.height=window.innerHeight;const colors=['#FFD700','#FFA500','#FFFFFF','#C0C8E0','#4ECDC4','#FF8C42','#FFE4B5','#81D4FA','#E040FB','#7ED6A8','#FFD700','#C77DBA','#4ECDC4'];const particles=[];for(let i=0;i<200;i++)particles.push({x:Math.random()*c.width,y:Math.random()*c.height-c.height,w:Math.random()*10+3,h:Math.random()*5+2,color:colors[Math.floor(Math.random()*colors.length)],vx:(Math.random()-0.5)*6,vy:Math.random()*3+1.5,rot:Math.random()*360,rotSpeed:(Math.random()-0.5)*6,opacity:1});for(let i=0;i<35;i++)particles.push({x:Math.random()*c.width,y:Math.random()*c.height-c.height,w:6,h:6,color:colors[Math.floor(Math.random()*colors.length)],vx:(Math.random()-0.5)*3,vy:Math.random()*2+1,rot:Math.random()*360,rotSpeed:(Math.random()-0.5)*6,opacity:1,isStar:true});let frame=0;function animate(){ctx.clearRect(0,0,c.width,c.height);let alive=false;particles.forEach(p=>{if(p.opacity<=0)return;alive=true;p.x+=p.vx;p.y+=p.vy;p.vy+=0.04;p.rot+=p.rotSpeed;if(frame>100)p.opacity-=0.006;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot*Math.PI/180);ctx.globalAlpha=Math.max(0,p.opacity);ctx.fillStyle=p.color;if(p.isStar){ctx.beginPath();const s=p.w;for(let j=0;j<8;j++){const r=j%2===0?s:s*0.4,a=j*Math.PI/4-Math.PI/2;ctx[j===0?'moveTo':'lineTo'](Math.cos(a)*r,Math.sin(a)*r);}ctx.closePath();ctx.fill();}else ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);ctx.restore();});frame++;if(alive&&frame<500)requestAnimationFrame(animate);else ctx.clearRect(0,0,c.width,c.height);}animate();}
+function createStarField(){const c=$('bg-stars');for(let i=0;i<60;i++){const s=document.createElement('div');s.className='bg-star';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';const sz=(1+Math.random()*2)+'px';s.style.width=sz;s.style.height=sz;s.style.animationDuration=(2+Math.random()*5)+'s';s.style.animationDelay=Math.random()*4+'s';c.appendChild(s);}}
+function createShelfParticles(){const c=$('shelf-particles');for(let i=0;i<10;i++){const p=document.createElement('div');p.className='shelf-particle';p.style.left=Math.random()*100+'%';p.style.top=Math.random()*100+'%';p.style.animationName='float-particle';p.style.animationDuration=(3+Math.random()*4)+'s';p.style.animationDelay=Math.random()*3+'s';p.style.animationIterationCount='infinite';const sz=(2+Math.random()*2)+'px';p.style.width=sz;p.style.height=sz;c.appendChild(p);}}
+micBtn.addEventListener('click',startListening);skipBtn.addEventListener('click',advanceToNext);
+startBtn.addEventListener('click',()=>{if(!state.micReady){state.started=true;startScreen.classList.add('hidden');$('game-container').style.opacity='1';$('mic-banner').classList.remove('show');startTimer();micBtn.innerHTML='<i class="fa-solid fa-check"></i>';micBtn.style.borderColor='var(--success)';micBtn.style.color='var(--success)';micBtn.onclick=()=>{if(state.selectedItem){markCompleted(state.selectedItem.id);setFeedback('Completed! (no mic)','success');setTimeout(()=>advanceToNext(),500);}};setTimeout(()=>selectItem(wordsData[0],'word'),500);return;}state.started=true;startScreen.classList.add('hidden');$('game-container').style.opacity='1';$('mic-banner').classList.remove('show');startTimer();setTimeout(()=>selectItem(wordsData[0],'word'),500);});
+document.addEventListener('keydown',(e)=>{if(e.code==='Space'&&state.started&&speakPanel.classList.contains('open')){e.preventDefault();startListening();}});
+function init(){renderWords();renderSentences();createShelfParticles();createStarField();updateProgress();timerRing.style.strokeDasharray=TIMER_CIRCUMFERENCE;timerRing.style.strokeDashoffset='0';initSpotlight();setupRecognition();if(startBtn.disabled){setTimeout(()=>{if(startBtn.disabled){console.warn('[INIT] Timed out — enabling');enableStartBtn(true,'Mic check timed out — click mode');}},3000);}}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+</script>
+</body>
+</html>

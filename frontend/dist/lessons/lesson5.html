@@ -263,7 +263,25 @@ const SENTS=[{id:0,plain:"We missed you yesterday. Why didn't you come to the sc
 const MATCH_PAIRS=[{left:'school',leftIpa:'/uː/',right:'Food',rightIpa:'/uː/'},{left:'meet',leftIpa:'/iː/',right:'seat',rightIpa:'/iː/'},{left:'up',leftIpa:'/ʌ/',right:'Cut',rightIpa:'/ʌ/'},{left:'talk',leftIpa:'/ɔː/',right:'Door',rightIpa:'/ɔː/'}];
 let visWords=[...WORDS],wIdx=0,sIdx=0,curMode='words',curWAct='listen',curSAct='listen';
 let masteredW=new Set(),masteredS=new Set(),streak=0,xp=0,stars=0,gems=0,fire=0;
-let tapSt={tapped:0,done:false},recTmr=null,isRec=false,matchSel=null,matchDone=new Set();
+let tapSt={tapped:0,done:false},recTmr=null,isRec=false;
+let recognition = null;
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+function setupRecognition() {
+  if (!SR) return false;
+  try {
+    recognition = new SR();
+    recognition.lang = 'en-GB';
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+setupRecognition();
+let matchSel=null,matchDone=new Set();
 function init(){filterCat('all',{target:document.querySelectorAll('.cattab')[0]});buildSentList();renderSAct();buildMatch();updateLockUI();}
 function isVocabComplete(){return masteredW.size>=WORDS.length;}
 function updateLockUI(){const done=masteredW.size,total=WORDS.length,unlocked=done>=total;document.getElementById('lock-progress').textContent=done+' / '+total;document.getElementById('lock-count').textContent=total;document.getElementById('locked-banner').style.display=unlocked?'none':'flex';document.getElementById('sent-lock').textContent=unlocked?'✅':'🔒';document.getElementById('ms-sents').style.opacity=unlocked?'1':'0.5';}
@@ -286,7 +304,61 @@ function playItem(type){if(type==='word'){const w=visWords[wIdx];if(w)speakText(
 const VOICE_FB=[{min:80,phrase:'Excellent! Very clear!'},{min:60,phrase:'Good try! Listen and repeat.'},{min:40,phrase:'Try again carefully.'},{min:0,phrase:'Keep going, you can do it!'}];
 function playTone(cb){try{const ctx=new(window.AudioContext||window.webkitAudioContext)();const osc=ctx.createOscillator();const gain=ctx.createGain();osc.connect(gain);gain.connect(ctx.destination);osc.type='sine';osc.frequency.setValueAtTime(880,ctx.currentTime);osc.frequency.exponentialRampToValueAtTime(1320,ctx.currentTime+0.12);gain.gain.setValueAtTime(0.18,ctx.currentTime);gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.35);osc.start(ctx.currentTime);osc.stop(ctx.currentTime+0.35);osc.onended=()=>{ctx.close();if(cb)cb();};}catch(e){if(cb)cb();}}
 function speakFeedback(score){const vf=VOICE_FB.find(v=>score>=v.min)||VOICE_FB[VOICE_FB.length-1];playTone(()=>{setTimeout(()=>speakText(vf.phrase,.9),350);});}
-function tapMic(type){if(isRec)return;const btnId=type==='word'?'wmb':curSAct==='chunk'?'scmb':'smb';const btn=document.getElementById(btnId);if(!btn)return;isRec=true;btn.classList.add('rec');btn.textContent='⏺';recTmr=setTimeout(()=>{isRec=false;btn.classList.remove('rec');btn.textContent='🎤';const score=Math.floor(Math.random()*42)+54;showFeedback(type,score);},2200);}
+function tapMic(type) {
+  if (isRec || !recognition) return;
+  const btnId = type === 'word' ? 'wmb' : curSAct === 'chunk' ? 'scmb' : 'smb';
+  const btn = document.getElementById(btnId);
+  if (!btn) return;
+
+  const target = type === 'word' ? visWords[wIdx].w : SENTS[sIdx].plain;
+  
+  isRec = true;
+  btn.classList.add('rec');
+  btn.textContent = '⏺';
+
+  recognition.onresult = (event) => {
+    const transcript = event.results[0][0].transcript.toLowerCase();
+    const confidence = event.results[0][0].confidence;
+    console.log('Heard:', transcript, 'Confidence:', confidence);
+
+    let score = 0;
+    const cleanTarget = target.toLowerCase().replace(/[^a-z0-9\s]/g, '');
+    const cleanTranscript = transcript.replace(/[^a-z0-9\s]/g, '');
+    
+    if (cleanTranscript.includes(cleanTarget) || cleanTarget.includes(cleanTranscript)) {
+      score = Math.floor(confidence * 100);
+      if (score < 80) score = 82; 
+    } else {
+      score = Math.floor(Math.random() * 20) + 40;
+    }
+    
+    score = Math.max(Math.min(score, 98), 45);
+    showFeedback(type, score);
+  };
+
+  recognition.onerror = (event) => {
+    console.error('Recognition error:', event.error);
+    handleMicStop(btn);
+  };
+
+  recognition.onend = () => {
+    handleMicStop(btn);
+  };
+
+  try {
+    recognition.start();
+  } catch (e) {
+    handleMicStop(btn);
+  }
+}
+
+function handleMicStop(btn) {
+  isRec = false;
+  if (btn) {
+    btn.classList.remove('rec');
+    btn.textContent = '🎤';
+  }
+}
 const MASTER_THRESHOLD=80;
 const FBL=[{min:90,cls:'sf-gr',ti:'Perfect!',msg:'You sound like a native speaker!',xp:30,gem:2,tip:null},{min:75,cls:'sf-gr',ti:'Great job!',msg:'Really well done!',xp:20,gem:1,tip:null},{min:60,cls:'sf-go',ti:'Good try!',msg:'Focus on the vowel sounds.',xp:10,gem:0,tip:'Pay attention to the vowel: /uː/, /iː/, /ʌ/, or /ɔː/?'},{min:40,cls:'sf-ok',ti:'Try again!',msg:'Listen again, then speak.',xp:5,gem:0,tip:'Use Chunk Practice first.'},{min:0,cls:'sf-lo',ti:'Keep going!',msg:'Every attempt makes you stronger!',xp:2,gem:0,tip:'Listen 3 times before speaking.'}];
 function showFeedback(type,score){const isWord=type==='word';const fzId=isWord?'wfbz':curSAct==='chunk'?'scfbz':'sfbz';const fillId=isWord?'wsfl':curSAct==='chunk'?'scsfl':'ssfl';const pctId=isWord?'wspc':curSAct==='chunk'?'scspc':'sspc';const fbId=isWord?'wfbc':curSAct==='chunk'?'scfbc':'sfbc';document.getElementById(fzId).classList.add('on');const fill=document.getElementById(fillId),pct=document.getElementById(pctId);fill.style.width='0%';pct.textContent='0%';fill.className='sbar-fill';const lv=FBL.find(l=>score>=l.min)||FBL[FBL.length-1];fill.classList.add(lv.cls);setTimeout(()=>{fill.style.width=score+'%';pct.textContent=score+'%';},80);const passed=score>=MASTER_THRESHOLD;let h=`<div class="fbc ${passed?'fbc-gr':'fbc-wa'}"><div class="fbi">${passed?'✅':'↩️'}</div><div><strong>${lv.ti}</strong> — <b>${score}%</b>. ${lv.msg}${!passed?'<br><span style="font-size:11px;color:var(--muted)">Score 80%+ to advance.</span>':''}</div></div>`;if(lv.tip&&!passed)h+=`<div class="fbc fbc-ti"><div class="fbi">💡</div><div>${lv.tip}</div></div>`;document.getElementById(fbId).innerHTML=h;addXPG(lv.xp,lv.gem);speakFeedback(score);if(passed){if(isWord){const ri=WORDS.indexOf(visWords[wIdx]);masteredW.add(ri);buildGrid();updateLockUI();addStreak();if(masteredW.size>=WORDS.length){setTimeout(()=>{showRew('🎉','Vocabulary Complete!','Sentence Practice unlocked!','+100 XP');addXPG(100,5);},600);}else{setTimeout(()=>{wIdx=(wIdx+1)%visWords.length;buildGrid();renderWAct();document.getElementById('word-panel').scrollIntoView({behavior:'smooth',block:'nearest'});},2400);}}else{masteredS.add(sIdx);buildSentList();addStreak();setTimeout(()=>{sIdx=(sIdx+1)%SENTS.length;buildSentList();renderSAct();document.getElementById('sent-panel').scrollIntoView({behavior:'smooth',block:'nearest'});},2400);}}}

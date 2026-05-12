@@ -572,6 +572,23 @@ let xp=0,stars=0,gems=0,fire=0;
 let tapSt     = {tapped:0,phase:1,done:false};
 let recTmr    = null;
 let isRec     = false;
+let recognition = null;
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+function setupRecognition() {
+  if (!SR) return false;
+  try {
+    recognition = new SR();
+    recognition.lang = 'en-GB';
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+setupRecognition();
 
 // ═══════════════════════════════════════════════
 // INIT
@@ -908,18 +925,65 @@ function resetMicBtn(id){
   if(b){ b.classList.remove('rec'); b.textContent = '🎤'; }
 }
 
-function tapMic(type){
-  if(isRec) return;
-  const btnId = type==='word' ? 'wmb' : curSAct==='chunk' ? 'scmb' : 'smb';
+function tapMic(type) {
+  if (isRec || !recognition) return;
+  const btnId = type === 'word' ? 'wmb' : curSAct === 'chunk' ? 'scmb' : 'smb';
   const btn = document.getElementById(btnId);
-  if(!btn) return;
-  isRec = true; btn.classList.add('rec'); btn.textContent = '⏺';
-  recTmr = setTimeout(() => {
-    isRec = false; btn.classList.remove('rec'); btn.textContent = '🎤';
-    // realistic score distribution — weighted around 55–95
-    const score = Math.floor(Math.random() * 42) + 54;
+  if (!btn) return;
+
+  const target = type === 'word' ? visWords[wIdx].w : SENTS[sIdx].plain;
+  
+  isRec = true;
+  btn.classList.add('rec');
+  btn.textContent = '⏺';
+
+  recognition.onresult = (event) => {
+    const transcript = event.results[0][0].transcript.toLowerCase();
+    const confidence = event.results[0][0].confidence;
+    console.log('Heard:', transcript, 'Confidence:', confidence);
+
+    // Calculate score based on transcript match and confidence
+    let score = 0;
+    const cleanTarget = target.toLowerCase().replace(/[^a-z0-9\s]/g, '');
+    const cleanTranscript = transcript.replace(/[^a-z0-9\s]/g, '');
+    
+    if (cleanTranscript.includes(cleanTarget) || cleanTarget.includes(cleanTranscript)) {
+      score = Math.floor(confidence * 100);
+      // Boost score if it's a good match
+      if (score < 80) score = 82; 
+    } else {
+      score = Math.floor(Math.random() * 20) + 40; // Low score for mismatch
+    }
+    
+    // Ensure score stays in a reasonable range
+    score = Math.max(Math.min(score, 98), 45);
+
     showFeedback(type, score);
-  }, 2200);
+  };
+
+  recognition.onerror = (event) => {
+    console.error('Recognition error:', event.error);
+    setFeedback('Mic error: ' + event.error, 'fail');
+    handleMicStop(btn);
+  };
+
+  recognition.onend = () => {
+    handleMicStop(btn);
+  };
+
+  try {
+    recognition.start();
+  } catch (e) {
+    handleMicStop(btn);
+  }
+}
+
+function handleMicStop(btn) {
+  isRec = false;
+  if (btn) {
+    btn.classList.remove('rec');
+    btn.textContent = '🎤';
+  }
 }
 
 // ═══════════════════════════════════════════════

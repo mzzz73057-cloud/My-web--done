@@ -28,6 +28,7 @@ app.use(
       'http://localhost:3000',
       'http://localhost:5173',
       'https://my-web-done.onrender.com',
+      'https://my-web-frontend-pvw4.onrender.com',
     ],
     credentials: true,
   })

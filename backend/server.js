@@ -26,7 +26,8 @@ app.use(
   cors({
     origin: [
       'http://localhost:3000',
-      'https://VOTRE-FRONTEND.onrender.com',
+      'http://localhost:5173',
+      'https://my-web-done.onrender.com',
     ],
     credentials: true,
   })

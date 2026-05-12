@@ -22,7 +22,15 @@ const app = express();
 
 // Middleware
 app.use(helmet());
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      'http://localhost:3000',
+      'https://VOTRE-FRONTEND.onrender.com',
+    ],
+    credentials: true,
+  })
+);
 app.use(express.json({ limit: '10mb' }));
 app.use(morgan('dev'));
 
